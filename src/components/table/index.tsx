@@ -8,10 +8,11 @@ export interface TableColumn {
 }
 
 interface TableProps {
-  data: any[];
   columns: TableColumn[];
+  data: any[];
   defaultSortedColumn?: string;
   defaultSortDirection?: "asc" | "desc";
+  itemsPerPage: number;
 }
 
 const Table: React.FC<TableProps> = ({
@@ -19,12 +20,20 @@ const Table: React.FC<TableProps> = ({
   columns,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
+  itemsPerPage,
 }) => {
   const [sortedColumn, setSortedColumn] = useState<string | null>(
     defaultSortedColumn
   );
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
     defaultSortDirection
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handleSort = (columnAccessor: string) => {
@@ -37,15 +46,34 @@ const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <table className="table">
-      <Header
-        columns={columns}
-        onSort={handleSort}
-        sortedColumn={sortedColumn}
-        sortDirection={sortDirection}
-      />
-      <Body columns={columns} data={data} />
-    </table>
+    <div>
+      <table className="table">
+        <Header
+          columns={columns}
+          onSort={handleSort}
+          sortedColumn={sortedColumn}
+          sortDirection={sortDirection}
+        />
+        <Body columns={columns} data={paginatedData} />
+      </table>
+      <div className="pagination">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
+    </div>
   );
 };
 
