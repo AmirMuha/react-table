@@ -29,12 +29,9 @@ const Table: React.FC<TableProps> = ({
     defaultSortDirection
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState<{ [key: string]: string }>({});
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
-  const paginatedData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   const handleSort = (columnAccessor: string) => {
     if (sortedColumn === columnAccessor) {
@@ -45,6 +42,25 @@ const Table: React.FC<TableProps> = ({
     }
   };
 
+  const handleFilterChange = (columnAccessor: string, value: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [columnAccessor]: value,
+    }));
+  };
+
+  const filteredData = data.filter((row) => {
+    return Object.keys(filters).every((column) => {
+      const filterValue = filters[column].toLowerCase();
+      return row[column].toLowerCase().includes(filterValue);
+    });
+  });
+
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div>
       <table className="table">
@@ -53,6 +69,7 @@ const Table: React.FC<TableProps> = ({
           onSort={handleSort}
           sortedColumn={sortedColumn}
           sortDirection={sortDirection}
+          onFilterChange={handleFilterChange}
         />
         <Body columns={columns} data={paginatedData} />
       </table>

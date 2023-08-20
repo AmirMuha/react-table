@@ -6,13 +6,15 @@ interface HeaderProps {
   onSort: (columnAccessor: string) => void;
   sortedColumn: string | null;
   sortDirection: "asc" | "desc";
+  onFilterChange: (columnAccessor: string, value: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
-  columns,
   onSort,
+  columns,
   sortedColumn,
   sortDirection,
+  onFilterChange,
 }) => {
   return (
     <thead>
@@ -24,6 +26,16 @@ const Header: React.FC<HeaderProps> = ({
             onClick={() => onSort(column.accessor)}
           >
             {column.header}
+            <div className="filter-input">
+              <input
+                type="text"
+                value={""} // Use the corresponding filter value from state
+                onChange={(e) =>
+                  onFilterChange(column.accessor, e.target.value)
+                }
+                placeholder="Filter"
+              />
+            </div>
             {sortedColumn === column.accessor && (
               <span className="sort-icon">
                 {sortDirection === "asc" ? "↑" : "↓"}
