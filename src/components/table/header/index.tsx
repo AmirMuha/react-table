@@ -10,7 +10,7 @@ interface HeaderProps<T> {
   onFilterChange: (columnAccessor: keyof T, value: any) => void;
 }
 
-const Header = <T extends Record<string, any>>(props: HeaderProps<T>) => {
+const Header = <T extends Record<keyof T, any>>(props: HeaderProps<T>) => {
   const [columns, setColumns] = useState<TableColumn<T>[]>([]);
   const onResize = (columnIndex: number, newWidth: number) => {
     setColumns((prevColumns: TableColumn<T>[]) => {

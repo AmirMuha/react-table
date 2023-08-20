@@ -1,16 +1,28 @@
 import { TableColumn } from "components/table";
 import { TableRow } from "components/table/row";
+import EditableCell, { EditableCellInfo } from "../header/cell/editable-cell";
 
-interface CellProps<T> {
+export type CellProps<T> = {
   value: any;
   row: TableRow<T>;
   column: TableColumn<T>;
-}
+  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
+};
 
-const Cell = <T extends Record<string, any>>(props: CellProps<T>) => {
+const Cell = <T extends Record<keyof T, any>>(props: CellProps<T>) => {
+  let resolvedChild = props.column.render ? props.column.render : props.value;
   return (
     <td className="cell">
-      {props.column.render ? props.column.render(props) : props.value}
+      {props.column.editable && props.onCellChange ? (
+        <EditableCell
+          value={props.value}
+          onChange={props.onCellChange}
+          column={props.column}
+          row={props.row}
+        />
+      ) : (
+        resolvedChild
+      )}
     </td>
   );
 };

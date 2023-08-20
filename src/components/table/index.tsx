@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import Header from "components/table/header";
 import Body from "components/table/body";
 import { TableRow } from "./row";
+import { EditableCellInfo } from "./header/cell/editable-cell";
 
 export interface TableColumn<T> {
   header: string;
   accessor: keyof T;
   width?: number;
+  editable?: boolean;
   render: (info: {
     row: TableRow<T>;
     column: TableColumn<T>;
@@ -18,16 +20,18 @@ interface TableProps<T> {
   data: T[];
   columns: TableColumn<T>[];
   itemsPerPage: number;
-  defaultSortedColumn?: string | null;
+  defaultSortedColumn?: keyof T | null;
   defaultSortDirection?: "asc" | "desc";
+  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
 }
 
-const Table = <T extends Record<string, any>>({
+const Table = <T extends Record<keyof T, any>>({
   data,
   columns,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
   itemsPerPage,
+  onCellChange,
 }: TableProps<T>) => {
   const [sortedColumn, setSortedColumn] = useState<keyof T | null>(
     defaultSortedColumn
@@ -61,9 +65,9 @@ const Table = <T extends Record<string, any>>({
 
   const filteredData = data.filter((row) => {
     if (!filters) return false;
-    return Object.keys(filters).every((column) => {
-      const filterValue = filters[column].toLowerCase();
-      return row[column].toLowerCase().includes(filterValue);
+    return Object.keys(filters).every((column: string) => {
+      const filterValue = (filters as any)[column].toLowerCase();
+      return (row as any)[column].toLowerCase().includes(filterValue);
     });
   });
 
@@ -82,7 +86,11 @@ const Table = <T extends Record<string, any>>({
           sortDirection={sortDirection}
           onFilterChange={handleFilterChange}
         />
-        <Body columns={columns} data={paginatedData} />
+        <Body
+          data={paginatedData}
+          columns={columns}
+          onCellChange={onCellChange}
+        />
       </table>
       <div className="pagination">
         <button
