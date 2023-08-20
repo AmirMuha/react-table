@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build": "tsc && npm run build-package",
-    "build-package": "npm run build && babel src --out-dir dist --ignore '**/*.test.tsx','**/*.spec.tsx' --copy-files",
+    "build-package": "babel src --out-dir dist --ignore '**/*.test.tsx','**/*.spec.tsx' --copy-files",
     "start": "react-scripts start",
     "eject": "react-scripts eject"
   },
@@ -50,6 +50,7 @@
     "@babel/preset-env": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
+    "babel-cli": "^6.26.0",
     "babel-loader": "^9.1.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
