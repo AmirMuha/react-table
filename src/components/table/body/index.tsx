@@ -1,17 +1,23 @@
-import React from "react";
 import Row from "components/table/row";
 import { TableColumn } from "components/table";
 
-interface BodyProps {
-  columns: TableColumn[];
-  data: any[];
+interface BodyProps<T> {
+  columns: TableColumn<T>[];
+  data: T[];
 }
 
-const Body: React.FC<BodyProps> = ({ columns, data }) => {
+const Body = <T extends Record<string, any>>({
+  columns,
+  data,
+}: BodyProps<T>) => {
   return (
     <tbody>
       {data.map((row, rowIndex) => (
-        <Row key={rowIndex} columns={columns} row={row} />
+        <Row
+          key={rowIndex}
+          columns={columns}
+          row={{ ...row, index: rowIndex }}
+        />
       ))}
     </tbody>
   );

@@ -1,39 +1,46 @@
 import React, { useState } from "react";
 import Header from "components/table/header";
 import Body from "components/table/body";
+import { TableRow } from "./row";
 
-export interface TableColumn {
+export interface TableColumn<T> {
   header: string;
-  accessor: string;
+  accessor: keyof T;
+  width?: number;
+  render: (info: {
+    row: TableRow<T>;
+    column: TableColumn<T>;
+    value: any;
+  }) => React.ReactNode;
 }
 
-interface TableProps {
-  columns: TableColumn[];
-  data: any[];
-  defaultSortedColumn?: string;
-  defaultSortDirection?: "asc" | "desc";
+interface TableProps<T> {
+  data: T[];
+  columns: TableColumn<T>[];
   itemsPerPage: number;
+  defaultSortedColumn?: string | null;
+  defaultSortDirection?: "asc" | "desc";
 }
 
-const Table: React.FC<TableProps> = ({
+const Table = <T extends Record<string, any>>({
   data,
   columns,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
   itemsPerPage,
-}) => {
-  const [sortedColumn, setSortedColumn] = useState<string | null>(
+}: TableProps<T>) => {
+  const [sortedColumn, setSortedColumn] = useState<keyof T | null>(
     defaultSortedColumn
   );
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
     defaultSortDirection
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState<{ [key: string]: string }>({});
+  const [filters, setFilters] = useState<Record<keyof T, string> | null>(null);
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  const handleSort = (columnAccessor: string) => {
+  const handleSort = (columnAccessor: keyof T) => {
     if (sortedColumn === columnAccessor) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
@@ -42,14 +49,18 @@ const Table: React.FC<TableProps> = ({
     }
   };
 
-  const handleFilterChange = (columnAccessor: string, value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [columnAccessor]: value,
-    }));
+  const handleFilterChange = (columnAccessor: keyof T, value: string) => {
+    setFilters(
+      (prevFilters) =>
+        ({
+          ...(prevFilters ?? {}),
+          [columnAccessor]: value,
+        } as any)
+    );
   };
 
   const filteredData = data.filter((row) => {
+    if (!filters) return false;
     return Object.keys(filters).every((column) => {
       const filterValue = filters[column].toLowerCase();
       return row[column].toLowerCase().includes(filterValue);

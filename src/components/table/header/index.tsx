@@ -1,29 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import ResizableHeaderCell from "./resizable-cell";
 import { TableColumn } from "components/table";
 
-interface HeaderProps {
-  columns: TableColumn[];
-  onSort: (columnAccessor: string) => void;
-  sortedColumn: string | null;
+interface HeaderProps<T> {
+  columns: TableColumn<T>[];
+  onSort: (columnAccessor: keyof T) => void;
+  sortedColumn: keyof T | null;
   sortDirection: "asc" | "desc";
-  onFilterChange: (columnAccessor: string, value: string) => void;
+  onFilterChange: (columnAccessor: keyof T, value: any) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  onSort,
-  columns,
-  sortedColumn,
-  sortDirection,
-  onFilterChange,
-}) => {
+const Header = <T extends Record<string, any>>(props: HeaderProps<T>) => {
+  const [columns, setColumns] = useState<TableColumn<T>[]>([]);
+  const onResize = (columnIndex: number, newWidth: number) => {
+    setColumns((prevColumns: TableColumn<T>[]) => {
+      const updatedColumns = [...prevColumns];
+      updatedColumns[columnIndex].width = newWidth;
+      return updatedColumns;
+    });
+  };
+
   return (
     <thead>
       <tr>
         {columns.map((column, columnIndex) => (
-          <th
-            key={columnIndex}
-            className="header-cell"
-            onClick={() => onSort(column.accessor)}
+          <ResizableHeaderCell
+            key={column.header}
+            width={column.width}
+            onResize={(e, { size }) => onResize(columnIndex, size.width)}
+            onClick={() => props.onSort(column.accessor)}
           >
             {column.header}
             <div className="filter-input">
@@ -31,17 +36,17 @@ const Header: React.FC<HeaderProps> = ({
                 type="text"
                 value={""} // Use the corresponding filter value from state
                 onChange={(e) =>
-                  onFilterChange(column.accessor, e.target.value)
+                  props.onFilterChange(column.accessor, e.target.value)
                 }
                 placeholder="Filter"
               />
             </div>
-            {sortedColumn === column.accessor && (
+            {props.sortedColumn === column.accessor && (
               <span className="sort-icon">
-                {sortDirection === "asc" ? "↑" : "↓"}
+                {props.sortDirection === "asc" ? "↑" : "↓"}
               </span>
             )}
-          </th>
+          </ResizableHeaderCell>
         ))}
       </tr>
     </thead>
