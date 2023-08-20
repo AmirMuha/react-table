@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@testing-library/jest-dom": "^5.17.0",
