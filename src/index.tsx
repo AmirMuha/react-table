@@ -1,12 +1,12 @@
+import "./index.css";
 import ReactDOM from "react-dom";
-import React from "react";
 import Table from "./components/table";
 
 ReactDOM.render(
   <Table
     columns={[
-      { name: "first_name", header: "نام" },
-      { name: "last_name", header: "نام خانوادگی" },
+      { name: "first_name", header: "نام", width: 100 },
+      { name: "last_name", header: "نام خانوادگی", width: 150 },
     ]}
     data={[
       { first_name: "AmirMohammad", last_name: "Mirzaei" },
@@ -18,3 +18,5 @@ ReactDOM.render(
   />,
   document.getElementById("root")
 );
+
+// export { default as AmirMuhaTable } from "./components/table";
