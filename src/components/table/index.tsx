@@ -9,6 +9,7 @@ export interface TableColumn<T> {
   name: keyof T;
   width?: number;
   editable?: boolean;
+  filterable?: boolean;
   render?: (info: {
     row: TableRow<T>;
     column: TableColumn<T>;
@@ -19,6 +20,7 @@ export interface TableColumn<T> {
 type TableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
+  selection?: boolean;
   pagination?: boolean;
   itemsPerPage?: number;
   onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
@@ -29,6 +31,7 @@ type TableProps<T> = {
 const Table = <T extends object>({
   data,
   columns,
+  selection = false,
   pagination = false,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
@@ -86,20 +89,23 @@ const Table = <T extends object>({
 
   return (
     <div>
-      <table className="table">
-        <Header
-          columns={columns}
-          onSort={handleSort}
-          sortedColumn={sortedColumn}
-          sortDirection={sortDirection}
-          onFilterChange={handleFilterChange}
-        />
-        <Body
-          data={paginatedData}
-          columns={columns}
-          onCellChange={onCellChange}
-        />
-      </table>
+      <div className="table-container">
+        <table>
+          <Header
+            columns={columns}
+            onSort={handleSort}
+            sortedColumn={sortedColumn}
+            sortDirection={sortDirection}
+            onFilterChange={handleFilterChange}
+          />
+          <Body
+            data={paginatedData}
+            columns={columns}
+            selection={selection}
+            onCellChange={onCellChange}
+          />
+        </table>
+      </div>
       {pagination ? (
         <div className="pagination">
           <button

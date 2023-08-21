@@ -11,7 +11,7 @@ interface HeaderProps<T> {
 }
 
 const Header = <T extends object>(props: HeaderProps<T>) => {
-  const [columns, setColumns] = useState<TableColumn<T>[]>([]);
+  const [columns, setColumns] = useState<TableColumn<T>[]>(props.columns);
   const onResize = (columnIndex: number, newWidth: number) => {
     setColumns((prevColumns: TableColumn<T>[]) => {
       const updatedColumns = [...prevColumns];
@@ -31,15 +31,17 @@ const Header = <T extends object>(props: HeaderProps<T>) => {
             onClick={() => props.onSort(column.name)}
           >
             {column.header}
-            <div className="filter-input">
-              <input
-                type="text"
-                onChange={(e) =>
-                  props.onFilterChange(column.name, e.target.value)
-                }
-                placeholder="جستجو"
-              />
-            </div>
+            {column.filterable ? (
+              <div className="filter-input">
+                <input
+                  type="text"
+                  onChange={(e) =>
+                    props.onFilterChange(column.name, e.target.value)
+                  }
+                  placeholder="جستجو"
+                />
+              </div>
+            ) : null}
             {props.sortedColumn === column.name && (
               <span className="sort-icon">
                 {props.sortDirection === "asc" ? "↑" : "↓"}

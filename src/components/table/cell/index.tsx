@@ -1,4 +1,3 @@
-import React from "react";
 import { TableColumn } from "components/table";
 import { TableRow } from "components/table/row";
 import EditableCell, { EditableCellInfo } from "../header/cell/editable-cell";

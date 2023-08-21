@@ -6,6 +6,7 @@ interface BodyProps<T> {
   columns: TableColumn<T>[];
   data: T[];
   onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
+  selection?: boolean;
 }
 
 const Body = <T extends object>(props: BodyProps<T>) => {
@@ -16,6 +17,7 @@ const Body = <T extends object>(props: BodyProps<T>) => {
           key={rowIndex}
           onCellChange={props.onCellChange}
           columns={props.columns}
+          selection={props.selection}
           row={{ ...row, index: rowIndex }}
         />
       ))}
