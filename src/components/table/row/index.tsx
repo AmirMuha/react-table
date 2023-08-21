@@ -10,6 +10,7 @@ export type TableRow<T> = {
 interface RowProps<T> {
   columns: TableColumn<T>[];
   row: TableRow<T>;
+  selection?: boolean;
   onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
 }
 
@@ -31,13 +32,15 @@ const Row = <T extends object>(props: RowProps<T>) => {
 
   return (
     <tr className="row">
-      <td>
-        <input
-          type="checkbox"
-          checked={isRowSelected(props.row.index)}
-          onChange={() => toggleRowSelection(props.row.index)}
-        />
-      </td>
+      {props.selection ? (
+        <td>
+          <input
+            type="checkbox"
+            checked={isRowSelected(props.row.index)}
+            onChange={() => toggleRowSelection(props.row.index)}
+          />
+        </td>
+      ) : null}
       {props.columns.map((column, columnIndex) => (
         <Cell
           key={columnIndex}
