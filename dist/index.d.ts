@@ -17,23 +17,28 @@ export interface TableColumn<T> {
   name: keyof T;
   width?: number;
   editable?: boolean;
+  filterable?: boolean;
   render?: (info: {
     row: TableRow<T>;
     column: TableColumn<T>;
     value: any;
   }) => React.ReactNode;
 }
-export interface TableProps<T> {
+export type TableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
+  selection?: boolean;
+  pagination?: boolean;
   itemsPerPage?: number;
+  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
   defaultSortedColumn?: keyof T | null;
   defaultSortDirection?: "asc" | "desc";
-  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
-}
+};
 declare const Table: <T extends object>({
   data,
   columns,
+  selection,
+  pagination,
   defaultSortedColumn,
   defaultSortDirection,
   itemsPerPage,

@@ -1,0 +1,55 @@
+:root {
+  --border-color: #202159;
+  --header-background-color: #202159;
+}
+
+.table-container {
+  overflow: hidden; /* Clip content outside the rounded corners */
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+table {
+  border-collapse: collapse; /* Merge cell borders */
+  width: 100%;
+}
+
+th, td {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid var(--border-color); /* Border for cells */
+  border-bottom: none;
+}
+
+th:first-child {
+  border-left: none;
+}
+
+thead tr th {
+  border-top: none;
+  background-color: var(--header-background-color);
+  border-color: white;
+  color: white;
+}
+
+th:last-child {
+  border-right: none;
+}
+
+
+tbody tr td:first-child {
+  border-left: none;
+}
+
+tbody tr td:last-child {
+  border-right: none;
+}
+
+tr:not(:first-child) {
+  border-top: 1px solid var(--border-color); /* Border for rows */
+}
+
+.table-container table {
+  border: none; /* Remove border from the whole table */
+}
+

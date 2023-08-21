@@ -4,6 +4,7 @@ interface BodyProps<T> {
     columns: TableColumn<T>[];
     data: T[];
     onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
+    selection?: boolean;
 }
 declare const Body: <T extends object>(props: BodyProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Body;
