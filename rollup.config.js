@@ -2,7 +2,6 @@
 import commonjs from "rollup-plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import image from "rollup-plugin-image"; // Add this line
-import css from "rollup-plugin-css-only"; // Add this line
 import babel from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
 import resolve from "@rollup/plugin-node-resolve";
@@ -49,9 +48,21 @@ const config = [
       resolve(), // resolves npm modules
       commonjs(), // converts CommonJS modules to ES6
       image(),
-      css(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      postcss(),
+      postcss({
+        extract: true,
+        plugins: [
+          require("@fullhuman/postcss-purgecss")({
+            content: ["./**/*.html", "./src/**/*.tsx"],
+            defaultExtractor: (content) => {
+              // Extract all CSS classes from the content.
+              return content.match(/[A-Za-z0-9-]+/g) || [];
+            },
+          }),
+          require("autoprefixer")(),
+          require("cssnano")(),
+        ],
+      }),
       terser(),
       json(),
       babel({
