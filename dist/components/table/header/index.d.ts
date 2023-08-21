@@ -6,5 +6,5 @@ interface HeaderProps<T> {
     sortDirection: "asc" | "desc";
     onFilterChange: (columnAccessor: keyof T, value: any) => void;
 }
-declare const Header: <T extends Record<keyof T, any>>(props: HeaderProps<T>) => import("react/jsx-runtime").JSX.Element;
+declare const Header: <T extends object>(props: HeaderProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Header;

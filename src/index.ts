@@ -1,2 +1,1 @@
-import Table from "./components/table";
-export default Table;
+export { default as AmirMuhaTable } from "./components/table";

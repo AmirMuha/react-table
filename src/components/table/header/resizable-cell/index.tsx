@@ -12,7 +12,7 @@ const ResizableHeaderCell: React.FC<
   React.PropsWithChildren<ResizableHeaderCellProps>
 > = (props) => {
   if (!props.width) {
-    return <HeaderCell {...props} />;
+    return <HeaderCell>{props.children}</HeaderCell>;
   }
 
   return (

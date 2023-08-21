@@ -10,5 +10,5 @@ interface EditableCellProps<T> {
     column: TableColumn<T>;
     onChange: (info: EditableCellInfo<T>, value: any) => void;
 }
-declare const EditableCell: <T extends Record<keyof T, any>>({ value, onChange, row, column, }: EditableCellProps<T>) => import("react/jsx-runtime").JSX.Element;
+declare const EditableCell: <T extends object>({ value, onChange, row, column, }: EditableCellProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default EditableCell;

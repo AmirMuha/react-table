@@ -14,7 +14,7 @@ interface EditableCellProps<T> {
   onChange: (info: EditableCellInfo<T>, value: any) => void;
 }
 
-const EditableCell = <T extends Record<keyof T, any>>({
+const EditableCell = <T extends object>({
   value,
   onChange,
   row,

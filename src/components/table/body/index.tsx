@@ -8,7 +8,7 @@ interface BodyProps<T> {
   onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
 }
 
-const Body = <T extends Record<keyof T, any>>(props: BodyProps<T>) => {
+const Body = <T extends object>(props: BodyProps<T>) => {
   return (
     <tbody>
       {props.data.map((row, rowIndex) => (

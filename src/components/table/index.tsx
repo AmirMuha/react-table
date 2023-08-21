@@ -6,28 +6,30 @@ import { EditableCellInfo } from "./header/cell/editable-cell";
 
 export interface TableColumn<T> {
   header: string;
-  accessor: keyof T;
+  name: keyof T;
   width?: number;
   editable?: boolean;
-  render: (info: {
+  render?: (info: {
     row: TableRow<T>;
     column: TableColumn<T>;
     value: any;
   }) => React.ReactNode;
 }
 
-interface TableProps<T> {
+type TableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
-  itemsPerPage: number;
+  pagination?: boolean;
+  itemsPerPage?: number;
+  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
   defaultSortedColumn?: keyof T | null;
   defaultSortDirection?: "asc" | "desc";
-  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
-}
+};
 
-const Table = <T extends Record<keyof T, any>>({
+const Table = <T extends object>({
   data,
   columns,
+  pagination = false,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
   itemsPerPage,
@@ -42,7 +44,10 @@ const Table = <T extends Record<keyof T, any>>({
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<Record<keyof T, string> | null>(null);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages =
+    itemsPerPage && itemsPerPage !== 0
+      ? Math.ceil(data.length / itemsPerPage)
+      : 1;
 
   const handleSort = (columnAccessor: keyof T) => {
     if (sortedColumn === columnAccessor) {
@@ -64,17 +69,20 @@ const Table = <T extends Record<keyof T, any>>({
   };
 
   const filteredData = data.filter((row) => {
-    if (!filters) return false;
+    if (!filters) return true;
     return Object.keys(filters).every((column: string) => {
       const filterValue = (filters as any)[column].toLowerCase();
       return (row as any)[column].toLowerCase().includes(filterValue);
     });
   });
 
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedData =
+    itemsPerPage && itemsPerPage !== 0
+      ? filteredData.slice(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage
+        )
+      : filteredData;
 
   return (
     <div>
@@ -92,23 +100,25 @@ const Table = <T extends Record<keyof T, any>>({
           onCellChange={onCellChange}
         />
       </table>
-      <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          Next
-        </button>
-      </div>
+      {pagination ? (
+        <div className="pagination">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            قبل
+          </button>
+          <span>
+            صفحه {currentPage} از {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            بعد
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };

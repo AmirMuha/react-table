@@ -5,7 +5,7 @@ import { EditableCellInfo } from "../header/cell/editable-cell";
 
 export type TableRow<T> = {
   index: number;
-} & Record<keyof T, any>;
+} & object;
 
 interface RowProps<T> {
   columns: TableColumn<T>[];
@@ -13,7 +13,7 @@ interface RowProps<T> {
   onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
 }
 
-const Row = <T extends Record<keyof T, any>>(props: RowProps<T>) => {
+const Row = <T extends object>(props: RowProps<T>) => {
   const [selectedRows, setSelectedRows] = useState<TableRow<T>[]>([]);
 
   const toggleRowSelection = (rowIndex: number) => {
@@ -43,7 +43,7 @@ const Row = <T extends Record<keyof T, any>>(props: RowProps<T>) => {
           key={columnIndex}
           row={props.row}
           column={column}
-          value={props.row[column.accessor]}
+          value={(props.row as any)[column.name]}
           onCellChange={props.onCellChange}
         />
       ))}

@@ -10,7 +10,7 @@ interface HeaderProps<T> {
   onFilterChange: (columnAccessor: keyof T, value: any) => void;
 }
 
-const Header = <T extends Record<keyof T, any>>(props: HeaderProps<T>) => {
+const Header = <T extends object>(props: HeaderProps<T>) => {
   const [columns, setColumns] = useState<TableColumn<T>[]>([]);
   const onResize = (columnIndex: number, newWidth: number) => {
     setColumns((prevColumns: TableColumn<T>[]) => {
@@ -28,20 +28,19 @@ const Header = <T extends Record<keyof T, any>>(props: HeaderProps<T>) => {
             key={column.header}
             width={column.width}
             onResize={(e, { size }) => onResize(columnIndex, size.width)}
-            onClick={() => props.onSort(column.accessor)}
+            onClick={() => props.onSort(column.name)}
           >
             {column.header}
             <div className="filter-input">
               <input
                 type="text"
-                value={""} // Use the corresponding filter value from state
                 onChange={(e) =>
-                  props.onFilterChange(column.accessor, e.target.value)
+                  props.onFilterChange(column.name, e.target.value)
                 }
-                placeholder="Filter"
+                placeholder="جستجو"
               />
             </div>
-            {props.sortedColumn === column.accessor && (
+            {props.sortedColumn === column.name && (
               <span className="sort-icon">
                 {props.sortDirection === "asc" ? "↑" : "↓"}
               </span>

@@ -7,5 +7,5 @@ export type CellProps<T> = {
     column: TableColumn<T>;
     onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
 };
-declare const Cell: <T extends Record<keyof T, any>>(props: CellProps<T>) => import("react/jsx-runtime").JSX.Element;
+declare const Cell: <T extends object>(props: CellProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Cell;

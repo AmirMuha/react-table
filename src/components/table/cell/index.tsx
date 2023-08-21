@@ -10,7 +10,7 @@ export type CellProps<T> = {
   onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
 };
 
-const Cell = <T extends Record<keyof T, any>>(props: CellProps<T>) => {
+const Cell = <T extends object>(props: CellProps<T>) => {
   let resolvedChild = props.column.render ? props.column.render : props.value;
   return (
     <td className="cell">
