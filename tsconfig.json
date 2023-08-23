@@ -7,7 +7,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "baseUrl": "src",
     "outDir": "dist",
     "allowJs": true,
     "skipLibCheck": true,
@@ -21,7 +20,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve"
   },
   "include": [
     "src"

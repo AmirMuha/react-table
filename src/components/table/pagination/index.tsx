@@ -14,7 +14,7 @@ export default function Pagination({
     <div className="am_container__pagination">
       <button
         disabled={IS_LAST_PAGE}
-        onClick={() => setCurrentPage(currentPage - 1)}
+        // onClick={() => setCurrentPage(currentPage - 1)}
       >
         قبل
       </button>
@@ -23,7 +23,7 @@ export default function Pagination({
       </span>
       <button
         disabled={IS_FIRST_PAGE}
-        onClick={() => setCurrentPage(currentPage + 1)}
+        // onClick={() => setCurrentPage(currentPage + 1)}
       >
         بعد
       </button>
