@@ -54,10 +54,6 @@ const config = [
         plugins: [
           require("@fullhuman/postcss-purgecss")({
             content: ["./**/*.html", "./src/**/*.tsx"],
-            defaultExtractor: (content) => {
-              // Extract all CSS classes from the content.
-              return content.match(/[A-Za-z0-9-]+/g) || [];
-            },
           }),
           require("autoprefixer")(),
           require("cssnano")(),
