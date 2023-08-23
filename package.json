@@ -1,7 +1,7 @@
 {
   "name": "@amirmuha/react-table",
   "description": "react-table is a small, easy to use, highly customizable, and develoepr friendly library for handling tables. Supporting a wide range of features.",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@userName"
   },
