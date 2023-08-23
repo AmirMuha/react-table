@@ -14,12 +14,8 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@amirmuha'
       - run: npm install --force
       - run: npm run build
-      - name: Publish to GitHub Packages
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
-          npm publish
+      - run: npm run publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PRIVATE_NPM_PKG_TOKEN}}

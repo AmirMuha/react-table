@@ -5,3 +5,6 @@
 /public
 /**/*.test.tsx
 /**/*.spec.tsx
+/.git
+/.github
+/.env
