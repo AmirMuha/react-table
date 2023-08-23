@@ -1,13 +1,22 @@
+import { CellProps } from "components/table/cell";
 import { TableColumn } from "components/table";
-import { EditableCellInfo } from "../header/cell/editable-cell";
+export type RowClasses = {
+    root?: string;
+    cell?: {
+        root?: string;
+    };
+};
 export type TableRow<T> = {
     index: number;
 } & object;
-interface RowProps<T> {
-    columns: TableColumn<T>[];
+export interface RowProps<T> {
     row: TableRow<T>;
+    columns: TableColumn<T>[];
     selection?: boolean;
-    onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
+    onRowClick?: (info: TableRow<T>) => void;
+    cellProps?: Omit<CellProps<T>, "value">;
+    classes?: RowClasses;
+    overrideClasses?: RowClasses;
 }
 declare const Row: <T extends object>(props: RowProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Row;

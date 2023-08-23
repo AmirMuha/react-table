@@ -1,27 +1,52 @@
 import React from "react";
-import { TableRow } from "./row";
-import { EditableCellInfo } from "./header/cell/editable-cell";
+import { BodyClasses } from "components/table/body";
+import { HeaderClasses } from "components/table/header";
+import { RowProps } from "./row";
+import { CellInfo, CellProps } from "./cell";
+import { FooterClasses } from "./footer";
+export type ContainerClasses = {
+    root?: string;
+    wrapper?: WrapperClasses;
+};
+export type WrapperClasses = {
+    root?: string;
+    table?: TableClasses;
+};
+export type TableClasses = {
+    root?: string;
+    header?: HeaderClasses;
+    footer?: FooterClasses;
+    body?: BodyClasses;
+};
 export interface TableColumn<T> {
     header: string;
     name: keyof T;
     width?: number;
+    minWidth?: number;
+    maxWidth?: number;
+    flex?: boolean;
     editable?: boolean;
     filterable?: boolean;
-    render?: (info: {
-        row: TableRow<T>;
-        column: TableColumn<T>;
-        value: any;
-    }) => React.ReactNode;
+    render?: (info: CellInfo<T>) => React.ReactNode;
 }
-type TableProps<T> = {
+export type TableCellProps<T> = Omit<CellProps<T>, "value" | "row" | "column">;
+export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
+export type TableProps<T> = {
     data: T[];
     columns: TableColumn<T>[];
     selection?: boolean;
     pagination?: boolean;
     itemsPerPage?: number;
-    onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
+    rowProps?: TableRowProps<T>;
+    cellProps?: TableCellProps<T>;
     defaultSortedColumn?: keyof T | null;
     defaultSortDirection?: "asc" | "desc";
+    classes?: {
+        container?: ContainerClasses;
+    };
+    overrideClasses?: {
+        container?: ContainerClasses;
+    };
 };
-declare const Table: <T extends object>({ data, columns, selection, pagination, defaultSortedColumn, defaultSortDirection, itemsPerPage, onCellChange, }: TableProps<T>) => import("react/jsx-runtime").JSX.Element;
+declare const Table: <T extends object>({ pagination, defaultSortedColumn, defaultSortDirection, ...props }: TableProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Table;
