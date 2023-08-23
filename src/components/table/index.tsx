@@ -6,6 +6,7 @@ import { RowProps } from "./row";
 import { CellInfo, CellProps } from "./cell";
 import { FooterClasses } from "./footer";
 import coalesce from "common/helper/coalesce";
+import { PaginationProps } from "./pagination";
 
 export type ContainerClasses = { root?: string; wrapper?: WrapperClasses };
 export type WrapperClasses = { root?: string; table?: TableClasses };
@@ -31,10 +32,10 @@ export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
 export type TableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
-  pagination?: boolean;
   itemsPerPage?: number;
   rowProps?: TableRowProps<T>;
   cellProps?: TableCellProps<T>;
+  paginationProps?: PaginationProps;
   defaultSortedColumn?: keyof T | null;
   defaultSortDirection?: "asc" | "desc";
   classes?: { container?: ContainerClasses };
@@ -42,7 +43,6 @@ export type TableProps<T> = {
 };
 
 const Table = <T extends object>({
-  pagination = false,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
   ...props
@@ -133,25 +133,7 @@ const Table = <T extends object>({
           />
         </table>
       </div>
-      {pagination ? (
-        <div className="pagination">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-          >
-            قبل
-          </button>
-          <span>
-            صفحه {currentPage} از {totalPages}
-          </span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
-          >
-            بعد
-          </button>
-        </div>
-      ) : null}
+      {pagination}
     </div>
   );
 };
