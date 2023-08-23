@@ -1,13 +1,23 @@
-import React, { useState } from "react";
-import ResizableHeaderCell from "./resizable-cell";
+import { useState } from "react";
 import { TableColumn } from "components/table";
+import { RowClasses } from "../row";
+import sc from "common/helper/sc";
+import coalesce from "common/helper/coalesce";
+import HeaderCell, { HeaderCellClasses } from "./cell";
 
+export type HeaderClasses = {
+  root?: string;
+  cell?: HeaderCellClasses;
+  row?: RowClasses;
+};
 interface HeaderProps<T> {
   columns: TableColumn<T>[];
   onSort: (columnAccessor: keyof T) => void;
   sortedColumn: keyof T | null;
   sortDirection: "asc" | "desc";
   onFilterChange: (columnAccessor: keyof T, value: any) => void;
+  classes?: HeaderClasses;
+  overrideClasses?: HeaderClasses;
 }
 
 const Header = <T extends object>(props: HeaderProps<T>) => {
@@ -21,14 +31,29 @@ const Header = <T extends object>(props: HeaderProps<T>) => {
   };
 
   return (
-    <thead>
-      <tr>
+    <thead
+      className={coalesce(
+        props.overrideClasses?.root,
+        sc(props.classes?.root, "am_table__header am_table__header--root")
+      )}
+    >
+      <tr
+        className={coalesce(
+          props.overrideClasses?.row?.root,
+          sc(
+            props.classes?.row?.root,
+            "am_table__header--row am_table__header__row--root"
+          )
+        )}
+      >
         {columns.map((column, columnIndex) => (
-          <ResizableHeaderCell
+          <HeaderCell
             key={column.header}
+            column={column}
             width={column.width}
-            onResize={(e, { size }) => onResize(columnIndex, size.width)}
+            onResize={(e, { width }) => onResize(columnIndex, width)}
             onClick={() => props.onSort(column.name)}
+            classes={props.classes?.cell}
           >
             {column.header}
             {column.filterable ? (
@@ -47,7 +72,7 @@ const Header = <T extends object>(props: HeaderProps<T>) => {
                 {props.sortDirection === "asc" ? "↑" : "↓"}
               </span>
             )}
-          </ResizableHeaderCell>
+          </HeaderCell>
         ))}
       </tr>
     </thead>

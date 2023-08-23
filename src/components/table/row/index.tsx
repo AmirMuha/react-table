@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import Cell from "components/table/cell";
+import Cell, { CellProps } from "components/table/cell";
 import { TableColumn } from "components/table";
-import { EditableCellInfo } from "../header/cell/editable-cell";
+import coalesce from "common/helper/coalesce";
+import sc from "common/helper/sc";
 
+export type RowClasses = { root?: string; cell?: { root?: string } };
 export type TableRow<T> = {
   index: number;
 } & object;
 
-interface RowProps<T> {
-  columns: TableColumn<T>[];
+export interface RowProps<T> {
   row: TableRow<T>;
+  columns: TableColumn<T>[];
   selection?: boolean;
-  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
+  onRowClick?: (info: TableRow<T>) => void;
+  cellProps?: Omit<CellProps<T>, "value">;
+  classes?: RowClasses;
+  overrideClasses?: RowClasses;
 }
 
 const Row = <T extends object>(props: RowProps<T>) => {
@@ -31,7 +36,15 @@ const Row = <T extends object>(props: RowProps<T>) => {
     selectedRows.some((row) => row.index === rowIndex);
 
   return (
-    <tr className="row">
+    <tr
+      className={coalesce(
+        props.overrideClasses?.root,
+        sc(props.classes?.root, "am_table__body--row am_table__body__row--root")
+      )}
+      onClick={() =>
+        props.onRowClick ? props.onRowClick(props.row) : undefined
+      }
+    >
       {props.selection ? (
         <td>
           <input
@@ -44,10 +57,10 @@ const Row = <T extends object>(props: RowProps<T>) => {
       {props.columns.map((column, columnIndex) => (
         <Cell
           key={columnIndex}
+          {...props.cellProps}
           row={props.row}
           column={column}
           value={(props.row as any)[column.name]}
-          onCellChange={props.onCellChange}
         />
       ))}
     </tr>
