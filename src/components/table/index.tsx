@@ -32,7 +32,6 @@ export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
 export type TableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
-  itemsPerPage?: number;
   rowProps?: TableRowProps<T>;
   cellProps?: TableCellProps<T>;
   paginationProps?: PaginationProps;
@@ -57,8 +56,9 @@ const Table = <T extends object>({
   const [filters, setFilters] = useState<Record<keyof T, string> | null>(null);
 
   const totalPages =
-    props.itemsPerPage && props.itemsPerPage !== 0
-      ? Math.ceil(props.data.length / props.itemsPerPage)
+    props.paginationProps?.itemsPerPage &&
+    props.paginationProps?.itemsPerPage !== 0
+      ? Math.ceil(props.data.length / props.paginationProps?.itemsPerPage)
       : 1;
 
   const handleSort = (columnAccessor: keyof T) => {
@@ -89,10 +89,11 @@ const Table = <T extends object>({
   });
 
   const paginatedData =
-    props.itemsPerPage && props.itemsPerPage !== 0
+    props.paginationProps?.itemsPerPage &&
+    props.paginationProps?.itemsPerPage !== 0
       ? filteredData.slice(
-          (currentPage - 1) * props.itemsPerPage,
-          currentPage * props.itemsPerPage
+          (currentPage - 1) * props.paginationProps?.itemsPerPage,
+          currentPage * props.paginationProps?.itemsPerPage
         )
       : filteredData;
 
