@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Body, { BodyClasses } from "components/table/body";
 import Header, { HeaderClasses } from "components/table/header";
 import sc from "common/helper/sc";
+import coalesce from "common/helper/coalesce";
+import Pagination, { PaginationProps } from "./pagination";
 import { RowProps } from "./row";
 import { CellInfo, CellProps } from "./cell";
 import { FooterClasses } from "./footer";
-import coalesce from "common/helper/coalesce";
-import { PaginationProps } from "./pagination";
 
 export type ContainerClasses = { root?: string; wrapper?: WrapperClasses };
 export type WrapperClasses = { root?: string; table?: TableClasses };
@@ -133,7 +133,7 @@ const Table = <T extends object>({
           />
         </table>
       </div>
-      {pagination}
+      {props.paginationProps ? <Pagination {...props.paginationProps} /> : null}
     </div>
   );
 };

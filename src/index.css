@@ -106,3 +106,15 @@ html {
 .am_table__header__cell--resize-handle.am_table__header__cell__resize-handle--root:hover {
   background-color: #ccc;
 }
+
+.am_table__body--row:hover {
+  background-color: rgba(230,233,241,.7);
+}
+
+.am_table__body--row.am_table__body__row--clickable:hover {
+  cursor: pointer;
+}
+
+.am_table__body--row.am_table__body__row--selectable:hover {
+  cursor: pointer;
+}
