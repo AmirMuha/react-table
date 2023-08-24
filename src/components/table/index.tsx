@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Body, { BodyClasses } from "components/table/body";
 import Header, { HeaderClasses } from "components/table/header";
 import sc from "common/helper/sc";
+import coalesce from "common/helper/coalesce";
+import Pagination, { PaginationProps } from "./pagination";
 import { RowProps } from "./row";
 import { CellInfo, CellProps } from "./cell";
 import { FooterClasses } from "./footer";
-import coalesce from "common/helper/coalesce";
 
 export type ContainerClasses = { root?: string; wrapper?: WrapperClasses };
 export type WrapperClasses = { root?: string; table?: TableClasses };
@@ -31,9 +32,7 @@ export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
 export type TableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
-  selection?: boolean;
-  pagination?: boolean;
-  itemsPerPage?: number;
+  paginationProps?: PaginationProps;
   rowProps?: TableRowProps<T>;
   cellProps?: TableCellProps<T>;
   defaultSortedColumn?: keyof T | null;
@@ -134,25 +133,7 @@ const Table = <T extends object>({
           />
         </table>
       </div>
-      {pagination ? (
-        <div className="pagination">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-          >
-            قبل
-          </button>
-          <span>
-            صفحه {currentPage} از {totalPages}
-          </span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
-          >
-            بعد
-          </button>
-        </div>
-      ) : null}
+      {props.paginationProps ? <Pagination {...props.paginationProps} /> : null}
     </div>
   );
 };

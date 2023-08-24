@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Cell, { CellProps } from "components/table/cell";
-import { TableColumn } from "components/table";
+import { TableCellProps, TableColumn } from "components/table";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 
@@ -14,7 +14,7 @@ export interface RowProps<T> {
   columns: TableColumn<T>[];
   selection?: boolean;
   onRowClick?: (info: TableRow<T>) => void;
-  cellProps?: Omit<CellProps<T>, "value">;
+  cellProps?: TableCellProps<T>;
   classes?: RowClasses;
   overrideClasses?: RowClasses;
 }
@@ -35,15 +35,16 @@ const Row = <T extends object>(props: RowProps<T>) => {
   const isRowSelected = (rowIndex: number) =>
     selectedRows.some((row) => row.index === rowIndex);
 
+  const handleRowClick = () => {
+    if (props.onRowClick) props.onRowClick(props.row);
+  };
   return (
     <tr
       className={coalesce(
         props.overrideClasses?.root,
         sc(props.classes?.root, "am_table__body--row am_table__body__row--root")
       )}
-      onClick={() =>
-        props.onRowClick ? props.onRowClick(props.row) : undefined
-      }
+      onClick={handleRowClick}
     >
       {props.selection ? (
         <td>

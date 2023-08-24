@@ -29,7 +29,8 @@ const Body = <T extends object>(props: BodyProps<T>) => {
       {props.data.map((row, rowIndex) => (
         <Row
           key={rowIndex}
-          {...props.cellProps}
+          {...props.rowProps}
+          cellProps={props.cellProps}
           row={{ ...row, index: rowIndex }}
           columns={props.columns}
         />
