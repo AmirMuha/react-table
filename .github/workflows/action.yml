@@ -16,6 +16,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: npm install --force
       - run: npm run build
-      - run: npm run publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PRIVATE_NPM_PKG_TOKEN}}
