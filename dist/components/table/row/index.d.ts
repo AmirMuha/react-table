@@ -1,5 +1,4 @@
-import { CellProps } from "components/table/cell";
-import { TableColumn } from "components/table";
+import { TableCellProps, TableColumn } from "components/table";
 export type RowClasses = {
     root?: string;
     cell?: {
@@ -14,7 +13,7 @@ export interface RowProps<T> {
     columns: TableColumn<T>[];
     selection?: boolean;
     onRowClick?: (info: TableRow<T>) => void;
-    cellProps?: Omit<CellProps<T>, "value">;
+    cellProps?: TableCellProps<T>;
     classes?: RowClasses;
     overrideClasses?: RowClasses;
 }

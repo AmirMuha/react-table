@@ -1,6 +1,7 @@
 import React from "react";
 import { BodyClasses } from "components/table/body";
 import { HeaderClasses } from "components/table/header";
+import { PaginationProps } from "./pagination";
 import { RowProps } from "./row";
 import { CellInfo, CellProps } from "./cell";
 import { FooterClasses } from "./footer";
@@ -34,9 +35,7 @@ export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
 export type TableProps<T> = {
     data: T[];
     columns: TableColumn<T>[];
-    selection?: boolean;
-    pagination?: boolean;
-    itemsPerPage?: number;
+    paginationProps?: PaginationProps;
     rowProps?: TableRowProps<T>;
     cellProps?: TableCellProps<T>;
     defaultSortedColumn?: keyof T | null;
@@ -48,5 +47,5 @@ export type TableProps<T> = {
         container?: ContainerClasses;
     };
 };
-declare const Table: <T extends object>({ pagination, defaultSortedColumn, defaultSortDirection, ...props }: TableProps<T>) => import("react/jsx-runtime").JSX.Element;
+declare const Table: <T extends object>({ defaultSortedColumn, defaultSortDirection, ...props }: TableProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Table;

@@ -7,7 +7,6 @@ import Pagination, { PaginationProps } from "./pagination";
 import { RowProps } from "./row";
 import { CellInfo, CellProps } from "./cell";
 import { FooterClasses } from "./footer";
-
 export type ContainerClasses = { root?: string; wrapper?: WrapperClasses };
 export type WrapperClasses = { root?: string; table?: TableClasses };
 export type TableClasses = {
@@ -42,7 +41,6 @@ export type TableProps<T> = {
 };
 
 const Table = <T extends object>({
-  pagination = false,
   defaultSortedColumn = null,
   defaultSortDirection = "asc",
   ...props
@@ -57,8 +55,9 @@ const Table = <T extends object>({
   const [filters, setFilters] = useState<Record<keyof T, string> | null>(null);
 
   const totalPages =
-    props.itemsPerPage && props.itemsPerPage !== 0
-      ? Math.ceil(props.data.length / props.itemsPerPage)
+    props.paginationProps?.itemsPerPage &&
+    props.paginationProps?.itemsPerPage !== 0
+      ? Math.ceil(props.data.length / props.paginationProps?.itemsPerPage)
       : 1;
 
   const handleSort = (columnAccessor: keyof T) => {
@@ -89,10 +88,11 @@ const Table = <T extends object>({
   });
 
   const paginatedData =
-    props.itemsPerPage && props.itemsPerPage !== 0
+    props.paginationProps?.itemsPerPage &&
+    props.paginationProps?.itemsPerPage !== 0
       ? filteredData.slice(
-          (currentPage - 1) * props.itemsPerPage,
-          currentPage * props.itemsPerPage
+          (currentPage - 1) * props.paginationProps?.itemsPerPage,
+          currentPage * props.paginationProps?.itemsPerPage
         )
       : filteredData;
 
