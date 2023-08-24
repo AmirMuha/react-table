@@ -1,24 +1,8 @@
 import { useState } from "react";
-import { TableColumn } from "components/table";
-import { RowClasses } from "../row";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
-import HeaderCell, { HeaderCellClasses } from "./cell";
-
-export type HeaderClasses = {
-  root?: string;
-  cell?: HeaderCellClasses;
-  row?: RowClasses;
-};
-interface HeaderProps<T> {
-  columns: TableColumn<T>[];
-  onSort: (columnAccessor: keyof T) => void;
-  sortedColumn: keyof T | null;
-  sortDirection: "asc" | "desc";
-  onFilterChange: (columnAccessor: keyof T, value: any) => void;
-  classes?: HeaderClasses;
-  overrideClasses?: HeaderClasses;
-}
+import HeaderCell from "./cell";
+import { HeaderProps, TableColumn } from "types";
 
 const Header = <T extends object>(props: HeaderProps<T>) => {
   const [columns, setColumns] = useState<TableColumn<T>[]>(props.columns);

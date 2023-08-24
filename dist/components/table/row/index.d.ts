@@ -1,21 +1,3 @@
-import { TableCellProps, TableColumn } from "components/table";
-export type RowClasses = {
-    root?: string;
-    cell?: {
-        root?: string;
-    };
-};
-export type TableRow<T> = {
-    index: number;
-} & object;
-export interface RowProps<T> {
-    row: TableRow<T>;
-    columns: TableColumn<T>[];
-    selection?: boolean;
-    onRowClick?: (info: TableRow<T>) => void;
-    cellProps?: TableCellProps<T>;
-    classes?: RowClasses;
-    overrideClasses?: RowClasses;
-}
+import { RowProps } from "types";
 declare const Row: <T extends object>(props: RowProps<T>) => import("react/jsx-runtime").JSX.Element;
 export default Row;

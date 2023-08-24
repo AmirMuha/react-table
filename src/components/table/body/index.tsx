@@ -1,23 +1,7 @@
-import Row, { RowClasses } from "components/table/row";
-import { TableCellProps, TableColumn, TableRowProps } from "components/table";
-import { CellClasses } from "../cell";
+import Row from "components/table/row";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
-
-export type BodyClasses = {
-  root?: string;
-  cell?: CellClasses;
-  row?: RowClasses;
-};
-interface BodyProps<T> {
-  data: T[];
-  columns: TableColumn<T>[];
-  cellProps?: TableCellProps<T>;
-  rowProps?: TableRowProps<T>;
-  classes?: BodyClasses;
-  overrideClasses?: BodyClasses;
-}
-
+import { BodyProps } from "types";
 const Body = <T extends object>(props: BodyProps<T>) => {
   return (
     <tbody

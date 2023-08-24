@@ -1,26 +1,7 @@
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
-import { TableColumn } from "components/table";
-import { TableRow } from "components/table/row";
-import EditableCell, { EditableCellInfo } from "../header/cell/editable-cell";
-
-export type CellClasses = { root?: string };
-export type CellInfo<T> = {
-  value: any;
-  row: TableRow<T>;
-  column: TableColumn<T>;
-};
-
-export type CellProps<T> = {
-  value: any;
-  row: TableRow<T>;
-  column: TableColumn<T>;
-  selection?: boolean;
-  onCellClick?: (info: CellInfo<T>) => void;
-  onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
-  classes?: CellClasses;
-  overrideClasses?: CellClasses;
-};
+import { CellInfo, CellProps } from "types";
+import EditableCell from "../header/cell/editable-cell";
 
 const Cell = <T extends object>(props: CellProps<T>) => {
   const CELL_INFO: CellInfo<T> = {

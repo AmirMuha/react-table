@@ -1,15 +1,14 @@
-export { default as AmirMuhaTable } from 'components/table';
-
-type RowClasses = {
+/// <reference types="react" />
+export type RowClasses = {
     root?: string;
     cell?: {
         root?: string;
     };
 };
-type TableRow<T> = {
+export type TableRow<T> = {
     index: number;
 } & object;
-interface RowProps<T> {
+export interface RowProps<T> {
     row: TableRow<T>;
     columns: TableColumn<T>[];
     selection?: boolean;
@@ -18,17 +17,17 @@ interface RowProps<T> {
     classes?: RowClasses;
     overrideClasses?: RowClasses;
 }
-type PaginationProps = {
+export type PaginationProps = {
     totalPages: number;
     currentPage: number;
     itemsPerPage: number;
 };
-type HeaderClasses = {
+export type HeaderClasses = {
     root?: string;
     cell?: HeaderCellClasses;
     row?: RowClasses;
 };
-interface HeaderProps<T> {
+export interface HeaderProps<T> {
     columns: TableColumn<T>[];
     onSort: (columnAccessor: keyof T) => void;
     sortedColumn: keyof T | null;
@@ -37,22 +36,22 @@ interface HeaderProps<T> {
     classes?: HeaderClasses;
     overrideClasses?: HeaderClasses;
 }
-type HeaderCellResizeHandleClasses = {
+export type HeaderCellResizeHandleClasses = {
     root?: string;
 };
-type ColumnResizeHandleProps<T> = {
+export type ColumnResizeHandleProps<T> = {
     classes?: HeaderCellResizeHandleClasses;
     overrideClasses?: HeaderCellResizeHandleClasses;
 };
-type HeaderCellClasses = {
+export type HeaderCellClasses = {
     root?: string;
     resizeHandle?: HeaderCellResizeHandleClasses;
 };
-type ResizeInfo = {
+export type ResizeInfo = {
     width: number;
 };
-type HeaderCellInfo<T> = TableColumn<T>;
-interface HeaderCellProps<T> {
+export type HeaderCellInfo<T> = TableColumn<T>;
+export interface HeaderCellProps<T> {
     width?: number;
     onClick: () => void;
     onResize: (e: any, info: ResizeInfo) => void;
@@ -62,30 +61,30 @@ interface HeaderCellProps<T> {
     overrideClasses?: HeaderCellClasses;
     children?: React.ReactNode;
 }
-interface EditableCellInfo<T> {
+export interface EditableCellInfo<T> {
     row: TableRow<T>;
     column: TableColumn<T>;
 }
-interface EditableCellProps<T> {
+export interface EditableCellProps<T> {
     value: any;
     row: TableRow<T>;
     column: TableColumn<T>;
     onChange: (info: EditableCellInfo<T>, value: any) => void;
 }
-type FooterClasses = {
+export type FooterClasses = {
     root?: string;
     cell?: CellClasses;
     row?: RowClasses;
 };
-type CellClasses = {
+export type CellClasses = {
     root?: string;
 };
-type CellInfo<T> = {
+export type CellInfo<T> = {
     value: any;
     row: TableRow<T>;
     column: TableColumn<T>;
 };
-type CellProps<T> = {
+export type CellProps<T> = {
     value: any;
     row: TableRow<T>;
     column: TableColumn<T>;
@@ -95,12 +94,12 @@ type CellProps<T> = {
     classes?: CellClasses;
     overrideClasses?: CellClasses;
 };
-type BodyClasses = {
+export type BodyClasses = {
     root?: string;
     cell?: CellClasses;
     row?: RowClasses;
 };
-interface BodyProps<T> {
+export interface BodyProps<T> {
     data: T[];
     columns: TableColumn<T>[];
     cellProps?: TableCellProps<T>;
@@ -108,21 +107,21 @@ interface BodyProps<T> {
     classes?: BodyClasses;
     overrideClasses?: BodyClasses;
 }
-type ContainerClasses = {
+export type ContainerClasses = {
     root?: string;
     wrapper?: WrapperClasses;
 };
-type WrapperClasses = {
+export type WrapperClasses = {
     root?: string;
     table?: TableClasses;
 };
-type TableClasses = {
+export type TableClasses = {
     root?: string;
     header?: HeaderClasses;
     footer?: FooterClasses;
     body?: BodyClasses;
 };
-interface TableColumn<T> {
+export interface TableColumn<T> {
     header: string;
     name: keyof T;
     width?: number;
@@ -133,9 +132,9 @@ interface TableColumn<T> {
     filterable?: boolean;
     render?: (info: CellInfo<T>) => React.ReactNode;
 }
-type TableCellProps<T> = Omit<CellProps<T>, "value" | "row" | "column">;
-type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
-type TableProps<T> = {
+export type TableCellProps<T> = Omit<CellProps<T>, "value" | "row" | "column">;
+export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
+export type TableProps<T> = {
     data: T[];
     columns: TableColumn<T>[];
     paginationProps?: PaginationProps;
@@ -150,5 +149,3 @@ type TableProps<T> = {
         container?: ContainerClasses;
     };
 };
-
-export type { BodyClasses, BodyProps, CellClasses, CellInfo, CellProps, ColumnResizeHandleProps, ContainerClasses, EditableCellInfo, EditableCellProps, FooterClasses, HeaderCellClasses, HeaderCellInfo, HeaderCellProps, HeaderCellResizeHandleClasses, HeaderClasses, HeaderProps, PaginationProps, ResizeInfo, RowClasses, RowProps, TableCellProps, TableClasses, TableColumn, TableProps, TableRow, TableRowProps, WrapperClasses };

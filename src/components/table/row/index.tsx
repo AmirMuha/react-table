@@ -1,23 +1,8 @@
 import React, { useState } from "react";
-import Cell, { CellProps } from "components/table/cell";
-import { TableCellProps, TableColumn } from "components/table";
+import Cell from "components/table/cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
-
-export type RowClasses = { root?: string; cell?: { root?: string } };
-export type TableRow<T> = {
-  index: number;
-} & object;
-
-export interface RowProps<T> {
-  row: TableRow<T>;
-  columns: TableColumn<T>[];
-  selection?: boolean;
-  onRowClick?: (info: TableRow<T>) => void;
-  cellProps?: TableCellProps<T>;
-  classes?: RowClasses;
-  overrideClasses?: RowClasses;
-}
+import { RowProps, TableRow } from "types";
 
 const Row = <T extends object>(props: RowProps<T>) => {
   const [selectedRows, setSelectedRows] = useState<TableRow<T>[]>([]);
