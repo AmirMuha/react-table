@@ -1,8 +1,4 @@
-export type PaginationProps = {
-  totalPages: number;
-  currentPage: number;
-  itemsPerPage: number;
-};
+import { PaginationProps } from "types";
 
 export default function Pagination({
   currentPage,

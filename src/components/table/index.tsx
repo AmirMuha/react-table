@@ -1,45 +1,11 @@
 import React, { useState } from "react";
-import Body, { BodyClasses } from "components/table/body";
-import Header, { HeaderClasses } from "components/table/header";
+import { TableProps } from "types";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
-import Pagination, { PaginationProps } from "./pagination";
-import { RowProps } from "./row";
-import { CellInfo, CellProps } from "./cell";
-import { FooterClasses } from "./footer";
-
-export type ContainerClasses = { root?: string; wrapper?: WrapperClasses };
-export type WrapperClasses = { root?: string; table?: TableClasses };
-export type TableClasses = {
-  root?: string;
-  header?: HeaderClasses;
-  footer?: FooterClasses;
-  body?: BodyClasses;
-};
-export interface TableColumn<T> {
-  header: string;
-  name: keyof T;
-  width?: number;
-  minWidth?: number;
-  maxWidth?: number;
-  flex?: boolean;
-  editable?: boolean;
-  filterable?: boolean;
-  render?: (info: CellInfo<T>) => React.ReactNode;
-}
-export type TableCellProps<T> = Omit<CellProps<T>, "value" | "row" | "column">;
-export type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
-export type TableProps<T> = {
-  data: T[];
-  columns: TableColumn<T>[];
-  rowProps?: TableRowProps<T>;
-  cellProps?: TableCellProps<T>;
-  paginationProps?: PaginationProps;
-  defaultSortedColumn?: keyof T | null;
-  defaultSortDirection?: "asc" | "desc";
-  classes?: { container?: ContainerClasses };
-  overrideClasses?: { container?: ContainerClasses };
-};
+import Body from "components/table/body";
+import Header from "components/table/header";
+import Pagination from "./pagination";
+import useSetupTableEffect from "common/hook/use-setup-table";
 
 const Table = <T extends object>({
   defaultSortedColumn = null,
@@ -54,6 +20,7 @@ const Table = <T extends object>({
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<Record<keyof T, string> | null>(null);
+  useSetupTableEffect(props);
 
   const totalPages =
     props.paginationProps?.itemsPerPage &&
@@ -127,6 +94,7 @@ const Table = <T extends object>({
             onFilterChange={handleFilterChange}
           />
           <Body
+            idProperty={props.idProperty}
             data={paginatedData}
             columns={props.columns}
             rowProps={props.rowProps}

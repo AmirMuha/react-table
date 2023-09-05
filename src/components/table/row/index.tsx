@@ -1,48 +1,40 @@
-import React, { useState } from "react";
-import Cell, { CellProps } from "components/table/cell";
-import { TableCellProps, TableColumn } from "components/table";
+import React, { useMemo } from "react";
+import Cell from "components/table/cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
-
-export type RowClasses = { root?: string; cell?: { root?: string } };
-export type TableRow<T> = {
-  index: number;
-} & object;
-
-export interface RowProps<T> {
-  row: TableRow<T>;
-  columns: TableColumn<T>[];
-  selection?: boolean;
-  onRowClick?: (info: TableRow<T>) => void;
-  cellProps?: TableCellProps<T>;
-  classes?: RowClasses;
-  overrideClasses?: RowClasses;
-}
+import { RowProps } from "types";
+import { useAtom } from "jotai";
+import { AMTableAtoms } from "components/util/atoms";
 
 const Row = <T extends object>(props: RowProps<T>) => {
-  const [selectedRows, setSelectedRows] = useState<TableRow<T>[]>([]);
+  const id = props.row[props.idProperty as keyof T] as string;
+  const [selected, setSelected] = useAtom(AMTableAtoms.selectedRow);
+  const IS_ROW_SELECTED = props.selection && !!selected[id];
+  console.log(selected);
 
-  const toggleRowSelection = (rowIndex: number) => {
-    setSelectedRows((prevSelectedRows) => {
-      if (prevSelectedRows.some((row) => row.index === rowIndex)) {
-        return prevSelectedRows.filter((row) => row.index !== rowIndex);
-      } else {
-        return [...prevSelectedRows, props.row];
-      }
-    });
+  const toggleRowSelection = () => {
+    if (props.selection) {
+      const selectedCopy = Object.assign({}, selected);
+      if (!IS_ROW_SELECTED) selectedCopy[id] = props.row;
+      else delete selectedCopy[id];
+      setSelected(selectedCopy);
+    }
   };
-
-  const isRowSelected = (rowIndex: number) =>
-    selectedRows.some((row) => row.index === rowIndex);
 
   const handleRowClick = () => {
     if (props.onRowClick) props.onRowClick(props.row);
+    if (props.selection) toggleRowSelection();
   };
   return (
     <tr
       className={coalesce(
         props.overrideClasses?.root,
-        sc(props.classes?.root, "am_table__body--row am_table__body__row--root")
+        sc(
+          props.classes?.root,
+          props.selection ? "am_table__body__row--selectable" : undefined,
+          IS_ROW_SELECTED ? "am_table__body__row--selected" : undefined,
+          "am_table__body--row am_table__body__row--root"
+        )
       )}
       onClick={handleRowClick}
     >
@@ -50,8 +42,8 @@ const Row = <T extends object>(props: RowProps<T>) => {
         <td>
           <input
             type="checkbox"
-            checked={isRowSelected(props.row.index)}
-            onChange={() => toggleRowSelection(props.row.index)}
+            checked={IS_ROW_SELECTED}
+            onChange={toggleRowSelection}
           />
         </td>
       ) : null}

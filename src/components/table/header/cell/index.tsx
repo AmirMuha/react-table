@@ -1,24 +1,7 @@
 import React from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
-import { TableColumn } from "components/table";
-
-export type HeaderCellClasses = {
-  root?: string;
-  resizeHandle?: HeaderCellResizeHandleClasses;
-};
-export type ResizeInfo = { width: number };
-export type HeaderCellInfo<T> = TableColumn<T>;
-export interface HeaderCellProps<T> {
-  width?: number;
-  onClick: () => void;
-  onResize: (e: any, info: ResizeInfo) => void;
-  column: TableColumn<T>;
-  onCellClick?: (info: HeaderCellInfo<T>) => void;
-  classes?: HeaderCellClasses;
-  overrideClasses?: HeaderCellClasses;
-  children?: React.ReactNode;
-}
+import { ColumnResizeHandleProps, HeaderCellProps } from "types";
 
 const HeaderCell = <T extends object>(props: HeaderCellProps<T>) => {
   const handleCellClick = () => {
@@ -53,11 +36,6 @@ const HeaderCell = <T extends object>(props: HeaderCellProps<T>) => {
   );
 };
 
-export type HeaderCellResizeHandleClasses = { root?: string };
-export type ColumnResizeHandleProps<T> = {
-  classes?: HeaderCellResizeHandleClasses;
-  overrideClasses?: HeaderCellResizeHandleClasses;
-};
 function ResizeHandle<T extends object>(props: ColumnResizeHandleProps<T>) {
   const handleDragStart = (e: React.DragEvent<HTMLSpanElement>) => {
     console.log(e);
