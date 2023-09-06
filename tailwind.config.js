@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./**/*.html", "./src/**/*.{js,ts,tsx,jsx}"],
-  prefix: "am",
+  prefix: "am__",
   theme: {
     screens: {
       xs: "360px",
@@ -20,10 +20,7 @@ module.exports = {
       },
     },
   },
-  safelist: [
-    { pattern: /(text|bg|border)-(\w+)-([100-900])/ },
-    { pattern: /(text|bg|border)-(primary|error|secondary)/ },
-  ],
+  safelist: [{ pattern: /(text|bg|border)-(\w+)-([100-900])/ }, { pattern: /(text|bg|border)-(primary|error|secondary)/ }],
   plugins: [
     require("precss"),
     require("cssnano"),

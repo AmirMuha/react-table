@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@tabler/icons-webfont':
+    specifier: ^2.33.0
+    version: 2.33.0
   '@testing-library/jest-dom':
     specifier: ^5.17.0
     version: 5.17.0
@@ -2357,6 +2360,16 @@ packages:
       loader-utils: 2.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@tabler/icons-webfont@2.33.0:
+    resolution: {integrity: sha512-+rcsCeU7FeyZLthvaOf2Ph2uPY6Uz5mvnpF7+bcy6pqKe/HU25TvfT890vq2DiAZeOBUFLY8P+IQSVFVPLLBhQ==}
+    dependencies:
+      '@tabler/icons': 2.33.0
+    dev: false
+
+  /@tabler/icons@2.33.0:
+    resolution: {integrity: sha512-cmVBeVANYGniLa0Q9gSUXU3SY0V9D3bfvHAq2bE+S0sdvnbMRNCHAmVQQv1lV6LT/aT7kzpwHAQz+6Iz1rPPsA==}
     dev: false
 
   /@tailwindcss/aspect-ratio@0.4.2(tailwindcss@3.3.3):

@@ -13,7 +13,7 @@ const fakeData = {
 const { store, atom } = createAtoms<any>({
   idProperty: "id",
   color: "#2E9F82",
-  row: { selection: true },
+  row: { selection: true, indexing: { enabled: true, label: "ردیف" } },
   columns: [
     { name: "first_name", header: "نام", width: 300 },
     { name: "first_name", header: "نام", width: 300 },
@@ -25,9 +25,11 @@ const { store, atom } = createAtoms<any>({
 });
 
 ReactDOM.render(
-  <TableProvider store={store}>
-    <Table atom={atom as any} />
-  </TableProvider>,
+  <div className="am__m-5">
+    <TableProvider store={store}>
+      <Table atom={atom as any} />
+    </TableProvider>
+  </div>,
   document.getElementById("root")
 );
 

@@ -6,7 +6,7 @@ import coalesce from "common/helper/coalesce";
 import Body from "components/table/body";
 import Header from "components/table/header";
 import Pagination from "./pagination";
-import useSetupTableEffect from "common/hook/use-setup-table";
+import useSetupTableEffect from "./setup";
 
 const TableComponent = <T extends object>({ atom }: TableProps<T>) => {
   const [tableClassesRoot] = useAtom(atom.classes.table.classes.root);

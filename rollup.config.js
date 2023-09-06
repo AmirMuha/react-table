@@ -51,17 +51,13 @@ const config = [
       image(),
       css(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      postcss(),
+      postcss({ plugins: { autoprefixer: {}, tailwindcss: {} } }),
       terser(),
       json(),
       babel({
         babelHelpers: "bundled", // Choose the helper method
         exclude: "node_modules/**", // Exclude external dependencies
-        presets: [
-          "@babel/preset-env",
-          "@babel/preset-react",
-          "@babel/preset-typescript",
-        ], // Add required presets
+        presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"], // Add required presets
       }),
     ],
   },
