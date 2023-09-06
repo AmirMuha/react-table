@@ -1,66 +1,28 @@
-import { useState } from "react";
+import { useAtom } from "jotai";
+import { TableProps } from "types";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import HeaderCell from "./cell";
-import { HeaderProps, TableColumn } from "types";
+import { memo } from "react";
 
-const Header = <T extends object>(props: HeaderProps<T>) => {
-  const [columns, setColumns] = useState<TableColumn<T>[]>(props.columns);
-  const onResize = (columnIndex: number, newWidth: number) => {
-    setColumns((prevColumns: TableColumn<T>[]) => {
-      const updatedColumns = [...prevColumns];
-      updatedColumns[columnIndex].width = newWidth;
-      return updatedColumns;
-    });
-  };
+const HeaderComponent = <T extends object>(props: TableProps<T>) => {
+  const [columns] = useAtom(props.atom.columns);
+  const [headerRootClass] = useAtom(props.atom.classes.header.classes.root);
+  const [headerRootOverrideClass] = useAtom(props.atom.classes.header.overrideClasses.root);
+  const [headerRowRootClass] = useAtom(props.atom.classes.headerRow.classes.root);
+  const [headerRowRootOverrideClass] = useAtom(props.atom.classes.headerRow.overrideClasses.root);
 
   return (
-    <thead
-      className={coalesce(
-        props.overrideClasses?.root,
-        sc(props.classes?.root, "am_table__header am_table__header--root")
-      )}
-    >
-      <tr
-        className={coalesce(
-          props.overrideClasses?.row?.root,
-          sc(
-            props.classes?.row?.root,
-            "am_table__header--row am_table__header__row--root"
-          )
-        )}
-      >
+    <thead className={coalesce(headerRootOverrideClass, sc(headerRootClass, "am_table__header am_table__header--root"))}>
+      <tr className={coalesce(headerRowRootOverrideClass, sc(headerRowRootClass, "am_table__header--row am_table__header__row--root"))}>
         {columns.map((column, columnIndex) => (
-          <HeaderCell
-            key={column.header}
-            column={column}
-            width={column.width}
-            onResize={(e, { width }) => onResize(columnIndex, width)}
-            onClick={() => props.onSort(column.name)}
-            classes={props.classes?.cell}
-          >
-            {column.header}
-            {column.filterable ? (
-              <div className="filter-input">
-                <input
-                  type="text"
-                  onChange={(e) =>
-                    props.onFilterChange(column.name, e.target.value)
-                  }
-                  placeholder="جستجو"
-                />
-              </div>
-            ) : null}
-            {props.sortedColumn === column.name && (
-              <span className="sort-icon">
-                {props.sortDirection === "asc" ? "↑" : "↓"}
-              </span>
-            )}
-          </HeaderCell>
+          <HeaderCell key={`header_cell_${columnIndex}`} column={column as any} atom={props.atom as any} index={columnIndex} />
         ))}
       </tr>
     </thead>
   );
 };
 
+const areEqual = () => true;
+const Header = memo(HeaderComponent, areEqual);
 export default Header;
