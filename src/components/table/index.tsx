@@ -1,12 +1,12 @@
 import React, { memo } from "react";
 import { TableProps } from "types";
+import { useAtom } from "jotai";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import Body from "components/table/body";
 import Header from "components/table/header";
 import Pagination from "./pagination";
 import useSetupTableEffect from "common/hook/use-setup-table";
-import { useAtom } from "jotai";
 
 const TableComponent = <T extends object>({ atom }: TableProps<T>) => {
   const [tableClassesRoot] = useAtom(atom.classes.table.classes.root);
