@@ -1,47 +1,33 @@
 import "./index.css";
 import ReactDOM from "react-dom";
 import Table from "./components/table";
+import TableProvider from "components/table/provider";
+import { createAtoms } from "components/util/atoms";
+
+const fakeData = {
+  id: "97c969fd-7a4d-494d-b59d-40a2a25d266f",
+  first_name: "AmirMohammad",
+  last_name: "Mirzaei",
+};
+
+const { store, atom } = createAtoms<any>({
+  idProperty: "id",
+  color: "#2E9F82",
+  row: { selection: true },
+  columns: [
+    { name: "first_name", header: "نام", width: 300 },
+    { name: "first_name", header: "نام", width: 300 },
+    { name: "first_name", header: "نام", width: 300 },
+    { name: "first_name", header: "نام", width: 300 },
+    { name: "last_name", header: "نام خانوادگی", flex: true, minWidth: 500 },
+  ],
+  data: new Array(2000).fill(fakeData).map((s, indx) => ({ ...s, id: String(indx) })),
+});
 
 ReactDOM.render(
-  <Table
-    idProperty="id"
-    color="#2E9F82"
-    rowProps={{ selection: true }}
-    columns={[
-      { name: "first_name", header: "نام", width: 300 },
-      { name: "first_name", header: "نام", width: 300 },
-      { name: "first_name", header: "نام", width: 300 },
-      { name: "first_name", header: "نام", width: 300 },
-      { name: "last_name", header: "نام خانوادگی", flex: true, minWidth: 500 },
-    ]}
-    data={[
-      {
-        id: "97c969fd-7a4d-494d-b59d-40a2a25d266f",
-        first_name: "AmirMohammad",
-        last_name: "Mirzaei",
-      },
-      {
-        id: "97c969fd-7a4d-494d-b59d-40a2a25d269f",
-        first_name: "AmirMohammad",
-        last_name: "Mirzaei",
-      },
-      {
-        id: "97c969fd-7a4d-494d-b59d-40a2a25d268f",
-        first_name: "AmirMohammad",
-        last_name: "Mirzaei",
-      },
-      {
-        id: "97c969fd-7a4d-494d-b59d-40a2a25d267f",
-        first_name: "AmirMohammad",
-        last_name: "Mirzaei",
-      },
-      {
-        id: "97c969fd-7a4d-494d-b59d-40a2a25d270f",
-        first_name: "AmirMohammad",
-        last_name: "Mirzaei",
-      },
-    ]}
-  />,
+  <TableProvider store={store}>
+    <Table atom={atom as any} />
+  </TableProvider>,
   document.getElementById("root")
 );
 

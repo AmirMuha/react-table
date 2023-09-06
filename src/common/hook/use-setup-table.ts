@@ -2,11 +2,13 @@ import { colorVariables } from "common/constant/color-variables";
 import { useLayoutEffect } from "react";
 import { TableProps } from "types";
 import { alpha } from "common/helper/alpha";
+import { useAtom } from "jotai";
 
-export default function useSetupTableEffect<T>(props: TableProps<T>) {
+export default function useSetupTableEffect<T>({ atom }: TableProps<T>) {
+  const [color] = useAtom(atom.color);
   useLayoutEffect(() => {
-    if (props.color) handleChangeColor(props.color);
-  }, [props.color]);
+    if (color) handleChangeColor(color);
+  }, [color]);
 }
 
 function handleChangeColor(color: string) {

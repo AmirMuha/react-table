@@ -139,3 +139,13 @@ html {
 .am_table__body .am_table__body--row.am_table__body__row--selectable.am_table__body__row--selected {
   background-color: var(--am__table-selected-color);
 }
+
+.am_table__header--cell .am_table__header__cell--content {
+  color: white;
+  padding: 0 10px;
+}
+.am_table__header--cell .am_table__header__cell--sort-btn {
+  color: white;
+  padding: 4px;
+  border-radius: 100%;
+}
