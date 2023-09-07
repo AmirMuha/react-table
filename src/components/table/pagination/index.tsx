@@ -1,9 +1,13 @@
-import { PaginationProps } from "types";
+import { useAtom } from "jotai";
+import { memo } from "react";
+import { TableProps } from "types";
 
-export default function Pagination({
-  currentPage,
-  totalPages,
-}: PaginationProps) {
+const PaginationComponent = <T = unknown,>(props: TableProps<T>) => {
+  const [data] = useAtom(props.atom.data);
+  const [currentPage] = useAtom(props.atom.pagination.currentPage);
+  const [itemsPerPage] = useAtom(props.atom.pagination.itemsPerPage);
+
+  const totalPages = itemsPerPage && itemsPerPage !== 0 ? Math.ceil(data.length / itemsPerPage) : 1;
   const IS_LAST_PAGE = currentPage === 1;
   const IS_FIRST_PAGE = currentPage === 1;
   return (
@@ -25,4 +29,8 @@ export default function Pagination({
       </button>
     </div>
   );
-}
+};
+
+const areEqual = () => true;
+const Pagination = memo(PaginationComponent, areEqual);
+export default Pagination;

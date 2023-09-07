@@ -1,107 +1,37 @@
-import React, { useState } from "react";
+import React, { memo } from "react";
+import { TableProps } from "types";
+import { useAtom } from "jotai";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import Body from "components/table/body";
 import Header from "components/table/header";
 import Pagination from "./pagination";
-import { TableProps } from "types";
+import useSetupTableEffect from "common/hook/use-setup-table";
 
-const Table = <T extends object>({
-  defaultSortedColumn = null,
-  defaultSortDirection = "asc",
-  ...props
-}: TableProps<T>) => {
-  const [sortedColumn, setSortedColumn] = useState<keyof T | null>(
-    defaultSortedColumn
-  );
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
-    defaultSortDirection
-  );
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState<Record<keyof T, string> | null>(null);
+const TableComponent = <T extends object>({ atom }: TableProps<T>) => {
+  const [tableClassesRoot] = useAtom(atom.classes.table.classes.root);
+  const [tableOverrideClassesRoot] = useAtom(atom.classes.table.overrideClasses.root);
+  const [containerClassesRoot] = useAtom(atom.classes.container.classes.root);
+  const [containerOverrideClassesRoot] = useAtom(atom.classes.container.overrideClasses.root);
+  const [wrapperClassesRoot] = useAtom(atom.classes.wrapper.classes.root);
+  const [wrapperOverrideClassesRoot] = useAtom(atom.classes.wrapper.overrideClasses.root);
+  const [paginationEnabled] = useAtom(atom.pagination.enabled);
 
-  const totalPages =
-    props.paginationProps?.itemsPerPage &&
-    props.paginationProps?.itemsPerPage !== 0
-      ? Math.ceil(props.data.length / props.paginationProps?.itemsPerPage)
-      : 1;
-
-  const handleSort = (columnAccessor: keyof T) => {
-    if (sortedColumn === columnAccessor) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortedColumn(columnAccessor);
-      setSortDirection("asc");
-    }
-  };
-
-  const handleFilterChange = (columnAccessor: keyof T, value: string) => {
-    setFilters(
-      (prevFilters) =>
-        ({
-          ...(prevFilters ?? {}),
-          [columnAccessor]: value,
-        } as any)
-    );
-  };
-
-  const filteredData = props.data.filter((row) => {
-    if (!filters) return true;
-    return Object.keys(filters).every((column: string) => {
-      const filterValue = (filters as any)[column].toLowerCase();
-      return (row as any)[column].toLowerCase().includes(filterValue);
-    });
-  });
-
-  const paginatedData =
-    props.paginationProps?.itemsPerPage &&
-    props.paginationProps?.itemsPerPage !== 0
-      ? filteredData.slice(
-          (currentPage - 1) * props.paginationProps?.itemsPerPage,
-          currentPage * props.paginationProps?.itemsPerPage
-        )
-      : filteredData;
+  useSetupTableEffect({ atom });
 
   return (
-    <div
-      className={coalesce(
-        props.overrideClasses?.container?.root,
-        sc(props.classes?.container?.root, "am_table__container")
-      )}
-    >
-      <div
-        className={coalesce(
-          props.overrideClasses?.container?.wrapper?.root,
-          sc(props.classes?.container?.root, "am_table__wrapper")
-        )}
-      >
-        <table
-          className={coalesce(
-            props.overrideClasses?.container?.wrapper?.table?.root,
-            sc(
-              props.classes?.container?.wrapper?.table?.root,
-              "am_table__table"
-            )
-          )}
-        >
-          <Header
-            columns={props.columns}
-            onSort={handleSort}
-            sortedColumn={sortedColumn}
-            sortDirection={sortDirection}
-            onFilterChange={handleFilterChange}
-          />
-          <Body
-            data={paginatedData}
-            columns={props.columns}
-            rowProps={props.rowProps}
-            cellProps={props.cellProps}
-          />
+    <div className={coalesce(containerOverrideClassesRoot, sc(containerClassesRoot, "am_table__container"))}>
+      <div className={coalesce(wrapperOverrideClassesRoot, sc(wrapperClassesRoot, "am_table__wrapper"))}>
+        <table className={coalesce(tableOverrideClassesRoot, sc(tableClassesRoot, "am_table__table"))}>
+          <Header atom={atom as any} />
+          <Body atom={atom as any} />
         </table>
       </div>
-      {props.paginationProps ? <Pagination {...props.paginationProps} /> : null}
+      {paginationEnabled ? <Pagination atom={atom as any} /> : null}
     </div>
   );
 };
 
+const areEqual = () => true;
+const Table = memo(TableComponent, areEqual);
 export default Table;
