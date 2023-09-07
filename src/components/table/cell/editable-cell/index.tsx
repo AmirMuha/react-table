@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { memo, useState } from "react";
+import React, { memo, useState } from "react";
 import { Column, Row, TableProps } from "types";
 
 interface EditableCellProps<T> {
@@ -10,7 +10,7 @@ interface EditableCellProps<T> {
   columnIndex: number;
 }
 
-const EditableCellComponent = <T extends object>(props: EditableCellProps<T>) => {
+const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): React.ReactElement => {
   const [column] = useAtom(props.column);
   const [row] = useAtom(props.row);
   const value: any = row[column.name];
@@ -39,5 +39,5 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>) =>
 };
 
 const areEqual = () => true;
-const EditableCell = memo(EditableCellComponent, areEqual);
+const EditableCell: typeof EditableCellComponent = memo(EditableCellComponent, areEqual) as any;
 export default EditableCell;

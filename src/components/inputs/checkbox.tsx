@@ -1,7 +1,6 @@
-import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { TableProps } from "types";
-import { memo } from "react";
+import React, { memo } from "react";
 
 interface CheckboxProps<T> {
   atom: TableProps<T>["atom"];
@@ -9,8 +8,7 @@ interface CheckboxProps<T> {
   onChange: () => void;
 }
 
-const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>) => {
-  console.log(props.checked);
+const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>): React.ReactElement => {
   return (
     <div onClick={props.onChange} className={sc("am_input--checkbox am_input__checkbox--root", props.checked ? "am_input__checkbox--checked" : "")}>
       <div className="am_input__checkbox--check">
@@ -21,5 +19,5 @@ const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>) => {
 };
 
 const areEqual = <T = unknown,>(p: CheckboxProps<T>, c: CheckboxProps<T>) => p.checked === c.checked;
-const Checkbox = memo(CheckboxComponent, areEqual);
+const Checkbox: typeof CheckboxComponent = memo(CheckboxComponent, areEqual) as any;
 export default Checkbox;

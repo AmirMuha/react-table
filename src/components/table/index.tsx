@@ -23,11 +23,11 @@ const TableComponent = <T extends object>({ atom }: TableProps<T>) => {
     <div className={coalesce(containerOverrideClassesRoot, sc(containerClassesRoot, "am_table__container"))}>
       <div className={coalesce(wrapperOverrideClassesRoot, sc(wrapperClassesRoot, "am_table__wrapper"))}>
         <table className={coalesce(tableOverrideClassesRoot, sc(tableClassesRoot, "am_table__table"))}>
-          <Header atom={atom as any} />
-          <Body atom={atom as any} />
+          <Header atom={atom} />
+          <Body atom={atom} />
         </table>
       </div>
-      {paginationEnabled ? <Pagination atom={atom as any} /> : null}
+      {paginationEnabled ? <Pagination atom={atom} /> : null}
     </div>
   );
 };

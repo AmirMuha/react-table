@@ -114,7 +114,7 @@ function getClassesAtoms<T>(initialOptions?: ClassesOptions<T>) {
   };
 }
 
-export function createAtoms<T>(initialOptions: TableOptions<T>) {
+export default function createAtoms<T>(initialOptions: TableOptions<T>) {
   const columnsMap: Record<string, Column<T>> = {};
   initialOptions.columns.forEach((col) => (columnsMap[col.name as string] = col));
   const store = createStore();
@@ -122,7 +122,7 @@ export function createAtoms<T>(initialOptions: TableOptions<T>) {
     columnsMap: atom(columnsMap),
     idProperty: atom(initialOptions.idProperty ?? "id"),
     columns: atom(initialOptions.columns.map((col) => atom(col))),
-    data: initialOptions.row?.editable ? atom(initialOptions.data.map((item) => atom(item))) : atom(initialOptions.data),
+    data: atom(initialOptions.data),
     color: atom(initialOptions.color),
     header: getHeaderAtoms<T>(initialOptions.header),
     sort: getSortAtoms<T>(initialOptions.sort),

@@ -1,13 +1,13 @@
+import React, { memo } from "react";
 import { useAtom } from "jotai";
 import { TableProps } from "types";
-import { memo } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import HeaderCell from "./cell";
 import useSetupHeader from "./setup";
 import Checkbox from "components/inputs/checkbox";
 
-const HeaderComponent = <T extends object>(props: TableProps<T>) => {
+const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactElement => {
   const [data] = useAtom(props.atom.data);
   const [idProperty] = useAtom(props.atom.idProperty);
   const [indexingLabel] = useAtom(props.atom.row.indexing.label);
@@ -54,5 +54,5 @@ const HeaderComponent = <T extends object>(props: TableProps<T>) => {
 };
 
 const areEqual = () => true;
-const Header = memo(HeaderComponent, areEqual);
+const Header: typeof HeaderComponent = memo(HeaderComponent, areEqual) as any;
 export default Header;

@@ -11,7 +11,7 @@ interface HeaderCellProps<T> {
   index: number;
 }
 
-const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>) => {
+const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React.ReactElement => {
   const { classes, overrideClasses } = useClasses(props);
   const [data, setData] = useAtom(props.atom.data);
   const [column, setColumn] = useAtom(props.column);
@@ -102,5 +102,5 @@ function useClasses<T>(props: HeaderCellProps<T>) {
 }
 
 const areEqual = () => true;
-const HeaderCell = memo(HeaderCellComponent, areEqual);
+const HeaderCell: typeof HeaderCellComponent = memo(HeaderCellComponent, areEqual) as any;
 export default HeaderCell;

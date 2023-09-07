@@ -2,8 +2,6 @@
 @tailwind utilities;
 @tailwind components;
 
-@import "../node_modules/@tabler/icons-webfont/tabler-icons.min.css";
-
 :root {
   --am__table-color: rgb(198, 61, 47);
   --am__table-hover-color: rgba(198, 61, 47, .15);

@@ -3,7 +3,7 @@ import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { atom, useAtom } from "jotai";
 import { Cell as CellType, Column, Row, TableProps } from "types";
-import { memo } from "react";
+import React, { memo } from "react";
 
 interface CellProps<T> {
   atom: TableProps<T>["atom"];
@@ -13,7 +13,7 @@ interface CellProps<T> {
   columnIndex: number;
 }
 
-const CellComponent = <T extends object>(props: CellProps<T>) => {
+const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElement => {
   const [row] = useAtom(props.row);
   const [column] = useAtom(props.column);
   // const [selection] = useAtom(props.atom.cell.selection);
@@ -46,5 +46,5 @@ const CellComponent = <T extends object>(props: CellProps<T>) => {
 };
 
 const areEqual = () => true;
-const Cell = memo(CellComponent, areEqual);
+const Cell: typeof CellComponent = memo(CellComponent, areEqual) as any;
 export default Cell;

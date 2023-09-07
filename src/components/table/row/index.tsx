@@ -12,7 +12,7 @@ interface RowProps<T> {
   index: number;
 }
 
-const RowComponent = <T extends object>(props: RowProps<T>) => {
+const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement => {
   const [columns] = useAtom(props.atom.columns);
   const [currentPage] = useAtom(props.atom.pagination.currentPage);
   const [itemsPerPage] = useAtom(props.atom.pagination.itemsPerPage);
@@ -73,9 +73,9 @@ const RowComponent = <T extends object>(props: RowProps<T>) => {
       {columns.map((column, columnIndex) => (
         <Cell
           key={`body_row_cell_${columnIndex}`}
-          atom={props.atom as any}
-          row={atom(row as any)}
-          column={column as any}
+          atom={props.atom}
+          row={atom(row) as any}
+          column={column}
           columnIndex={columnIndex}
           rowIndex={props.index}
         />
@@ -85,5 +85,5 @@ const RowComponent = <T extends object>(props: RowProps<T>) => {
 };
 
 const areEqual = () => true;
-const Row = memo(RowComponent, areEqual);
+const Row: typeof RowComponent = memo(RowComponent, areEqual) as any;
 export default Row;
