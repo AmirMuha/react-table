@@ -1,27 +1,24 @@
-import { TableOptions } from "types";
-export declare function createAtoms<T>(initialOptions: TableOptions<T>): {
+import { Column, TableOptions } from "types";
+export default function createAtoms<T>(initialOptions: TableOptions<T>): {
     atom: {
-        color: import("jotai").PrimitiveAtom<string | undefined> & {
-            init: string | undefined;
-        };
-        data: (import("jotai").PrimitiveAtom<(import("jotai").PrimitiveAtom<T> & {
-            init: T;
-        })[]> & {
-            init: (import("jotai").PrimitiveAtom<T> & {
-                init: T;
-            })[];
-        }) | (import("jotai").PrimitiveAtom<T[]> & {
-            init: T[];
-        });
-        columns: import("jotai").PrimitiveAtom<(import("jotai").PrimitiveAtom<import("types").Column<T>> & {
-            init: import("types").Column<T>;
-        })[]> & {
-            init: (import("jotai").PrimitiveAtom<import("types").Column<T>> & {
-                init: import("types").Column<T>;
-            })[];
+        columnsMap: import("jotai").PrimitiveAtom<Record<string, Column<T>>> & {
+            init: Record<string, Column<T>>;
         };
         idProperty: import("jotai").PrimitiveAtom<string> & {
             init: string;
+        };
+        columns: import("jotai").PrimitiveAtom<(import("jotai").PrimitiveAtom<Column<T>> & {
+            init: Column<T>;
+        })[]> & {
+            init: (import("jotai").PrimitiveAtom<Column<T>> & {
+                init: Column<T>;
+            })[];
+        };
+        data: import("jotai").PrimitiveAtom<T[]> & {
+            init: T[];
+        };
+        color: import("jotai").PrimitiveAtom<string | undefined> & {
+            init: string | undefined;
         };
         header: {
             selection: import("jotai").PrimitiveAtom<boolean> & {

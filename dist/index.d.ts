@@ -1,7 +1,7 @@
 import AmirMuhaTable from 'components/table';
 export { default } from 'components/table';
-import { createAtoms } from 'components/util/atoms';
-export { createAtoms } from 'components/util/atoms';
+import createAtoms from 'components/util/atoms';
+export { default as createAtoms } from 'components/util/atoms';
 import { createStore } from 'jotai';
 export { default as TableProvider } from 'components/table/provider';
 

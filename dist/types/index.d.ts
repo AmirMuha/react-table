@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { createAtoms } from "components/util/atoms";
+import createAtoms from "components/util/atoms";
 import { createStore } from "jotai";
 export declare namespace Classes {
     type Cell = {
