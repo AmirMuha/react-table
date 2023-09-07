@@ -1,128 +1,119 @@
-export { default as AmirMuhaTable } from 'components/table';
+import AmirMuhaTable from 'components/table';
+export { default } from 'components/table';
+import createAtoms from 'components/util/atoms';
+export { default as createAtoms } from 'components/util/atoms';
+import { createStore } from 'jotai';
+export { default as TableProvider } from 'components/table/provider';
 
-type RowClasses = {
-    root?: string;
-    cell?: {
+declare namespace Classes {
+    type Cell = {
         root?: string;
     };
-};
-type TableRow<T> = {
-    index: number;
-} & object;
-interface RowProps<T> {
-    row: TableRow<T>;
-    columns: TableColumn<T>[];
-    selection?: boolean;
-    onRowClick?: (info: TableRow<T>) => void;
-    cellProps?: TableCellProps<T>;
-    classes?: RowClasses;
-    overrideClasses?: RowClasses;
+    type Row = {
+        root?: string;
+    };
+    type Header = {
+        root?: string;
+    };
+    type HeaderCellResizeHandle = {
+        root?: string;
+    };
+    type HeaderCellSortBtn = {
+        root?: string;
+    };
+    type HeaderCellContent = {
+        root?: string;
+    };
+    type HeaderCell = {
+        root?: string;
+        resizeHandle?: HeaderCellResizeHandle;
+        content?: HeaderCellContent;
+        sortBtn?: HeaderCellSortBtn;
+    };
+    type HeaderRow = {
+        root?: string;
+    };
+    type Container = {
+        root?: string;
+    };
+    type Wrapper = {
+        root?: string;
+    };
+    type Table = {
+        root?: string;
+    };
+    type Footer = {
+        root?: string;
+    };
+    type Body = {
+        root?: string;
+    };
+    type Pagination = {
+        root?: string;
+    };
 }
-type PaginationProps = {
+interface HeaderOptions<T> {
+    selection?: boolean;
+    onSort: (columnAccessor: keyof T) => void;
+    cell: HeaderCellOptions<T>;
+}
+type ProviderProps = {
+    store: ReturnType<typeof createStore>;
+};
+type Row<T> = {
+    index: number;
+} & T;
+type ColumnResize = {
+    width: number;
+};
+type HeaderCell<T> = Column<T>;
+interface EditableCell<T> {
+    row: Row<T>;
+    column: Column<T>;
+}
+type Cell<T> = {
+    value: any;
+    row: Row<T>;
+    column: Column<T>;
+};
+type UpdateRowCallback<T> = (row: Row<T>) => void;
+interface RowOptions<T> {
+    editable?: boolean;
+    indexing?: {
+        enabled: boolean;
+        label: string;
+    };
+    selection?: boolean;
+    onClick?: (info: Row<T>, updateRow?: UpdateRowCallback<T>) => void;
+    classes?: Classes.Row;
+    overrideClasses?: Classes.Row;
+}
+type PaginationOptions<T> = {
+    enabled: boolean;
     totalPages: number;
     currentPage: number;
     itemsPerPage: number;
 };
-type HeaderClasses = {
-    root?: string;
-    cell?: HeaderCellClasses;
-    row?: RowClasses;
-};
-interface HeaderProps<T> {
-    columns: TableColumn<T>[];
-    onSort: (columnAccessor: keyof T) => void;
-    sortedColumn: keyof T | null;
-    sortDirection: "asc" | "desc";
-    onFilterChange: (columnAccessor: keyof T, value: any) => void;
-    classes?: HeaderClasses;
-    overrideClasses?: HeaderClasses;
-}
-type HeaderCellResizeHandleClasses = {
-    root?: string;
-};
-type ColumnResizeHandleProps<T> = {
-    classes?: HeaderCellResizeHandleClasses;
-    overrideClasses?: HeaderCellResizeHandleClasses;
-};
-type HeaderCellClasses = {
-    root?: string;
-    resizeHandle?: HeaderCellResizeHandleClasses;
-};
-type ResizeInfo = {
-    width: number;
-};
-type HeaderCellInfo<T> = TableColumn<T>;
-interface HeaderCellProps<T> {
+type UpdateHeaderCellCallback<T> = (row: HeaderCell<T>) => void;
+interface HeaderCellOptions<T> {
     width?: number;
-    onClick: () => void;
-    onResize: (e: any, info: ResizeInfo) => void;
-    column: TableColumn<T>;
-    onCellClick?: (info: HeaderCellInfo<T>) => void;
-    classes?: HeaderCellClasses;
-    overrideClasses?: HeaderCellClasses;
-    children?: React.ReactNode;
+    onClick?: (info: HeaderCell<T>, updateHeaderCell?: UpdateHeaderCellCallback<T>) => void;
+    onResize?: (e: any, info: ColumnResize) => void;
 }
-interface EditableCellInfo<T> {
-    row: TableRow<T>;
-    column: TableColumn<T>;
+interface EditableCellOptions<T> {
+    value: any;
+    row: Row<T>;
+    column: Column<T>;
+    onChange: (info: EditableCell<T>, value: any) => void;
 }
-interface EditableCellProps<T> {
-    value: any;
-    row: TableRow<T>;
-    column: TableColumn<T>;
-    onChange: (info: EditableCellInfo<T>, value: any) => void;
-}
-type FooterClasses = {
-    root?: string;
-    cell?: CellClasses;
-    row?: RowClasses;
-};
-type CellClasses = {
-    root?: string;
-};
-type CellInfo<T> = {
-    value: any;
-    row: TableRow<T>;
-    column: TableColumn<T>;
-};
-type CellProps<T> = {
-    value: any;
-    row: TableRow<T>;
-    column: TableColumn<T>;
+type UpdateCellCallback<T> = (row: Row<T>) => void;
+type CellOptions<T> = {
+    editable?: boolean;
     selection?: boolean;
-    onCellClick?: (info: CellInfo<T>) => void;
-    onCellChange?: (info: EditableCellInfo<T>, value: any) => void;
-    classes?: CellClasses;
-    overrideClasses?: CellClasses;
+    onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
+    onChange?: (info: EditableCell<T>, value: any) => void;
 };
-type BodyClasses = {
-    root?: string;
-    cell?: CellClasses;
-    row?: RowClasses;
-};
-interface BodyProps<T> {
-    data: T[];
-    columns: TableColumn<T>[];
-    cellProps?: TableCellProps<T>;
-    rowProps?: TableRowProps<T>;
-    classes?: BodyClasses;
-    overrideClasses?: BodyClasses;
-}
-type ContainerClasses = {
-    root?: string;
-    wrapper?: WrapperClasses;
-};
-type WrapperClasses = {
-    root?: string;
-    table?: TableClasses;
-};
-type TableClasses = {
-    root?: string;
-    header?: HeaderClasses;
-    footer?: FooterClasses;
-    body?: BodyClasses;
-};
-interface TableColumn<T> {
+interface Column<T> {
     header: string;
     name: keyof T;
     width?: number;
@@ -131,24 +122,68 @@ interface TableColumn<T> {
     flex?: boolean;
     editable?: boolean;
     filterable?: boolean;
-    render?: (info: CellInfo<T>) => React.ReactNode;
+    render?: (info: Cell<T>) => React.ReactNode;
 }
-type TableCellProps<T> = Omit<CellProps<T>, "value" | "row" | "column">;
-type TableRowProps<T> = Omit<RowProps<T>, "row" | "columns">;
-type TableProps<T> = {
-    data: T[];
-    columns: TableColumn<T>[];
-    paginationProps?: PaginationProps;
-    rowProps?: TableRowProps<T>;
-    cellProps?: TableCellProps<T>;
+type SortOptions<T> = {
     defaultSortedColumn?: keyof T | null;
     defaultSortDirection?: "asc" | "desc";
-    classes?: {
-        container?: ContainerClasses;
+};
+type ClassesOptions<T> = {
+    body?: {
+        classes?: Classes.Body;
+        overrideClasses?: Classes.Body;
     };
-    overrideClasses?: {
-        container?: ContainerClasses;
+    row?: {
+        classes?: Classes.Row;
+        overrideClasses?: Classes.Row;
+    };
+    cell?: {
+        classes?: Classes.Cell;
+        overrideClasses?: Classes.Cell;
+    };
+    header?: {
+        classes?: Classes.Header;
+        overrideClasses?: Classes.Header;
+    };
+    headerRow?: {
+        classes?: Classes.HeaderRow;
+        overrideClasses?: Classes.HeaderRow;
+    };
+    headerCell?: {
+        classes?: Classes.HeaderCell;
+        overrideClasses?: Classes.HeaderCell;
+    };
+    table?: {
+        classes?: Classes.Table;
+        overrideClasses?: Classes.Table;
+    };
+    wrapper?: {
+        classes?: Classes.Wrapper;
+        overrideClasses?: Classes.Wrapper;
+    };
+    container?: {
+        classes?: Classes.Container;
+        overrideClasses?: Classes.Container;
+    };
+    pagination?: {
+        classes?: Classes.Pagination;
+        overrideClasses?: Classes.Pagination;
     };
 };
+type TableOptions<T> = {
+    idProperty: string;
+    data: T[];
+    columns: Column<T>[];
+    row?: RowOptions<T>;
+    cell?: CellOptions<T>;
+    sort?: SortOptions<T>;
+    classes?: ClassesOptions<T>;
+    header?: HeaderOptions<T>;
+    pagination?: PaginationOptions<T>;
+    color?: string;
+};
+type TableProps<T> = {
+    atom: ReturnType<typeof createAtoms<T>>["atom"];
+};
 
-export type { BodyClasses, BodyProps, CellClasses, CellInfo, CellProps, ColumnResizeHandleProps, ContainerClasses, EditableCellInfo, EditableCellProps, FooterClasses, HeaderCellClasses, HeaderCellInfo, HeaderCellProps, HeaderCellResizeHandleClasses, HeaderClasses, HeaderProps, PaginationProps, ResizeInfo, RowClasses, RowProps, TableCellProps, TableClasses, TableColumn, TableProps, TableRow, TableRowProps, WrapperClasses };
+export { type Cell, type CellOptions, Classes, type ClassesOptions, type Column, type ColumnResize, type EditableCell, type EditableCellOptions, type HeaderCell, type HeaderCellOptions, type HeaderOptions, type PaginationOptions, type ProviderProps, type Row, type RowOptions, type SortOptions, type TableOptions, type TableProps, type UpdateCellCallback, type UpdateHeaderCellCallback, type UpdateRowCallback };

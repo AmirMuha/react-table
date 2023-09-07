@@ -1,3 +1,5 @@
+import React from "react";
 import { TableProps } from "types";
-declare const Table: <T extends object>({ defaultSortedColumn, defaultSortDirection, ...props }: TableProps<T>) => import("react/jsx-runtime").JSX.Element;
+declare const TableComponent: <T extends object>({ atom }: TableProps<T>) => React.ReactElement;
+declare const Table: typeof TableComponent;
 export default Table;

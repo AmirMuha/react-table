@@ -53,7 +53,7 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React
         <span>{column.header}</span>
         {sortedColumn === column.name && (
           <div className={coalesce(overrideClasses.sortBtn, sc(classes.sortBtn, "am_table__header__cell--sort-btn"))}>
-            <span>{sortDirection === "asc" ? <i className="ti ti-arrow-narrow-up" /> : <i className="ti ti-arrow-narrow-down" />}</span>
+            <span>{sortDirection === "asc" ? <span>&#xea1a;</span> : <span>&#xea1d;</span>}</span>
           </div>
         )}
       </div>
