@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
 import { TableProps } from "types";
+import React, { memo } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import HeaderCell from "./cell";
-import { memo } from "react";
 
-const HeaderComponent = <T extends object>(props: TableProps<T>) => {
+const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactElement => {
   const [columns] = useAtom(props.atom.columns);
   const [headerRootClass] = useAtom(props.atom.classes.header.classes.root);
   const [headerRootOverrideClass] = useAtom(props.atom.classes.header.overrideClasses.root);
@@ -24,5 +24,5 @@ const HeaderComponent = <T extends object>(props: TableProps<T>) => {
 };
 
 const areEqual = () => true;
-const Header = memo(HeaderComponent, areEqual);
+const Header: typeof HeaderComponent = memo(HeaderComponent, areEqual) as any;
 export default Header;

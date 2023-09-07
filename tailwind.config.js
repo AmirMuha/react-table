@@ -20,18 +20,6 @@ module.exports = {
       },
     },
   },
-  safelist: [
-    { pattern: /(text|bg|border)-(\w+)-([100-900])/ },
-    { pattern: /(text|bg|border)-(primary|error|secondary)/ },
-  ],
-  plugins: [
-    require("precss"),
-    require("cssnano"),
-    require("tailwindcss"),
-    require("autoprefixer"),
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/line-clamp"),
-    require("@tailwindcss/aspect-ratio"),
-    require("@tailwindcss/container-queries"),
-  ],
+  safelist: [{ pattern: /(text|bg|border)-(\w+)-([100-900])/ }, { pattern: /(text|bg|border)-(primary|error|secondary)/ }],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp"), require("@tailwindcss/aspect-ratio"), require("@tailwindcss/container-queries")],
 };

@@ -1,3 +1,5 @@
-import { BodyProps } from "types";
-declare const Body: <T extends object>(props: BodyProps<T>) => import("react/jsx-runtime").JSX.Element;
+import { TableProps } from "types";
+import React from "react";
+declare const BodyComponent: <T extends object>(props: TableProps<T>) => React.ReactElement;
+declare const Body: typeof BodyComponent;
 export default Body;

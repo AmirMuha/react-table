@@ -11,7 +11,7 @@ interface RowProps<T> {
   index: number;
 }
 
-const RowComponent = <T extends object>(props: RowProps<T>) => {
+const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement => {
   const [columns] = useAtom(props.atom.columns);
   const [selection] = useAtom(props.atom.row.selection);
   const [rowEditable] = useAtom(props.atom.row.editable);
@@ -72,5 +72,5 @@ const RowComponent = <T extends object>(props: RowProps<T>) => {
 };
 
 const areEqual = () => true;
-const Row = memo(RowComponent, areEqual);
+const Row: typeof RowComponent = memo(RowComponent, areEqual) as any;
 export default Row;

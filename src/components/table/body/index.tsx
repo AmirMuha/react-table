@@ -3,9 +3,9 @@ import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { useAtom } from "jotai";
 import { TableProps } from "types";
-import { memo } from "react";
+import React, { memo } from "react";
 
-const BodyComponent = <T extends object>(props: TableProps<T>) => {
+const BodyComponent = <T extends object>(props: TableProps<T>): React.ReactElement => {
   const [data] = useAtom(props.atom.data);
   const [currentPage] = useAtom(props.atom.pagination.currentPage);
   const [itemsPerPage] = useAtom(props.atom.pagination.itemsPerPage);
@@ -22,5 +22,5 @@ const BodyComponent = <T extends object>(props: TableProps<T>) => {
 };
 
 const areEqual = () => true;
-const Body = memo(BodyComponent, areEqual);
+const Body: typeof BodyComponent = memo(BodyComponent, areEqual) as any;
 export default Body;

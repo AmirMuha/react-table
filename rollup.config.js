@@ -51,24 +51,14 @@ const config = [
       typescript({ tsconfig: "./tsconfig.json" }),
       postcss({
         extract: true,
-        plugins: [
-          require("@fullhuman/postcss-purgecss")({
-            content: ["./**/*.html", "./src/**/*.tsx"],
-          }),
-          require("autoprefixer")(),
-          require("cssnano")(),
-        ],
+        plugins: [require("tailwindcss")(), require("autoprefixer")(), require("cssnano")()],
       }),
       terser(),
       json(),
       babel({
         babelHelpers: "bundled", // Choose the helper method
         exclude: "node_modules/**", // Exclude external dependencies
-        presets: [
-          "@babel/preset-env",
-          "@babel/preset-react",
-          "@babel/preset-typescript",
-        ], // Add required presets
+        presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"], // Add required presets
       }),
     ],
   },

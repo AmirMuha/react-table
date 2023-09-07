@@ -1,8 +1,8 @@
 import { useAtom } from "jotai";
-import { memo } from "react";
+import React, { memo } from "react";
 import { TableProps } from "types";
 
-const PaginationComponent = <T = unknown,>(props: TableProps<T>) => {
+const PaginationComponent = <T = unknown,>(props: TableProps<T>): React.ReactElement => {
   const [data] = useAtom(props.atom.data);
   const [currentPage] = useAtom(props.atom.pagination.currentPage);
   const [itemsPerPage] = useAtom(props.atom.pagination.itemsPerPage);
@@ -32,5 +32,5 @@ const PaginationComponent = <T = unknown,>(props: TableProps<T>) => {
 };
 
 const areEqual = () => true;
-const Pagination = memo(PaginationComponent, areEqual);
+const Pagination: typeof PaginationComponent = memo(PaginationComponent, areEqual) as any;
 export default Pagination;

@@ -3,7 +3,6 @@
     "target": "ES5",
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "src",
     "outDir": "dist",
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "react"
   },
   "include": [
     "src"

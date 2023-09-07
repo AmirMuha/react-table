@@ -1,3 +1,5 @@
-import { HeaderProps } from "types";
-declare const Header: <T extends object>(props: HeaderProps<T>) => import("react/jsx-runtime").JSX.Element;
+import { TableProps } from "types";
+import React from "react";
+declare const HeaderComponent: <T extends object>(props: TableProps<T>) => React.ReactElement;
+declare const Header: typeof HeaderComponent;
 export default Header;

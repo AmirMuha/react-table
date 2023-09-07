@@ -10,7 +10,7 @@ interface HeaderCellProps<T> {
   index: number;
 }
 
-const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>) => {
+const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React.ReactElement => {
   const { classes, overrideClasses } = useClasses(props);
   const [column, setColumn] = useAtom(props.column);
   const [sortedColumn, setSortedColumn] = useAtom(props.atom.sort.defaultSortedColumn);
@@ -92,5 +92,5 @@ function useClasses<T>(props: HeaderCellProps<T>) {
 }
 
 const areEqual = () => true;
-const HeaderCell = memo(HeaderCellComponent, areEqual);
+const HeaderCell: typeof HeaderCellComponent = memo(HeaderCellComponent, areEqual) as any;
 export default HeaderCell;
