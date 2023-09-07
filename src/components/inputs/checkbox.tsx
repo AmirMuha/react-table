@@ -1,6 +1,6 @@
 import sc from "common/helper/sc";
 import { TableProps } from "types";
-import { memo } from "react";
+import React, { memo } from "react";
 
 interface CheckboxProps<T> {
   atom: TableProps<T>["atom"];
