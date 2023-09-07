@@ -1,4 +1,4 @@
-const Footer = () => {
+const Footer = (): React.ReactElement => {
   return <div></div>;
 };
 
