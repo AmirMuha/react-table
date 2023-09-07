@@ -1,6 +1,7 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
+import sort from "common/helper/sort";
 import { Column, TableProps } from "types";
 import { atom, useAtom } from "jotai";
 
@@ -12,13 +13,13 @@ interface HeaderCellProps<T> {
 
 const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>) => {
   const { classes, overrideClasses } = useClasses(props);
+  const [data, setData] = useAtom(props.atom.data);
   const [column, setColumn] = useAtom(props.column);
   const [sortedColumn, setSortedColumn] = useAtom(props.atom.sort.defaultSortedColumn);
   const [sortDirection, setSortDirection] = useAtom(props.atom.sort.defaultSortDirection);
 
   const onCellClick = props.atom.header.cell.onClick;
-  const handleSort = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.stopPropagation();
+  const handleSort = () => {
     if (sortedColumn === column.name) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
@@ -27,7 +28,14 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>) => {
     }
   };
 
+  useEffect(() => {
+    if (sortDirection && sortedColumn) {
+      setData(sort<any>(data, sortedColumn, sortDirection));
+    }
+  }, [sortDirection, sortedColumn]);
+
   const handleCellClick = () => {
+    handleSort();
     if (onCellClick) onCellClick(column, setColumn);
   };
 
@@ -41,7 +49,14 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>) => {
       onClick={handleCellClick}
       className={coalesce(overrideClasses.root, sc(classes.root, "am_table__header--cell am_table__header__cell--root"))}
     >
-      <div className={coalesce(overrideClasses.content, sc(classes.content, "am_table__header__cell--content"))}>{column.header}</div>
+      <div className={coalesce(overrideClasses.content, sc(classes.content, "am_table__header__cell--content"))}>
+        <span>{column.header}</span>
+        {sortedColumn === column.name && (
+          <div className={coalesce(overrideClasses.sortBtn, sc(classes.sortBtn, "am_table__header__cell--sort-btn"))}>
+            <span>{sortDirection === "asc" ? <i className="ti ti-arrow-narrow-up" /> : <i className="ti ti-arrow-narrow-down" />}</span>
+          </div>
+        )}
+      </div>
       {column.filterable ? (
         <>
           {/*
@@ -51,11 +66,6 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>) => {
         */}
         </>
       ) : null}
-      {sortedColumn === column.name && (
-        <div onClick={handleSort} className={coalesce(overrideClasses.sortBtn, sc(classes.sortBtn, "am_table__header__cell--sort-btn"))}>
-          <span>{sortDirection === "asc" ? "↑" : "↓"}</span>
-        </div>
-      )}
       <ResizeHandle {...props} />
     </th>
   );
