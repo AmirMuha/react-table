@@ -3,7 +3,7 @@ import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { atom, useAtom } from "jotai";
 import { Cell as CellType, Column, Row, TableProps } from "types";
-import { memo } from "react";
+import React, { memo } from "react";
 
 interface CellProps<T> {
   atom: TableProps<T>["atom"];

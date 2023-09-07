@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { memo } from "react";
+import React, { memo } from "react";
 import { TableProps } from "types";
 
 const PaginationComponent = <T = unknown,>(props: TableProps<T>): React.ReactElement => {

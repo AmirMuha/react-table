@@ -1,6 +1,6 @@
+import React, { memo } from "react";
 import { useAtom } from "jotai";
 import { TableProps } from "types";
-import { memo } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import HeaderCell from "./cell";

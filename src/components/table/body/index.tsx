@@ -3,7 +3,7 @@ import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { useAtom } from "jotai";
 import { TableProps } from "types";
-import { memo } from "react";
+import React, { memo } from "react";
 
 const BodyComponent = <T extends object>(props: TableProps<T>): React.ReactElement => {
   const [data] = useAtom(props.atom.data);
