@@ -1,6 +1,13 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@import "./tabler-icons.min.css";
+
 :root {
   --am__table-color: rgb(198, 61, 47);
   --am__table-hover-color: rgba(198, 61, 47, .15);
+  --am__table-focus-color: rgba(198, 61, 47, .3);
   --am__table-selected-color: rgba(198, 61, 47, .4);
   --am__table-resize-handle-color: white;
 }
@@ -36,7 +43,7 @@ html {
 }
 
 .am_table__header--cell.am_table__header__cell--root {
-  cursor: default;
+  cursor: pointer;
 }
 
 .am_table__header--cell.am_table__header__cell--root, .am_table__body--cell.am_table__body__cell--root {
@@ -62,7 +69,7 @@ html {
 }
 
 .am_table__body--cell.am_table__body__cell--root {
-  color: black;
+  width: 100%;
 }
 
 .am_table__header--row .am_table__header--cell.am_table__header__cell--root:first-child {
@@ -107,6 +114,8 @@ html {
 }
 
 .am_table__header--cell.am_table__header__cell--root {
+  width: 100%;
+  text-align: center;
   position: relative;
 }
 
@@ -143,9 +152,52 @@ html {
 .am_table__header--cell .am_table__header__cell--content {
   color: white;
   padding: 0 10px;
+  @apply am__flex am__items-center am__gap-2 am__justify-center;
 }
 .am_table__header--cell .am_table__header__cell--sort-btn {
   color: white;
   padding: 4px;
   border-radius: 100%;
+}
+
+.am_input--checkbox.am_input__checkbox--root {
+  color: var(--am__table-color);
+  padding: 2px;
+}
+
+.am_input__checkbox--check {
+  @apply am__rounded-[4px] am__w-full am__h-full am__border am__border-solid;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  background-color: white;
+  border-color: var(--am__table-color);
+}
+
+.am_input__checkbox--check .am_input__checkbox__check--inner {
+  @apply am__w-full am__h-full am__rounded-[2px];
+}
+
+.am_input__checkbox--checked .am_input__checkbox__check--inner {
+  background-color: var(--am__table-color);
+}
+
+.am_input__checkbox--check .am_input__checkbox__check--inner:hover {
+  background-color: var(--am__table-focus-color);
+}
+
+.am_table__header--cell .am_input__checkbox--check {
+  color: white;
+}
+
+.am_table__body--cell .am_input__checkbox--check:hover {
+  background-color: var(--am__table-hover-color);
+}
+
+.am_table__header__cell--root .am_table__header__cell--row-number {
+  font-size: 14px;
+}
+
+.am_table__body__cell--root .am_table__body__cell--row-number {
+  font-size: 14px;
 }

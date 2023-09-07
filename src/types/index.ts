@@ -1,4 +1,4 @@
-import { createAtoms } from "components/util/atoms";
+import createAtoms from "components/util/atoms";
 import { createStore } from "jotai";
 
 export namespace Classes {

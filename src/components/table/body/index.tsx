@@ -12,10 +12,11 @@ const BodyComponent = <T extends object>(props: TableProps<T>): React.ReactEleme
   const [bodyRootClass] = useAtom(props.atom.classes.body.classes.root);
   const [bodyRootOverrideClass] = useAtom(props.atom.classes.body.overrideClasses.root);
   const paginatedData = itemsPerPage && itemsPerPage !== 0 ? data.slice(((currentPage ?? 0) - 1) * itemsPerPage, (currentPage ?? 0) * itemsPerPage) : data;
+
   return (
     <tbody className={coalesce(bodyRootOverrideClass, sc(bodyRootClass, "am_table__body am_table__body--root"))}>
       {paginatedData.map((row, rowIndex) => (
-        <Row key={`body_row_${rowIndex}`} index={rowIndex} row={row as any} atom={props.atom as any} />
+        <Row key={`body_row_${rowIndex}`} index={rowIndex} row={row as any} atom={props.atom} />
       ))}
     </tbody>
   );
