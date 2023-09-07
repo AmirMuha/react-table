@@ -1,10 +1,11 @@
 {
   "name": "amirmuha-react-table",
   "description": "react-table is a small, easy to use, highly customizable, and develoepr friendly library for handling tables. Supporting a wide range of features.",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "peerDependencies": {
+    "jotai": "^2",
     "react": "^16 || ^17 || ^18",
     "react-dom": "^16 || ^17 || ^18"
   },
@@ -45,6 +46,10 @@
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.2.0",
     "@rollup/plugin-typescript": "^11.1.2",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.5",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.41",
     "@types/react-dom": "^18.2.7",
