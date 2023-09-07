@@ -1,6 +1,9 @@
+import AmirMuhaTable from 'components/table';
+export { default } from 'components/table';
 import { createAtoms } from 'components/util/atoms';
+export { createAtoms } from 'components/util/atoms';
 import { createStore } from 'jotai';
-export { default as AmirMuhaTable } from 'components/table';
+export { default as TableProvider } from 'components/table/provider';
 
 declare namespace Classes {
     type Cell = {

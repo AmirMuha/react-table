@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { createAtoms } from "components/util/atoms";
 import { createStore } from "jotai";
 export declare namespace Classes {
