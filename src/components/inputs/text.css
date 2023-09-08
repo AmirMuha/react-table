@@ -1,0 +1,8 @@
+.am_table__body--cell:has(.am_input__text--input) {
+  padding: 0;
+}
+
+.am_input__text--input {
+  width: 100%;
+  text-align: center;
+}
