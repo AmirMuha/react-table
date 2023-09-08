@@ -12,11 +12,9 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>) {
 
 function getCellAtoms<T>(initialOptions?: CellOptions<T>) {
   return {
-    editable: atom(initialOptions?.editable ?? false),
     selection: atom(initialOptions?.selection ?? false),
     selected: atom<Record<string, any>>({}),
     onClick: initialOptions?.onClick,
-    onChange: initialOptions?.onChange,
   };
 }
 
@@ -39,7 +37,6 @@ function getHeaderAtoms<T>(initialOptions?: HeaderOptions<T>) {
 
 function getRowAtoms<T>(initialOptions?: RowOptions<T>) {
   return {
-    editable: atom(initialOptions?.editable ?? false),
     selected: atom<Record<string, T>>({}),
     selection: atom(initialOptions?.selection ?? false),
     onClick: initialOptions?.onClick,
@@ -122,7 +119,7 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>) {
     columnsMap: atom(columnsMap),
     idProperty: atom(initialOptions.idProperty ?? "id"),
     columns: atom(initialOptions.columns.map((col) => atom(col))),
-    data: atom(initialOptions.data),
+    data: atom(initialOptions.data ?? []),
     color: atom(initialOptions.color),
     header: getHeaderAtoms<T>(initialOptions.header),
     sort: getSortAtoms<T>(initialOptions.sort),
@@ -130,6 +127,7 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>) {
     cell: getCellAtoms<T>(initialOptions.cell),
     pagination: getPaginationAtoms<T>(initialOptions.pagination),
     classes: getClassesAtoms<T>(initialOptions.classes),
+    rtl: atom(initialOptions.rtl),
   };
   return { atom: tableAtom, store };
 }

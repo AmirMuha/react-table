@@ -5,7 +5,7 @@ import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import HeaderCell from "./cell";
 import useSetupHeader from "./setup";
-import Checkbox from "components/inputs/checkbox";
+import { Checkbox } from "components/inputs/checkbox";
 
 const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactElement => {
   const [data] = useAtom(props.atom.data);
