@@ -1,6 +1,6 @@
-/// <reference types="react" />
 import createAtoms from "components/util/atoms";
 import { createStore } from "jotai";
+import React from "react";
 export declare namespace Classes {
     type Cell = {
         root?: string;

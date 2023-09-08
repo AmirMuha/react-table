@@ -1,5 +1,6 @@
 import createAtoms from "components/util/atoms";
 import { createStore } from "jotai";
+import React from "react";
 
 export namespace Classes {
   export type Cell = { root?: string };

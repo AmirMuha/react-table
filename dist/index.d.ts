@@ -3,6 +3,7 @@ export { default } from 'components/table';
 import createAtoms from 'components/util/atoms';
 export { default as createAtoms } from 'components/util/atoms';
 import { createStore } from 'jotai';
+import React from 'react';
 export { default as TableProvider } from 'components/table/provider';
 
 declare namespace Classes {

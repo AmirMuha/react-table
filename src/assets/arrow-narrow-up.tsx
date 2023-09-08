@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function ArrowNarrowUp() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

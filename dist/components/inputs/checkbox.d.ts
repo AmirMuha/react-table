@@ -1,4 +1,5 @@
 import { TableProps } from "types";
+import React from "react";
 interface CheckboxProps<T> {
     atom: TableProps<T>["atom"];
     checked: boolean;
