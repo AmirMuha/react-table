@@ -20,28 +20,28 @@ module.exports = [
         format: "esm",
         sourcemap: true,
       },
-      {
-        name: "amirmuha-react-table",
-        file: "dist/cjs/index.js",
-        format: "cjs",
-        sourcemap: true,
-      },
-      {
-        name: "amirmuha-react-table",
-        file: "dist/esm/index.js",
-        format: "esm",
-        sourcemap: true,
-      },
-      {
-        name: "amirmuha-react-table",
-        file: "dist/umd/index.js",
-        format: "umd",
-        sourcemap: true,
-        globals: {
-          react: "React", // Define global dependencies for UMD
-          "react-dom": "ReactDOM", // Add more if needed
-        },
-      },
+      // {
+      //   name: "amirmuha-react-table",
+      //   file: "dist/cjs/index.js",
+      //   format: "cjs",
+      //   sourcemap: true,
+      // },
+      // {
+      //   name: "amirmuha-react-table",
+      //   file: "dist/esm/index.js",
+      //   format: "esm",
+      //   sourcemap: true,
+      // },
+      // {
+      //   name: "amirmuha-react-table",
+      //   file: "dist/umd/index.js",
+      //   format: "umd",
+      //   sourcemap: true,
+      //   globals: {
+      //     react: "React", // Define global dependencies for UMD
+      //     "react-dom": "ReactDOM", // Add more if needed
+      //   },
+      // },
     ],
     plugins: [
       peerDepsExternal(),
