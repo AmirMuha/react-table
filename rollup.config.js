@@ -18,7 +18,6 @@ module.exports = [
         name: "amirmuha-react-table",
         file: "dist/index.js",
         format: "esm",
-        sourcemap: true,
       },
       // {
       //   name: "amirmuha-react-table",
@@ -51,9 +50,13 @@ module.exports = [
       typescript({ tsconfig: "./tsconfig.json" }),
       postcss({
         extract: true,
-        plugins: [require("tailwindcss")(), require("autoprefixer")(), require("cssnano")()],
+        config: {
+          path: "./postcss.config.js",
+        },
+        extensions: [".css"],
+        minimize: true,
       }),
-      terser(),
+      terser({ compress: true, keep_classnames: true }),
       json(),
       babel({
         babelHelpers: "bundled", // Choose the helper method
@@ -63,7 +66,7 @@ module.exports = [
     ],
   },
   {
-    input: "src/index.ts",
+    input: ["src/index.ts"],
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [dts()],
     external: [/\.css$/],
