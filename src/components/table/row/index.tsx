@@ -61,24 +61,19 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
       onClick={handleRowClick}
     >
       {selection ? (
-        <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root"))}>
-          <Checkbox checked={isRowSelected} onChange={toggleRowSelection} atom={props.atom as any} />
+        <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root am_table__body__cell--checkbox"))}>
+          <div className="am_table__body__cell__checkbox--root">
+            <Checkbox checked={isRowSelected} onChange={toggleRowSelection} atom={props.atom as any} />
+          </div>
         </td>
       ) : null}
       {indexingEnabled ? (
-        <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root"))}>
-          <div className="am_table__body__cell--row-number">{rowNumber}</div>
+        <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root am_table__body__cell--row-number"))}>
+          <div className="am_table__body__cell__row-number--root">{rowNumber}</div>
         </td>
       ) : null}
       {columns.map((column, columnIndex) => (
-        <Cell
-          key={`body_row_cell_${columnIndex}`}
-          atom={props.atom}
-          row={atom(row) as any}
-          column={column}
-          columnIndex={columnIndex}
-          rowIndex={props.index}
-        />
+        <Cell key={`body_row_cell_${columnIndex}`} atom={props.atom} row={atom(row) as any} column={column} columnIndex={columnIndex} rowIndex={props.index} />
       ))}
     </tr>
   );

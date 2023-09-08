@@ -1,7 +1,7 @@
 {
   "name": "amirmuha-react-table",
   "description": "react-table is a small, easy to use, highly customizable, and develoepr friendly library for handling tables. Supporting a wide range of features.",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "peerDependencies": {

@@ -4,6 +4,8 @@ import coalesce from "common/helper/coalesce";
 import sort from "common/helper/sort";
 import { Column, TableProps } from "types";
 import { atom, useAtom } from "jotai";
+import ArrowNarrowDown from "assets/arrow-narrow-down";
+import ArrowNarrowUp from "assets/arrow-narrow-up";
 
 interface HeaderCellProps<T> {
   atom: TableProps<T>["atom"];
@@ -42,7 +44,7 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React
   return (
     <th
       style={{
-        width: column.flex ? "100% !important" : column.width,
+        width: column.flex ? "100% !important" : column.width ?? "fit-content",
         minWidth: column.width ? column.width : column.minWidth,
         maxWidth: column.width ? column.width : column.maxWidth,
       }}
@@ -53,7 +55,9 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React
         <span>{column.header}</span>
         {sortedColumn === column.name && (
           <div className={coalesce(overrideClasses.sortBtn, sc(classes.sortBtn, "am_table__header__cell--sort-btn"))}>
-            <span>{sortDirection === "asc" ? <span>&#xea1a;</span> : <span>&#xea1d;</span>}</span>
+            <span className="am_table__header__cell__sort-btn--arrows">
+              {sortDirection === "asc" ? <ArrowNarrowDown width={18} height={20} /> : <ArrowNarrowUp width={18} height={20} />}
+            </span>
           </div>
         )}
       </div>
