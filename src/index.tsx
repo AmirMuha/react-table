@@ -18,9 +18,6 @@ const { store, atom } = createAtoms<any>({
   row: { selection: true, indexing: { enabled: true, label: "ردیف" } },
   columns: [
     { name: "first_name", header: "نام", width: 300 },
-    { name: "first_name", header: "نام", width: 300 },
-    { name: "first_name", header: "نام", width: 300 },
-    { name: "first_name", header: "نام", width: 300 },
     { name: "last_name", header: "نام خانوادگی", flex: true, minWidth: 500 },
   ],
   data: [],
