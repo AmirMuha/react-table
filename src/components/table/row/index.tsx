@@ -61,7 +61,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
       {selection ? (
         <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root am_table__body__cell--checkbox"))}>
           <div className="am_table__body__cell__checkbox--root">
-            <Checkbox checked={isRowSelected} onChange={toggleRowSelection} atom={props.atom as any} />
+            <Checkbox checked={isRowSelected} onChange={toggleRowSelection} />
           </div>
         </td>
       ) : null}

@@ -1,5 +1,6 @@
 import CheckboxInput from "components/inputs/checkbox";
 import DateInput from "components/inputs/date";
+import MoneyInput from "components/inputs/money";
 import NumberInput from "components/inputs/number";
 import SelectInput from "components/inputs/select";
 import TextInput from "components/inputs/text";
@@ -25,6 +26,7 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): R
     setEditing(true);
   };
 
+  console.log(editing);
   const handleCloseEditing = () => setEditing(false);
 
   const info: Cell<T> = { value, row: row, column: column };
@@ -33,12 +35,15 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): R
     <div className="am_table__body__cell--editable">
       {column.editable?.type === "text" ? <TextInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "number" ? <NumberInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "money" ? <MoneyInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "checkbox" ? <CheckboxInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "date" ? <DateInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "select" ? <SelectInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
     </div>
   ) : (
-    <div onDoubleClick={handleDoubleClick}>{resolvedChild}</div>
+    <div className="am_table__body__cell--editable" onDoubleClick={handleDoubleClick}>
+      <div className="am_table__body__cell__editable--content">{resolvedChild}</div>
+    </div>
   );
 };
 

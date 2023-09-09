@@ -82,9 +82,13 @@ export type CellOptions<T> = {
   onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
 };
 
-export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date";
+export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date" | "money";
 export type EditableCellOption<T> = { enabled: boolean; type: EditableCellType; onChange: (info: Cell<T>) => void };
 export type EditableCellAutoFetchOptionsFn<T> = <Option>(info: Cell<T>) => Option[];
+export interface EditableCellMoneyOptions<T> extends EditableCellOption<T> {
+  type: "money";
+  enabled: boolean;
+}
 export interface EditableCellTextOptions<T> extends EditableCellOption<T> {
   type: "text";
   enabled: boolean;
@@ -120,6 +124,7 @@ export interface Column<T> {
   flex?: boolean;
   editable?:
     | EditableCellTextOptions<T>
+    | EditableCellMoneyOptions<T>
     | EditableCellNumberOptions<T>
     | EditableCellCheckboxOptions<T>
     | EditableCellDateOptions<T>

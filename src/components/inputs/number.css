@@ -1,0 +1,23 @@
+.no-spinners {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.am_table__container input[type="number"]::-webkit-inner-spin-button,
+.am_table__container input[type="number"]::-webkit-outer-spin-button {
+  display: none;
+  @apply no-spinners;
+}
+.am_table__body--cell:has(.am_input__number--input) {
+  padding: 0;
+}
+
+.am_input__number--input {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
