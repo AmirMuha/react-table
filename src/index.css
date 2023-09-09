@@ -67,6 +67,7 @@ html {
   border-bottom: none;
 }
 .am_table__body--cell.am_table__body__cell--root {
+  position: relative;
   text-align: center;
   border: 1px solid var(--am__table-color); /* Border for cells */
   border-bottom: none;
@@ -270,3 +271,10 @@ html {
   @apply am__top-1/2 am__-translate-y-1/2;
 }
 .am_table__header__cell--sort-btn .am_table__header__cell__sort-btn--arrows {}
+.am_table__body__cell--editable {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

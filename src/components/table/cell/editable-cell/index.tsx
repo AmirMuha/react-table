@@ -30,7 +30,7 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): R
   const info: Cell<T> = { value, row: row, column: column };
   let resolvedChild = column.render ? column.render(info) : value;
   return editing ? (
-    <div>
+    <div className="am_table__body__cell--editable">
       {column.editable?.type === "text" ? <TextInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "number" ? <NumberInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "checkbox" ? <CheckboxInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
