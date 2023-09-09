@@ -1,9 +1,9 @@
 import AmirMuhaTable from 'components/table';
-export { default } from 'components/table';
 import React from 'react';
 import createAtoms from 'components/util/atoms';
-export { default as createAtoms } from 'components/util/atoms';
 import { createStore } from 'jotai';
+export { default } from 'components/table';
+export { default as createAtoms } from 'components/util/atoms';
 export { default as TableProvider } from 'components/table/provider';
 
 declare namespace Classes {
@@ -53,32 +53,32 @@ declare namespace Classes {
         root?: string;
     };
 }
-interface HeaderOptions<T> {
+declare interface HeaderOptions<T> {
     selection?: boolean;
     onSort: (columnAccessor: keyof T) => void;
     cell: HeaderCellOptions<T>;
 }
-type ProviderProps = {
+declare type ProviderProps = {
     store: ReturnType<typeof createStore>;
 };
-type Row<T> = {
+declare type Row<T> = {
     index: number;
 } & T;
-type ColumnResize = {
+declare type ColumnResize = {
     width: number;
 };
-type HeaderCell<T> = Column<T>;
-interface EditableCell<T> {
+declare type HeaderCell<T> = Column<T>;
+declare interface EditableCell<T> {
     row: Row<T>;
     column: Column<T>;
 }
-type Cell<T> = {
+declare type Cell<T> = {
     value: any;
     row: Row<T>;
     column: Column<T>;
 };
-type UpdateRowCallback<T> = (row: Row<T>) => void;
-interface RowOptions<T> {
+declare type UpdateRowCallback<T> = (row: Row<T>) => void;
+declare interface RowOptions<T> {
     indexing?: {
         enabled: boolean;
         label: string;
@@ -88,52 +88,52 @@ interface RowOptions<T> {
     classes?: Classes.Row;
     overrideClasses?: Classes.Row;
 }
-type PaginationOptions<T> = {
+declare type PaginationOptions<T> = {
     enabled: boolean;
     totalPages: number;
     currentPage: number;
     itemsPerPage: number;
 };
-type UpdateHeaderCellCallback<T> = (row: HeaderCell<T>) => void;
-interface HeaderCellOptions<T> {
+declare type UpdateHeaderCellCallback<T> = (row: HeaderCell<T>) => void;
+declare interface HeaderCellOptions<T> {
     width?: number;
     onClick?: (info: HeaderCell<T>, updateHeaderCell?: UpdateHeaderCellCallback<T>) => void;
     onResize?: (e: any, info: ColumnResize) => void;
 }
-interface EditableCellOptions<T> {
+declare interface EditableCellOptions<T> {
     value: any;
     row: Row<T>;
     column: Column<T>;
 }
-type UpdateCellCallback<T> = (row: Row<T>) => void;
-type CellOptions<T> = {
+declare type UpdateCellCallback<T> = (row: Row<T>) => void;
+declare type CellOptions<T> = {
     selection?: boolean;
     onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
 };
-type EditableCellType = "select" | "text" | "number" | "checkbox" | "date";
-type EditableCellOption<T> = {
+declare type EditableCellType = "select" | "text" | "number" | "checkbox" | "date";
+declare type EditableCellOption<T> = {
     enabled: boolean;
     type: EditableCellType;
     onChange: (info: Cell<T>) => void;
 };
-type EditableCellAutoFetchOptionsFn<T> = <Option>(info: Cell<T>) => Option[];
-interface EditableCellTextOptions<T> extends EditableCellOption<T> {
+declare type EditableCellAutoFetchOptionsFn<T> = <Option>(info: Cell<T>) => Option[];
+declare interface EditableCellTextOptions<T> extends EditableCellOption<T> {
     type: "text";
     enabled: boolean;
 }
-interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
+declare interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
     type: "checkbox";
     enabled: boolean;
 }
-interface EditableCellDateOptions<T> extends EditableCellOption<T> {
+declare interface EditableCellDateOptions<T> extends EditableCellOption<T> {
     type: "date";
     enabled: boolean;
 }
-interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
+declare interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
     type: "number";
     enabled: boolean;
 }
-interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
+declare interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
     type: "select";
     enabled: boolean;
     options: {
@@ -142,7 +142,7 @@ interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
         getOptionLabel: <Option>(option: Option) => string;
     };
 }
-interface Column<T> {
+declare interface Column<T> {
     header: string;
     name: keyof T;
     width?: number;
@@ -153,11 +153,11 @@ interface Column<T> {
     filterable?: boolean;
     render?: (info: Cell<T>) => React.ReactNode;
 }
-type SortOptions<T> = {
+declare type SortOptions<T> = {
     defaultSortedColumn?: keyof T | null;
     defaultSortDirection?: "asc" | "desc";
 };
-type ClassesOptions<T> = {
+declare type ClassesOptions<T> = {
     body?: {
         classes?: Classes.Body;
         overrideClasses?: Classes.Body;
@@ -199,7 +199,7 @@ type ClassesOptions<T> = {
         overrideClasses?: Classes.Pagination;
     };
 };
-type TableOptions<T> = {
+declare type TableOptions<T> = {
     idProperty: string;
     data?: T[];
     columns: Column<T>[];
@@ -212,7 +212,7 @@ type TableOptions<T> = {
     color?: string;
     rtl?: boolean;
 };
-type TableProps<T> = {
+declare type TableProps<T> = {
     atom: ReturnType<typeof createAtoms<T>>["atom"];
 };
 
