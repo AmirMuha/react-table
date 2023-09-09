@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.html", "./src/**/*.{js,ts,tsx,jsx}"],
+  content: ["./**/*.html", "./src/**/*.{js,ts,tsx,jsx}", "./dist/**/*.{js,ts,tsx,jsx}"],
   prefix: "am__",
   theme: {
     screens: {
@@ -20,5 +20,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/aspect-ratio"), require("@tailwindcss/container-queries")],
+  plugins: [
+    require("cssnano"),
+    require("autoprefixer"),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/container-queries"),
+  ],
 };

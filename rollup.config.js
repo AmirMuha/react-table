@@ -1,16 +1,16 @@
 // rollup.config.js
-import commonjs from "rollup-plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
-import image from "rollup-plugin-image"; // Add this line
-import babel from "@rollup/plugin-babel";
-import { terser } from "rollup-plugin-terser";
-import resolve from "@rollup/plugin-node-resolve";
-import postcss from "rollup-plugin-postcss";
-import dts from "rollup-plugin-dts";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import json from "@rollup/plugin-json";
+const commonjs = require("rollup-plugin-commonjs");
+const typescript = require("@rollup/plugin-typescript");
+const image = require("rollup-plugin-image");
+const babel = require("@rollup/plugin-babel");
+const { terser } = require("rollup-plugin-terser");
+const resolve = require("@rollup/plugin-node-resolve");
+const postcss = require("rollup-plugin-postcss");
+const { dts } = require("rollup-plugin-dts");
+const peerDepsExternal = require("rollup-plugin-peer-deps-external");
+const json = require("@rollup/plugin-json");
 
-const config = [
+module.exports = [
   {
     input: "src/index.ts", // Update with your entry file
     output: [
@@ -18,7 +18,6 @@ const config = [
         name: "amirmuha-react-table",
         file: "dist/index.js",
         format: "esm",
-        sourcemap: true,
       },
       // {
       //   name: "amirmuha-react-table",
@@ -51,9 +50,13 @@ const config = [
       typescript({ tsconfig: "./tsconfig.json" }),
       postcss({
         extract: true,
-        plugins: [require("tailwindcss")(), require("autoprefixer")(), require("cssnano")()],
+        config: {
+          path: "./postcss.config.js",
+        },
+        extensions: [".css"],
+        minimize: true,
       }),
-      terser(),
+      terser({ compress: true, keep_classnames: true }),
       json(),
       babel({
         babelHelpers: "bundled", // Choose the helper method
@@ -63,11 +66,9 @@ const config = [
     ],
   },
   {
-    input: "src/index.ts",
+    input: ["src/index.ts"],
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [dts()],
     external: [/\.css$/],
   },
 ];
-
-export default config;

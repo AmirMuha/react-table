@@ -8,3 +8,10 @@
 /.git
 /.github
 /.env
+./babel.config.js
+./rollup.config.js
+./tsconfig.json
+./postcss.config.js
+./tailwind.config.js
+./.prettierrc
+./pnpm-lock.yaml
