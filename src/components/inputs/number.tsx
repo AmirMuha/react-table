@@ -3,7 +3,7 @@ import { atom, useAtom } from "jotai";
 import React, { memo, useState } from "react";
 import { Cell, Column, Row } from "types";
 
-interface NumberInputProps<T> {
+export interface NumberInputProps<T> {
   value: number;
   row: ReturnType<typeof atom<Row<T>>>;
   column: ReturnType<typeof atom<Column<T>>>;

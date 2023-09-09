@@ -6,7 +6,7 @@ import { Checkbox } from "components/inputs/checkbox";
 import { atom, useAtom } from "jotai";
 import { TableProps } from "types";
 
-interface RowProps<T> {
+export interface RowProps<T> {
   atom: TableProps<T>["atom"];
   row: T;
   index: number;

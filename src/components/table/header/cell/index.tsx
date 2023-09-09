@@ -7,7 +7,7 @@ import { atom, useAtom } from "jotai";
 import ArrowNarrowDown from "assets/arrow-narrow-down";
 import ArrowNarrowUp from "assets/arrow-narrow-up";
 
-interface HeaderCellProps<T> {
+export interface HeaderCellProps<T> {
   atom: TableProps<T>["atom"];
   column: ReturnType<typeof atom<Column<T>>>;
   index: number;
