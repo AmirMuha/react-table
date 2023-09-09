@@ -1,5 +1,6 @@
 import sc from "common/helper/sc";
-import { TableProps } from "types";
+import { Column, Row, TableProps } from "types";
+import { atom } from "jotai";
 import React, { memo } from "react";
 
 interface CheckboxProps<T> {
@@ -18,6 +19,23 @@ const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>): React.ReactEl
   );
 };
 
+interface CheckboxInputProps<T> {
+  value: boolean;
+  row: ReturnType<typeof atom<Row<T>>>;
+  column: ReturnType<typeof atom<Column<T>>>;
+  onFinish: () => void;
+}
+
+const CheckboxInputComponent = <T = unknown,>(props: CheckboxInputProps<T>): React.ReactElement => {
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
+};
+
 const areEqual = <T = unknown,>(p: CheckboxProps<T>, c: CheckboxProps<T>) => p.checked === c.checked;
-const Checkbox: typeof CheckboxComponent = memo(CheckboxComponent, areEqual) as any;
-export default Checkbox;
+export const Checkbox: typeof CheckboxComponent = memo(CheckboxComponent, areEqual) as any;
+const areInputPropsEqual = <T = unknown,>(p: CheckboxInputProps<T>, c: CheckboxInputProps<T>) => p.value === c.value;
+const CheckboxInput: typeof CheckboxInputComponent = memo(CheckboxInputComponent, areInputPropsEqual) as any;
+export default CheckboxInput;

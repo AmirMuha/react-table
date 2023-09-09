@@ -1,6 +1,11 @@
+import CheckboxInput from "components/inputs/checkbox";
+import DateInput from "components/inputs/date";
+import NumberInput from "components/inputs/number";
+import SelectInput from "components/inputs/select";
+import TextInput from "components/inputs/text";
 import { atom, useAtom } from "jotai";
 import React, { memo, useState } from "react";
-import { Column, Row, TableProps } from "types";
+import { Cell, Column, Row, TableProps } from "types";
 
 interface EditableCellProps<T> {
   atom: TableProps<T>["atom"];
@@ -15,26 +20,25 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): R
   const [row] = useAtom(props.row);
   const value: any = row[column.name];
   const [editing, setEditing] = useState(false);
-  const [currentValue, setCurrentValue] = useState(value);
 
-  const onChange = props.atom.cell.onChange;
   const handleDoubleClick = () => {
     setEditing(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(e.target.value);
-  };
+  const handleCloseEditing = () => setEditing(false);
 
-  const handleBlur = () => {
-    if (onChange) onChange({ row, column }, currentValue);
-    setEditing(false);
-  };
-
+  const info: Cell<T> = { value, row: row, column: column };
+  let resolvedChild = column.render ? column.render(info) : value;
   return editing ? (
-    <input type="text" value={currentValue} onChange={handleChange} onBlur={handleBlur} />
+    <div className="am_table__body__cell--editable">
+      {column.editable?.type === "text" ? <TextInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "number" ? <NumberInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "checkbox" ? <CheckboxInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "date" ? <DateInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "select" ? <SelectInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+    </div>
   ) : (
-    <div onDoubleClick={handleDoubleClick}>{value}</div>
+    <div onDoubleClick={handleDoubleClick}>{resolvedChild}</div>
   );
 };
 

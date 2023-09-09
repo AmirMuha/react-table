@@ -1,11 +1,11 @@
+import React, { memo } from "react";
 import { useAtom } from "jotai";
 import { TableProps } from "types";
-import { memo } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import HeaderCell from "./cell";
 import useSetupHeader from "./setup";
-import Checkbox from "components/inputs/checkbox";
+import { Checkbox } from "components/inputs/checkbox";
 
 const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactElement => {
   const [data] = useAtom(props.atom.data);
@@ -36,13 +36,25 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
     <thead className={coalesce(headerRootOverrideClass, sc(headerRootClass, "am_table__header am_table__header--root"))}>
       <tr className={coalesce(headerRowRootOverrideClass, sc(headerRowRootClass, "am_table__header--row am_table__header__row--root"))}>
         {rowSelection ? (
-          <th className={coalesce(headerCellRootOverrideClass, sc(headerCellRootClass, "am_table__header--cell am_table__header__cell--root"))}>
-            <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} atom={props.atom as any} />
+          <th
+            className={coalesce(
+              headerCellRootOverrideClass,
+              sc(headerCellRootClass, "am_table__header--cell am_table__header__cell--root am_table__header__cell--checkbox")
+            )}
+          >
+            <div className="am_table__header__cell__checkbox--root">
+              <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} atom={props.atom as any} />
+            </div>
           </th>
         ) : null}
         {indexingEnabled ? (
-          <th className={coalesce(headerCellRootOverrideClass, sc(headerCellRootClass, "am_table__header--cell am_table__header__cell--root"))}>
-            <div className="am_table__header__cell--row-number">{indexingLabel}</div>
+          <th
+            className={coalesce(
+              headerCellRootOverrideClass,
+              sc(headerCellRootClass, "am_table__header--cell am_table__header__cell--root am_table__header__cell--row-number")
+            )}
+          >
+            <div className="am_table__header__cell__row-number--root">{indexingLabel}</div>
           </th>
         ) : null}
         {columns.map((column, columnIndex) => (

@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from "react";
 import createAtoms from "components/util/atoms";
 import { createStore } from "jotai";
 export declare namespace Classes {
@@ -74,7 +74,6 @@ export type Cell<T> = {
 };
 export type UpdateRowCallback<T> = (row: Row<T>) => void;
 export interface RowOptions<T> {
-    editable?: boolean;
     indexing?: {
         enabled: boolean;
         label: string;
@@ -100,15 +99,44 @@ export interface EditableCellOptions<T> {
     value: any;
     row: Row<T>;
     column: Column<T>;
-    onChange: (info: EditableCell<T>, value: any) => void;
 }
 export type UpdateCellCallback<T> = (row: Row<T>) => void;
 export type CellOptions<T> = {
-    editable?: boolean;
     selection?: boolean;
     onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
-    onChange?: (info: EditableCell<T>, value: any) => void;
 };
+export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date";
+export type EditableCellOption<T> = {
+    enabled: boolean;
+    type: EditableCellType;
+    onChange: (info: Cell<T>) => void;
+};
+export type EditableCellAutoFetchOptionsFn<T> = <Option>(info: Cell<T>) => Option[];
+export interface EditableCellTextOptions<T> extends EditableCellOption<T> {
+    type: "text";
+    enabled: boolean;
+}
+export interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
+    type: "checkbox";
+    enabled: boolean;
+}
+export interface EditableCellDateOptions<T> extends EditableCellOption<T> {
+    type: "date";
+    enabled: boolean;
+}
+export interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
+    type: "number";
+    enabled: boolean;
+}
+export interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
+    type: "select";
+    enabled: boolean;
+    options: {
+        fetch: EditableCellAutoFetchOptionsFn<T>;
+        renderOption: <Option>(option: Option) => React.ReactNode;
+        getOptionLabel: <Option>(option: Option) => string;
+    };
+}
 export interface Column<T> {
     header: string;
     name: keyof T;
@@ -116,7 +144,7 @@ export interface Column<T> {
     minWidth?: number;
     maxWidth?: number;
     flex?: boolean;
-    editable?: boolean;
+    editable?: EditableCellTextOptions<T> | EditableCellNumberOptions<T> | EditableCellCheckboxOptions<T> | EditableCellDateOptions<T> | EditableCellSelectOptions<T>;
     filterable?: boolean;
     render?: (info: Cell<T>) => React.ReactNode;
 }
@@ -168,7 +196,7 @@ export type ClassesOptions<T> = {
 };
 export type TableOptions<T> = {
     idProperty: string;
-    data: T[];
+    data?: T[];
     columns: Column<T>[];
     row?: RowOptions<T>;
     cell?: CellOptions<T>;
@@ -177,6 +205,7 @@ export type TableOptions<T> = {
     header?: HeaderOptions<T>;
     pagination?: PaginationOptions<T>;
     color?: string;
+    rtl?: boolean;
 };
 export type TableProps<T> = {
     atom: ReturnType<typeof createAtoms<T>>["atom"];

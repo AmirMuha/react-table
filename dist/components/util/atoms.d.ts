@@ -45,9 +45,6 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>): {
             };
         };
         row: {
-            editable: import("jotai").PrimitiveAtom<boolean> & {
-                init: boolean;
-            };
             selected: import("jotai").PrimitiveAtom<Record<string, T>> & {
                 init: Record<string, T>;
             };
@@ -75,9 +72,6 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>): {
             };
         };
         cell: {
-            editable: import("jotai").PrimitiveAtom<boolean> & {
-                init: boolean;
-            };
             selection: import("jotai").PrimitiveAtom<boolean> & {
                 init: boolean;
             };
@@ -85,7 +79,6 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>): {
                 init: Record<string, any>;
             };
             onClick: ((info: import("types").Cell<T>, updateCell?: import("types").UpdateCellCallback<T> | undefined) => void) | undefined;
-            onChange: ((info: import("types").EditableCell<T>, value: any) => void) | undefined;
         };
         pagination: {
             enabled: import("jotai").PrimitiveAtom<boolean> & {
@@ -252,6 +245,9 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>): {
                     };
                 };
             };
+        };
+        rtl: import("jotai").PrimitiveAtom<boolean | undefined> & {
+            init: boolean | undefined;
         };
     };
     store: {

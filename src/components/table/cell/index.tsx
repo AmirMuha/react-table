@@ -22,22 +22,25 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
   // const [selected, setSelected] = useAtom(props.atom.cell.selected);
   const value = row[column.name];
   const onCellClick = props.atom.cell.onClick;
-  const onCellChange = props.atom.cell.onChange;
 
-  const info: CellType<T> = {
-    value,
-    row: row,
-    column: column,
-  };
+  const info: CellType<T> = { value, row: row, column: column };
   let resolvedChild = column.render ? column.render(info) : value;
   const handleCellClick = () => {
     if (onCellClick) onCellClick(info);
   };
 
   return (
-    <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root"))} onClick={handleCellClick}>
-      {column.editable && onCellChange ? (
-        <EditableCell atom={props.atom as any} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column as any} row={props.row as any} />
+    <td
+      style={{
+        width: column.flex ? "100% !important" : column.width ?? "fit-content",
+        minWidth: column.width ? column.width : column.minWidth,
+        maxWidth: column.width ? column.width : column.maxWidth,
+      }}
+      className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root"))}
+      onClick={handleCellClick}
+    >
+      {column.editable?.enabled ? (
+        <EditableCell atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} />
       ) : (
         (resolvedChild as any)
       )}

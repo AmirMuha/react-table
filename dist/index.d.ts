@@ -1,5 +1,6 @@
 import AmirMuhaTable from 'components/table';
 export { default } from 'components/table';
+import React from 'react';
 import createAtoms from 'components/util/atoms';
 export { default as createAtoms } from 'components/util/atoms';
 import { createStore } from 'jotai';
@@ -78,7 +79,6 @@ type Cell<T> = {
 };
 type UpdateRowCallback<T> = (row: Row<T>) => void;
 interface RowOptions<T> {
-    editable?: boolean;
     indexing?: {
         enabled: boolean;
         label: string;
@@ -104,15 +104,44 @@ interface EditableCellOptions<T> {
     value: any;
     row: Row<T>;
     column: Column<T>;
-    onChange: (info: EditableCell<T>, value: any) => void;
 }
 type UpdateCellCallback<T> = (row: Row<T>) => void;
 type CellOptions<T> = {
-    editable?: boolean;
     selection?: boolean;
     onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
-    onChange?: (info: EditableCell<T>, value: any) => void;
 };
+type EditableCellType = "select" | "text" | "number" | "checkbox" | "date";
+type EditableCellOption<T> = {
+    enabled: boolean;
+    type: EditableCellType;
+    onChange: (info: Cell<T>) => void;
+};
+type EditableCellAutoFetchOptionsFn<T> = <Option>(info: Cell<T>) => Option[];
+interface EditableCellTextOptions<T> extends EditableCellOption<T> {
+    type: "text";
+    enabled: boolean;
+}
+interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
+    type: "checkbox";
+    enabled: boolean;
+}
+interface EditableCellDateOptions<T> extends EditableCellOption<T> {
+    type: "date";
+    enabled: boolean;
+}
+interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
+    type: "number";
+    enabled: boolean;
+}
+interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
+    type: "select";
+    enabled: boolean;
+    options: {
+        fetch: EditableCellAutoFetchOptionsFn<T>;
+        renderOption: <Option>(option: Option) => React.ReactNode;
+        getOptionLabel: <Option>(option: Option) => string;
+    };
+}
 interface Column<T> {
     header: string;
     name: keyof T;
@@ -120,7 +149,7 @@ interface Column<T> {
     minWidth?: number;
     maxWidth?: number;
     flex?: boolean;
-    editable?: boolean;
+    editable?: EditableCellTextOptions<T> | EditableCellNumberOptions<T> | EditableCellCheckboxOptions<T> | EditableCellDateOptions<T> | EditableCellSelectOptions<T>;
     filterable?: boolean;
     render?: (info: Cell<T>) => React.ReactNode;
 }
@@ -172,7 +201,7 @@ type ClassesOptions<T> = {
 };
 type TableOptions<T> = {
     idProperty: string;
-    data: T[];
+    data?: T[];
     columns: Column<T>[];
     row?: RowOptions<T>;
     cell?: CellOptions<T>;
@@ -181,9 +210,10 @@ type TableOptions<T> = {
     header?: HeaderOptions<T>;
     pagination?: PaginationOptions<T>;
     color?: string;
+    rtl?: boolean;
 };
 type TableProps<T> = {
     atom: ReturnType<typeof createAtoms<T>>["atom"];
 };
 
-export { type Cell, type CellOptions, Classes, type ClassesOptions, type Column, type ColumnResize, type EditableCell, type EditableCellOptions, type HeaderCell, type HeaderCellOptions, type HeaderOptions, type PaginationOptions, type ProviderProps, type Row, type RowOptions, type SortOptions, type TableOptions, type TableProps, type UpdateCellCallback, type UpdateHeaderCellCallback, type UpdateRowCallback };
+export { type Cell, type CellOptions, Classes, type ClassesOptions, type Column, type ColumnResize, type EditableCell, type EditableCellAutoFetchOptionsFn, type EditableCellCheckboxOptions, type EditableCellDateOptions, type EditableCellNumberOptions, type EditableCellOption, type EditableCellOptions, type EditableCellSelectOptions, type EditableCellTextOptions, type EditableCellType, type HeaderCell, type HeaderCellOptions, type HeaderOptions, type PaginationOptions, type ProviderProps, type Row, type RowOptions, type SortOptions, type TableOptions, type TableProps, type UpdateCellCallback, type UpdateHeaderCellCallback, type UpdateRowCallback };
