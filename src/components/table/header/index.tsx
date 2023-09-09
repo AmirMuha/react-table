@@ -43,7 +43,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
             )}
           >
             <div className="am_table__header__cell__checkbox--root">
-              <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} atom={props.atom as any} />
+              <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} />
             </div>
           </th>
         ) : null}

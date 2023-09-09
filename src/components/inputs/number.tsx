@@ -1,6 +1,7 @@
-import { atom } from "jotai";
-import React, { memo } from "react";
-import { Column, Row } from "types";
+import "./number.css";
+import { atom, useAtom } from "jotai";
+import React, { memo, useState } from "react";
+import { Cell, Column, Row } from "types";
 
 interface NumberInputProps<T> {
   value: number;
@@ -10,9 +11,33 @@ interface NumberInputProps<T> {
 }
 
 function NumberInputComponent<T>(props: NumberInputProps<T>): React.ReactElement {
+  const [column] = useAtom(props.column);
+  const [row] = useAtom(props.row);
+  const [inputValue, setInputValue] = useState<number>(props.value);
+
+  const onChange = column.editable?.onChange;
+  const info: Cell<T> = { value: inputValue, column, row };
+  const handleChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) setInputValue(Number(e.target.value));
+  };
+  const handleSubmit = () => {
+    if (onChange) onChange(info);
+    props.onFinish();
+  };
+  const handleBlur = () => handleSubmit();
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (["Enter", "NumpadEnter"].includes(e.code)) handleSubmit();
+  };
   return (
-    <div>
-      <div></div>
+    <div className="am_input--number am_input__number--root">
+      <input
+        type="number"
+        onChange={handleChangeInputValue}
+        onBlur={handleBlur}
+        onKeyDown={handleEnter}
+        className="am_input__number--input"
+        value={inputValue}
+      />
     </div>
   );
 }

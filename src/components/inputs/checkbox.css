@@ -1,0 +1,80 @@
+.am_input--checkbox.am_input__checkbox--root {
+  color: var(--am__table-color);
+  padding: 2px;
+  height: 100%;
+}
+
+.am_input__checkbox--editable {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 100%;
+}
+
+.am_input__checkbox--editable .am_input--checkbox {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.am_input__checkbox--editable .am_input__checkbox--check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.am_input__checkbox--check {
+  @apply am__rounded-[4px] am__w-full am__h-full am__border am__border-solid;
+  margin: 0 auto;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  background-color: white;
+  border-color: var(--am__table-color);
+}
+
+.am_input__checkbox--check .am_input__checkbox__check--rect {
+  @apply am__w-full am__h-full am__rounded-[2px];
+}
+
+.am_input__checkbox--checked .am_input__checkbox__check--rect {
+  background-color: var(--am__table-color);
+}
+
+.am_input__checkbox--check .am_input__checkbox__check--rect:hover {
+  background-color: var(--am__table-focus-color);
+}
+
+.am_input__checkbox--check .am_input__checkbox__check--check {
+  @apply am__w-full am__h-full am__rounded-[2px];
+}
+
+.am_input__checkbox--checked .am_input__checkbox__check--check {
+  background-color: var(--am__table-color);
+}
+
+.am_input__checkbox--check .am_input__checkbox__check--check:hover {
+  background-color: var(--am__table-focus-color);
+}
+
+.am_table__header--cell .am_input__checkbox--check {
+  color: white;
+}
+
+.am_table__body--cell .am_input__checkbox--check:hover {
+  background-color: var(--am__table-hover-color);
+}
+
+.am_table__header__cell--checkbox,
+.am_table__body__cell--checkbox {
+  width: fit-content !important;
+  min-width: fit-content !important;
+  max-width: fit-content !important;
+}
+.am_table__body__cell--checkbox .am_table__body__cell__checkbox--root {
+  text-align: center;
+}

@@ -207,40 +207,6 @@ html {
   border-radius: 100%;
 }
 
-.am_input--checkbox.am_input__checkbox--root {
-  color: var(--am__table-color);
-  padding: 2px;
-}
-
-.am_input__checkbox--check {
-  @apply am__rounded-[4px] am__w-full am__h-full am__border am__border-solid;
-  margin: 0 auto;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  background-color: white;
-  border-color: var(--am__table-color);
-}
-
-.am_input__checkbox--check .am_input__checkbox__check--inner {
-  @apply am__w-full am__h-full am__rounded-[2px];
-}
-
-.am_input__checkbox--checked .am_input__checkbox__check--inner {
-  background-color: var(--am__table-color);
-}
-
-.am_input__checkbox--check .am_input__checkbox__check--inner:hover {
-  background-color: var(--am__table-focus-color);
-}
-
-.am_table__header--cell .am_input__checkbox--check {
-  color: white;
-}
-
-.am_table__body--cell .am_input__checkbox--check:hover {
-  background-color: var(--am__table-hover-color);
-}
 
 .am_table__header__cell--row-number,
 .am_table__body__cell--row-number {
@@ -252,15 +218,6 @@ html {
 
 .am_table__body__cell--root .am_table__body__cell--row-number {
   font-size: 14px;
-}
-.am_table__header__cell--checkbox,
-.am_table__body__cell--checkbox {
-  width: fit-content !important;
-  min-width: fit-content !important;
-  max-width: fit-content !important;
-}
-.am_table__body__cell--checkbox .am_table__body__cell__checkbox--root {
-  text-align: center;
 }
 
 .am_table__header__cell--sort-btn {
@@ -276,4 +233,11 @@ html {
   top: 0;
   width: 100%;
   height: 100%;
+}
+.am_table__body__cell--editable .am_table__body__cell__editable--content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
 }

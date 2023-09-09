@@ -1,19 +1,27 @@
+import "./checkbox.css";
+import React, { memo, useState } from "react";
 import sc from "common/helper/sc";
-import { Column, Row, TableProps } from "types";
-import { atom } from "jotai";
-import React, { memo } from "react";
+import ClickAwayListener from "common/util/click-away-listener";
+import { Cell, Column, Row } from "types";
+import { atom, useAtom } from "jotai";
 
 interface CheckboxProps<T> {
-  atom: TableProps<T>["atom"];
   checked: boolean;
   onChange: () => void;
+  mode?: "rect" | "check";
 }
 
 const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>): React.ReactElement => {
+  const mode = props.mode ?? "rect";
+  const handleChangeChecked = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    props.onChange();
+  };
   return (
-    <div onClick={props.onChange} className={sc("am_input--checkbox am_input__checkbox--root", props.checked ? "am_input__checkbox--checked" : "")}>
+    <div onClick={handleChangeChecked} className={sc("am_input--checkbox am_input__checkbox--root", props.checked ? "am_input__checkbox--checked" : "")}>
       <div className="am_input__checkbox--check">
-        <div className="am_input__checkbox__check--inner"></div>
+        {mode === "rect" ? <div className="am_input__checkbox__check--rect"></div> : null}
+        {mode === "check" ? <div className="am_input__checkbox__check--check"></div> : null}
       </div>
     </div>
   );
@@ -27,10 +35,24 @@ interface CheckboxInputProps<T> {
 }
 
 const CheckboxInputComponent = <T = unknown,>(props: CheckboxInputProps<T>): React.ReactElement => {
+  const [column] = useAtom(props.column);
+  const [row] = useAtom(props.row);
+  const [inputValue, setInputValue] = useState<boolean>(props.value);
+
+  const onChange = column.editable?.onChange;
+  const info: Cell<T> = { value: inputValue, column, row };
+  const handleChangeInputValue = () => setInputValue(!inputValue);
+  const handleSubmit = () => {
+    if (onChange) onChange(info);
+    props.onFinish();
+  };
+  const handleBlur = () => handleSubmit();
   return (
-    <div>
-      <div></div>
-    </div>
+    <ClickAwayListener onClickAway={handleBlur}>
+      <div className="am_input__checkbox--editable">
+        <CheckboxComponent checked={inputValue} onChange={handleChangeInputValue} mode="check" />
+      </div>
+    </ClickAwayListener>
   );
 };
 
