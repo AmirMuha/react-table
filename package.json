@@ -1,9 +1,23 @@
 {
   "name": "amirmuha-react-table",
+  "version": "2.1.15",
+  "author": {
+    "name": "AmirMohammad MirzaeiRad",
+    "email": "mirzaii4046@gmail.com",
+    "url": "https://amirmuha.com"
+  },
   "description": "react-table is a small, easy to use, highly customizable, and develoepr friendly library for handling tables. Supporting a wide range of features.",
-  "version": "2.1.14",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "keywords": [
+    "react-table",
+    "react-data-grid",
+    "table",
+    "data-grid",
+    "data grid",
+    "react table"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "peerDependencies": {
     "jotai": "^2",
     "react": "^16 || ^17 || ^18",
