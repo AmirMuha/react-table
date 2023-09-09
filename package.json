@@ -1,6 +1,6 @@
 {
   "name": "amirmuha-react-table",
-  "version": "2.1.17",
+  "version": "2.1.18",
   "author": {
     "name": "AmirMohammad MirzaeiRad",
     "email": "mirzaii4046@gmail.com",
@@ -86,9 +86,7 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
-  },
-  "dependencies": {
+    "webpack-cli": "^5.1.4",
     "rollup-plugin-minify": "^1.0.3"
   }
 }
