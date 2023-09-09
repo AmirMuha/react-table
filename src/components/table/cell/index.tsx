@@ -48,6 +48,6 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
   );
 };
 
-const areEqual = () => true;
+const areEqual = <T = unknown>(p:CellProps<T>,c: CellProps<T>) => p.row.init[p.column.init.name] === c.row.init[c.column.init.name];
 const Cell: typeof CellComponent = memo(CellComponent, areEqual) as any;
 export default Cell;
