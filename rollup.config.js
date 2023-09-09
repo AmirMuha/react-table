@@ -6,6 +6,7 @@ const babel = require("@rollup/plugin-babel");
 const { terser } = require("rollup-plugin-terser");
 const resolve = require("@rollup/plugin-node-resolve");
 const postcss = require("rollup-plugin-postcss");
+const minify = require("rollup-plugin-minify");
 const { dts } = require("rollup-plugin-dts");
 const peerDepsExternal = require("rollup-plugin-peer-deps-external");
 const json = require("@rollup/plugin-json");
@@ -56,13 +57,7 @@ module.exports = [
         extensions: [".css"],
         minimize: true,
       }),
-      terser({ compress: true, keep_classnames: true }),
-      json(),
-      babel({
-        babelHelpers: "bundled", // Choose the helper method
-        exclude: "node_modules/**", // Exclude external dependencies
-        presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"], // Add required presets
-      }),
+      terser({ compress: true, keep_classnames: true, format: false }),
     ],
   },
   {

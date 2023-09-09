@@ -8,7 +8,7 @@ import { atom, useAtom } from "jotai";
 import React, { memo, useState } from "react";
 import { Cell, Column, Row, TableProps } from "types";
 
-interface EditableCellProps<T> {
+export interface EditableCellProps<T> {
   atom: TableProps<T>["atom"];
   row: ReturnType<typeof atom<Row<T>>>;
   column: ReturnType<typeof atom<Column<T>>>;
@@ -21,14 +21,10 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): R
   const [row] = useAtom(props.row);
   const value: any = row[column.name];
   const [editing, setEditing] = useState(false);
-
   const handleDoubleClick = () => {
     setEditing(true);
   };
-
-  console.log(editing);
   const handleCloseEditing = () => setEditing(false);
-
   const info: Cell<T> = { value, row: row, column: column };
   let resolvedChild = column.render ? column.render(info) : value;
   return editing ? (

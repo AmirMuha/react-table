@@ -5,7 +5,7 @@ import ClickAwayListener from "common/util/click-away-listener";
 import { Cell, Column, Row } from "types";
 import { atom, useAtom } from "jotai";
 
-interface CheckboxProps<T> {
+export interface CheckboxProps<T> {
   checked: boolean;
   onChange: () => void;
   mode?: "rect" | "check";
@@ -27,7 +27,7 @@ const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>): React.ReactEl
   );
 };
 
-interface CheckboxInputProps<T> {
+export interface CheckboxInputProps<T> {
   value: boolean;
   row: ReturnType<typeof atom<Row<T>>>;
   column: ReturnType<typeof atom<Column<T>>>;
