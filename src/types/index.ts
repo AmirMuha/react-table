@@ -76,6 +76,7 @@ export interface RowOptions<T> {
     multiple?: boolean;
     /** @default false */
     onlyCheckboxSelect?: boolean;
+    onSelect?: (row: Row<T>) => any;
   } | boolean;
   onClick?: (info: Row<T>, updateRow?: UpdateRowCallback<T>) => void;
   classes?: Classes.Row;

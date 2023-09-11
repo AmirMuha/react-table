@@ -27,9 +27,9 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const [idProperty] = useAtom(props.atom.idProperty);
   const [selected, setSelected] = useAtom(props.atom.row.selected);
   const row = props.row;
-  console.log(row);
 
   const id: string = (row as any)[idProperty];
+  const onSelect = typeof selection === "boolean" ? undefined : selection?.onSelect;
   const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
   const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
   const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
@@ -38,16 +38,16 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const onRowClick = props.atom.row.onClick;
   const rowNumber = itemsPerPage && currentPage && [1, 0].includes(currentPage) ? props.index + 1 + currentPage * itemsPerPage : props.index + 1;
 
-  const toggleRowSelection = () => {
+  const toggleRowSelection = async () => {
     if (isSelectionEnabled) {
       if (isMultiSelectEnabled) {
         const selectedCopy: any = Object.assign({}, selected);
-        if (!isRowSelected) selectedCopy[id] = props.row;
+        if (!isRowSelected) selectedCopy[id] = onSelect ? (await onSelect(row)) || row : row;
         else delete selectedCopy[id];
         setSelected(selectedCopy);
       } else {
         let selectedCopy: any = Object.assign({}, selected);
-        if (!isRowSelected) selectedCopy = { [id]: props.row };
+        if (!isRowSelected) selectedCopy = { [id]: onSelect ? (await onSelect(row)) || row : row };
         else delete selectedCopy[id];
         setSelected(selectedCopy);
       }
