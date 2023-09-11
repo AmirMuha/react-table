@@ -42,12 +42,16 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
     if (isSelectionEnabled) {
       if (isMultiSelectEnabled) {
         const selectedCopy: any = Object.assign({}, selected);
-        if (!isRowSelected) selectedCopy[id] = onSelect ? (await onSelect(row)) || row : row;
+        const allowed = onSelect ? await onSelect(row) : undefined;
+        if (!allowed) return;
+        if (!isRowSelected) selectedCopy[id] = allowed || row;
         else delete selectedCopy[id];
         setSelected(selectedCopy);
       } else {
         let selectedCopy: any = Object.assign({}, selected);
-        if (!isRowSelected) selectedCopy = { [id]: onSelect ? (await onSelect(row)) || row : row };
+        const allowed = onSelect ? await onSelect(row) : undefined;
+        if (!allowed) return;
+        if (!isRowSelected) selectedCopy = { [id]: allowed || row };
         else delete selectedCopy[id];
         setSelected(selectedCopy);
       }
