@@ -20,13 +20,14 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
   const [headerCellRootOverrideClass] = useAtom(props.atom.classes.headerCell.overrideClasses.root);
   const [selection] = useAtom(props.atom.row.selection);
   const [selectedRows, setSelectedRows] = useAtom(props.atom.row.selected);
+  const selectedRowsCount = Object.keys(selectedRows).length;
 
   const { columns } = useSetupHeader(props.atom);
 
   const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
   const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
   const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
-  const hasCheckedAll = Object.keys(selectedRows).length === data.length;
+  const hasCheckedAll = selectedRowsCount > 0 && data.length > 0 && selectedRowsCount === data.length;
   const handleCheckAll = () => {
     if (!hasCheckedAll && isMultiSelectEnabled) {
       const selectedRowsCopy = Object.assign({}, selectedRows);
@@ -46,7 +47,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
             )}
           >
             <div className="am_table__header__cell__checkbox--root">
-              {isMultiSelectEnabled ? <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} /> : null}
+              <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} />
             </div>
           </th>
         ) : null}
