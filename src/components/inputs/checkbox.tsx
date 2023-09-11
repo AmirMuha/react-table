@@ -56,8 +56,7 @@ const CheckboxInputComponent = <T = unknown,>(props: CheckboxInputProps<T>): Rea
   );
 };
 
-const areEqual = <T = unknown,>(p: CheckboxProps<T>, c: CheckboxProps<T>) => p.checked === c.checked;
-export const Checkbox: typeof CheckboxComponent = memo(CheckboxComponent, areEqual) as any;
+export const Checkbox: typeof CheckboxComponent = memo(CheckboxComponent) as any;
 const areInputPropsEqual = <T = unknown,>(p: CheckboxInputProps<T>, c: CheckboxInputProps<T>) => p.value === c.value;
 const CheckboxInput: typeof CheckboxInputComponent = memo(CheckboxInputComponent, areInputPropsEqual) as any;
 export default CheckboxInput;

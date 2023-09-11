@@ -28,7 +28,7 @@ const table = createAtoms<typeof fakeData>({
   rtl: true,
   idProperty: "id",
   color: colors.sky[600],
-  row: { indexing: { enabled: true, label: "ردیف" }, selection: { enabled: true, checkbox: true } },
+  row: { indexing: { enabled: true, label: "ردیف" }, selection: { enabled: true, checkbox: true, multiple: true } },
   columns: [
     { name: "first_name", header: "First Name", width: 200 },
     { name: "age", header: "Age", width: 200 },
@@ -135,13 +135,13 @@ ReactDOM.render(
     <TableProvider store={table.store}>
       <App />
       <button
-        className="am__text-stone-800 p-4"
+        className="p-4 mx-auto text-center am__text-stone-800 am__border am__rounded-md"
         onClick={() => {
           const FAKE_DATA = new Array(5).fill(fakeData2).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
-          table.store.set(table.atom.data, FAKE_DATA);
+          table.store.set(table.atom.row.selected, { "1": FAKE_DATA[1], "2": FAKE_DATA[2] } as any);
         }}
       >
-        Change Data
+        Change Selected
       </button>
     </TableProvider>
   </div>,
