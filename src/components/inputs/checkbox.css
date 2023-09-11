@@ -2,6 +2,7 @@
   color: var(--am__table-color);
   padding: 2px;
   height: 100%;
+  cursor: pointer;
 }
 
 .am_input__checkbox--editable {

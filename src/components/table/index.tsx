@@ -8,7 +8,7 @@ import Header from "components/table/header";
 import Pagination from "./pagination";
 import useSetupTableEffect from "./setup";
 
-const TableComponent = <T extends object>({ atom }: TableProps<T>) => {
+const TableComponent = <T extends object>({ atom }: TableProps<T>): React.ReactElement => {
   const [rtl] = useAtom(atom.rtl);
   const [tableClassesRoot] = useAtom(atom.classes.table.classes.root);
   const [tableOverrideClassesRoot] = useAtom(atom.classes.table.overrideClasses.root);
@@ -34,5 +34,5 @@ const TableComponent = <T extends object>({ atom }: TableProps<T>) => {
 };
 
 const areEqual = () => true;
-const Table = memo(TableComponent, areEqual);
+const Table: typeof TableComponent = memo(TableComponent, areEqual) as any;
 export default Table;

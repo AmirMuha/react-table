@@ -193,7 +193,7 @@ html {
   cursor: pointer;
 }
 
-.am_table__body .am_table__body--row.am_table__body__row--selectable.am_table__body__row--selected {
+.am_table__body .am_table__body--row.am_table__body__row--selected {
   background-color: var(--am__table-selected-color);
 }
 

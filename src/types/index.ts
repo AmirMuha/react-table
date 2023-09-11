@@ -68,7 +68,15 @@ export interface RowOptions<T> {
     enabled: boolean;
     label: string;
   };
-  selection?: boolean;
+  selection?: {
+    enabled: boolean;
+    /** @default true */
+    checkbox?: boolean;
+    /** @default true */
+    multiple?: boolean;
+    /** @default false */
+    onlyCheckboxSelect?: boolean;
+  } | boolean;
   onClick?: (info: Row<T>, updateRow?: UpdateRowCallback<T>) => void;
   classes?: Classes.Row;
   overrideClasses?: Classes.Row;
