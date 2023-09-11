@@ -7,6 +7,14 @@ import createAtoms from "components/util/atoms";
 import colors from "tailwindcss/colors";
 import { useAtom } from "jotai";
 
+const fakeData2 = {
+  id: "97c969fd-7a4d-494d-b59d-40a2a25d266f",
+  first_name: "Reza",
+  last_name: "Ali",
+  isTrue: false,
+  age: 20,
+  birthDate: new Date(),
+};
 const fakeData = {
   id: "97c969fd-7a4d-494d-b59d-40a2a25d266f",
   first_name: "AmirMohammad",
@@ -103,7 +111,7 @@ function App() {
   }, []);
   return (
     <div className="am__m-5">
-      <Table atom={table.atom as any} />
+      <Table store={table.store} atom={table.atom as any} />
     </div>
   );
 }
@@ -112,6 +120,15 @@ ReactDOM.render(
   <div>
     <TableProvider store={table.store}>
       <App />
+      <button
+        className="am__text-stone-800 p-4"
+        onClick={() => {
+          const FAKE_DATA = new Array(5).fill(fakeData2).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
+          table.store.set(table.atom.data, FAKE_DATA);
+        }}
+      >
+        Change Data
+      </button>
     </TableProvider>
   </div>,
   document.getElementById("root")
