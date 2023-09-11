@@ -1,7 +1,13 @@
-import { atom, createStore } from "jotai";
+import { atom, createStore, PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 import { CellOptions, ClassesOptions, Column, HeaderCellOptions, HeaderOptions, PaginationOptions, RowOptions, SortOptions, TableOptions } from "types";
 
-function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>) {
+export type PaginationAtoms<T> = {
+  enabled: WritableAtom<boolean, [SetStateAction<boolean>], any>;
+  totalPages: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
+  currentPage: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
+  itemsPerPage: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
+};
+function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>): PaginationAtoms<T> {
   return {
     enabled: atom(initialOptions?.enabled ?? false),
     totalPages: atom(initialOptions?.totalPages),
@@ -10,7 +16,12 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>) {
   };
 }
 
-function getCellAtoms<T>(initialOptions?: CellOptions<T>) {
+export type CellAtoms<T> = {
+  selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
+  selected: WritableAtom<Record<string, any>, [SetStateAction<Record<string, any>>], any>;
+  onClick: CellOptions<T>["onClick"];
+};
+function getCellAtoms<T>(initialOptions?: CellOptions<T>): CellAtoms<T> {
   return {
     selection: atom(initialOptions?.selection ?? false),
     selected: atom<Record<string, any>>({}),
@@ -18,7 +29,12 @@ function getCellAtoms<T>(initialOptions?: CellOptions<T>) {
   };
 }
 
-function getHeaderCellAtoms<T>(initialOptions?: HeaderCellOptions<T>) {
+export type HeaderCellAtoms<T> = {
+  width: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
+  onResize: HeaderCellOptions<T>["onResize"];
+  onClick: HeaderCellOptions<T>["onClick"];
+};
+function getHeaderCellAtoms<T>(initialOptions?: HeaderCellOptions<T>): HeaderCellAtoms<T> {
   return {
     onClick: initialOptions?.onClick,
     onResize: initialOptions?.onResize,
@@ -26,7 +42,13 @@ function getHeaderCellAtoms<T>(initialOptions?: HeaderCellOptions<T>) {
   };
 }
 
-function getHeaderAtoms<T>(initialOptions?: HeaderOptions<T>) {
+export type HeaderAtoms<T> = {
+  selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
+  selected: WritableAtom<Record<string, any>, [SetStateAction<Record<string, any>>], any>;
+  onSort: HeaderCellOptions<T>["onResize"];
+  cell: HeaderCellAtoms<T>;
+};
+function getHeaderAtoms<T>(initialOptions?: HeaderOptions<T>): HeaderAtoms<T> {
   return {
     selection: atom(initialOptions?.selection ?? false),
     selected: atom<Record<string, any>>({}),
@@ -35,21 +57,32 @@ function getHeaderAtoms<T>(initialOptions?: HeaderOptions<T>) {
   };
 }
 
-function getRowAtoms<T>(initialOptions?: RowOptions<T>) {
+export type RowAtoms<T> = {
+  selection: WritableAtom<RowOptions<T>["selection"], [SetStateAction<RowOptions<T>["selection"]>], any>;
+  selected: WritableAtom<Record<string, T>, [SetStateAction<Record<string, T>>], any>;
+  onClick: RowOptions<T>["onClick"];
+  indexing: {
+    enabled: WritableAtom<boolean, [SetStateAction<boolean>], any>;
+    label: WritableAtom<string | undefined, [SetStateAction<string | undefined>], any>;
+  };
+};
+function getRowAtoms<T>(initialOptions?: RowOptions<T>): RowAtoms<T> {
   return {
     selected: atom<Record<string, T>>({}),
-    selection: atom(initialOptions?.selection ?? false),
+    selection: atom(initialOptions?.selection ?? false) as any,
     onClick: initialOptions?.onClick,
-    classes: { root: atom(initialOptions?.classes?.root) },
-    overrideClasses: { root: atom(initialOptions?.overrideClasses?.root) },
     indexing: {
-      enabled: atom(initialOptions?.indexing?.enabled),
+      enabled: atom(initialOptions?.indexing?.enabled ?? false),
       label: atom(initialOptions?.indexing?.label),
     },
   };
 }
 
-function getSortAtoms<T>(initialOptions?: SortOptions<T>) {
+export type SortAtoms<T> = {
+  defaultSortedColumn: WritableAtom<keyof T | null | undefined, [SetStateAction<keyof T | null | undefined>], any>;
+  defaultSortDirection: WritableAtom<"asc" | "desc", [SetStateAction<"asc" | "desc">], any>;
+};
+function getSortAtoms<T>(initialOptions?: SortOptions<T>): SortAtoms<T> {
   return {
     defaultSortedColumn: atom(initialOptions?.defaultSortedColumn),
     defaultSortDirection: atom(initialOptions?.defaultSortDirection ?? "asc"),
@@ -111,14 +144,31 @@ function getClassesAtoms<T>(initialOptions?: ClassesOptions<T>) {
   };
 }
 
-export default function createAtoms<T>(initialOptions: TableOptions<T>) {
+export type ColumnAtom<T> = WritableAtom<Column<T>, [SetStateAction<Column<T>>], any>;
+export type Store = ReturnType<typeof createStore>;
+export type Atoms<T> = {
+  idProperty: WritableAtom<string, [SetStateAction<string>], any>;
+  color: WritableAtom<string | undefined, [SetStateAction<string | undefined>], any>;
+  columnsMap: WritableAtom<Record<string, Column<T>>, [SetStateAction<Record<string, Column<T>>>], any>;
+  columns: WritableAtom<ColumnAtom<T>[], [SetStateAction<ColumnAtom<T>[]>], any>;
+  data: WritableAtom<T[], [SetStateAction<T[]>], any>;
+  header: HeaderAtoms<T>;
+  cell: CellAtoms<T>;
+  row: RowAtoms<T>;
+  sort: SortAtoms<T>;
+  pagination: PaginationAtoms<T>;
+  rtl: WritableAtom<boolean, [SetStateAction<boolean>], any>;
+  classes: ReturnType<typeof getClassesAtoms<T>>;
+};
+export type TableConfig<T> = { store: Store; atom: Atoms<T> };
+export default function createAtoms<T>(initialOptions: TableOptions<T>): TableConfig<T> {
   const columnsMap: Record<string, Column<T>> = {};
   initialOptions.columns.forEach((col) => (columnsMap[col.name as string] = col));
   const store = createStore();
-  const tableAtom = {
-    columnsMap: atom(columnsMap),
+  const tableAtom: Atoms<T> = {
     idProperty: atom(initialOptions.idProperty ?? "id"),
-    columns: atom(initialOptions.columns.map((col) => atom(col))),
+    columnsMap: atom(columnsMap),
+    columns: atom(initialOptions.columns.map((col) => atom(col))) as any,
     data: atom(initialOptions.data ?? []),
     color: atom(initialOptions.color),
     header: getHeaderAtoms<T>(initialOptions.header),
@@ -127,7 +177,7 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>) {
     cell: getCellAtoms<T>(initialOptions.cell),
     pagination: getPaginationAtoms<T>(initialOptions.pagination),
     classes: getClassesAtoms<T>(initialOptions.classes),
-    rtl: atom(initialOptions.rtl),
+    rtl: atom(initialOptions.rtl ?? false),
   };
   return { atom: tableAtom, store };
 }
