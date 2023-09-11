@@ -27,7 +27,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
   const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
   const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
   const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
-  const hasCheckedAll = selectedRowsCount !== 0 && data.length !== 0 && selectedRowsCount === data.length;
+  const hasCheckedAll = selectedRowsCount > 0 && data.length > 0 && selectedRowsCount === data.length;
   const handleCheckAll = () => {
     if (!hasCheckedAll && isMultiSelectEnabled) {
       const selectedRowsCopy = Object.assign({}, selectedRows);
@@ -47,7 +47,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
             )}
           >
             <div className="am_table__header__cell__checkbox--root">
-              {isMultiSelectEnabled ? <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} /> : null}
+              <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} />
             </div>
           </th>
         ) : null}
