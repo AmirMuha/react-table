@@ -35,7 +35,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
   const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
   const isCheckboxOnlySelectionEnabled = typeof selection === "boolean" ? false : !!selection?.onlyCheckboxSelect && isSelectionCheckboxEnabled;
-  const isRowSelected = selection && !!selected[id];
+  const isRowSelected = isSelectionEnabled && !!selected[id];
   const onRowClick = props.atom.row.onClick;
   const rowNumber = itemsPerPage && currentPage && [1, 0].includes(currentPage) ? props.index + 1 + currentPage * itemsPerPage : props.index + 1;
 
@@ -46,6 +46,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
         if (!isRowSelected) {
           const allowed = onSelect ? await onSelect(row) : true;
           if (!allowed) return;
+          selectedCopy[id] = allowed || row;
         } else {
           const allowed = onUnselect ? await onUnselect(row) : true;
           if (!allowed) return;
