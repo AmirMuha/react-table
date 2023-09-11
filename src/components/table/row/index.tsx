@@ -73,7 +73,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
       {isSelectionEnabled && isSelectionCheckboxEnabled ? (
         <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root am_table__body__cell--checkbox"))}>
           <div className="am_table__body__cell__checkbox--root">
-            <Checkbox checked={isRowSelected} onChange={toggleRowSelection} />
+            <Checkbox checked={!!isRowSelected} onChange={toggleRowSelection} />
           </div>
         </td>
       ) : null}
@@ -83,7 +83,14 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
         </td>
       ) : null}
       {columns.map((column, columnIndex) => (
-        <Cell key={`body_row_cell_${columnIndex}`} atom={props.atom} row={atom(row) as any} column={column} columnIndex={columnIndex} rowIndex={props.index} />
+        <Cell
+          key={`body_row_cell_${columnIndex}`}
+          atom={props.atom}
+          row={atom(row) as any}
+          column={column as any}
+          columnIndex={columnIndex}
+          rowIndex={props.index}
+        />
       ))}
     </tr>
   );
