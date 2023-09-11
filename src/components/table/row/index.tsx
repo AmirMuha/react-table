@@ -3,17 +3,17 @@ import Cell from "components/table/cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { Checkbox } from "components/inputs/checkbox";
-import { atom, useAtom } from "jotai";
-import { TableProps } from "types";
+import { useAtom } from "jotai";
+import { Row as RowType, Store, TableProps } from "types";
 
 export interface RowProps<T> {
+  store: Store;
   atom: TableProps<T>["atom"];
-  row: T;
+  row: RowType<T>;
   index: number;
 }
 
 const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement => {
-  const [data] = useAtom(props.atom.data);
   const [columns] = useAtom(props.atom.columns);
   const [currentPage] = useAtom(props.atom.pagination.currentPage);
   const [itemsPerPage] = useAtom(props.atom.pagination.itemsPerPage);
@@ -26,7 +26,8 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const [cellRootOverrrideClass] = useAtom(props.atom.classes.cell.overrideClasses.root);
   const [idProperty] = useAtom(props.atom.idProperty);
   const [selected, setSelected] = useAtom(props.atom.row.selected);
-  const [row] = useAtom(useMemo(() => atom(props.row), []));
+  const row = props.row;
+  console.log(row);
 
   const id: string = (row as any)[idProperty];
   const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
@@ -73,7 +74,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
       {isSelectionEnabled && isSelectionCheckboxEnabled ? (
         <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root am_table__body__cell--checkbox"))}>
           <div className="am_table__body__cell__checkbox--root">
-            <Checkbox checked={isRowSelected} onChange={toggleRowSelection} />
+            <Checkbox checked={!!isRowSelected} onChange={toggleRowSelection} />
           </div>
         </td>
       ) : null}
@@ -83,12 +84,22 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
         </td>
       ) : null}
       {columns.map((column, columnIndex) => (
-        <Cell key={`body_row_cell_${columnIndex}`} atom={props.atom} row={atom(row) as any} column={column} columnIndex={columnIndex} rowIndex={props.index} />
+        <Cell
+          key={`body_row_cell_${columnIndex}`}
+          atom={props.atom}
+          row={row}
+          store={props.store}
+          column={column}
+          columnIndex={columnIndex}
+          rowIndex={props.index}
+        />
       ))}
     </tr>
   );
 };
 
-const areEqual = () => true;
-const Row: typeof RowComponent = memo(RowComponent, areEqual) as any;
+// const areEqual = (p: RowProps<any>, c: RowProps<any>) => {
+//   return p.row[p.store.get(p.atom.idProperty)] === c.row[c.store.get(c.atom.idProperty)];
+// };
+const Row: typeof RowComponent = memo(RowComponent) as any;
 export default Row;

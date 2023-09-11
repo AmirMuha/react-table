@@ -1,8 +1,8 @@
-import { atom, createStore, PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
+import { atom, createStore, PrimitiveAtom, SetStateAction, useAtom, WritableAtom } from "jotai";
 import { CellOptions, ClassesOptions, Column, HeaderCellOptions, HeaderOptions, PaginationOptions, RowOptions, SortOptions, TableOptions } from "types";
 
 export type PaginationAtoms<T> = {
-  enabled: WritableAtom<boolean, [SetStateAction<boolean>], any>;
+  enabled: PrimitiveAtom<boolean>;
   totalPages: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
   currentPage: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
   itemsPerPage: WritableAtom<number | undefined, [SetStateAction<number | undefined>], any>;
@@ -144,7 +144,7 @@ function getClassesAtoms<T>(initialOptions?: ClassesOptions<T>) {
   };
 }
 
-export type ColumnAtom<T> = WritableAtom<Column<T>, [SetStateAction<Column<T>>], any>;
+export type ColumnAtom<T> = WritableAtom<Column<T>, [SetStateAction<Column<T>>], any> & { init: Column<T> };
 export type Store = ReturnType<typeof createStore>;
 export type Atoms<T> = {
   idProperty: WritableAtom<string, [SetStateAction<string>], any>;

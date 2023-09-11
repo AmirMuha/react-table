@@ -2,12 +2,13 @@ import React, { memo, useEffect } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import sort from "common/helper/sort";
-import { Column, TableProps } from "types";
+import { Column, Store, TableProps } from "types";
 import { atom, useAtom } from "jotai";
 import ArrowNarrowDown from "assets/arrow-narrow-down";
 import ArrowNarrowUp from "assets/arrow-narrow-up";
 
 export interface HeaderCellProps<T> {
+  store: Store;
   atom: TableProps<T>["atom"];
   column: ReturnType<typeof atom<Column<T>>>;
   index: number;

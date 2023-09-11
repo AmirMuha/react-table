@@ -5,14 +5,14 @@ import { Cell, Column, Row } from "types";
 
 export interface NumberInputProps<T> {
   value: number;
-  row: ReturnType<typeof atom<Row<T>>>;
+  row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
 }
 
 function NumberInputComponent<T>(props: NumberInputProps<T>): React.ReactElement {
+  const row = props.row;
   const [column] = useAtom(props.column);
-  const [row] = useAtom(props.row);
   const [inputValue, setInputValue] = useState<number>(props.value);
 
   const onChange = column.editable?.onChange;

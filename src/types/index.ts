@@ -1,5 +1,5 @@
 import React from "react";
-import createAtoms from "components/util/atoms";
+import createAtoms, {Store} from "components/util/atoms";
 import { createStore } from "jotai";
 
 export * from "../components/inputs/checkbox";
@@ -193,4 +193,5 @@ export type TableOptions<T> = {
 
 export type TableProps<T> = {
   atom: ReturnType<typeof createAtoms<T>>["atom"];
+  store: Store;
 };

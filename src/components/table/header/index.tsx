@@ -61,7 +61,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
           </th>
         ) : null}
         {columns.map((column, columnIndex) => (
-          <HeaderCell key={`header_cell_${columnIndex}`} column={column as any} atom={props.atom as any} index={columnIndex} />
+          <HeaderCell key={`header_cell_${columnIndex}`} column={column as any} atom={props.atom as any} index={columnIndex} store={props.store} />
         ))}
       </tr>
     </thead>

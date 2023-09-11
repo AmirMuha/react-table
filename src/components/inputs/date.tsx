@@ -4,7 +4,7 @@ import { Column, Row } from "types";
 
 interface DateInputProps<T> {
   value: Date | string;
-  row: ReturnType<typeof atom<Row<T>>>;
+  row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
 }

@@ -5,14 +5,14 @@ import { Cell, Column, Row } from "types";
 
 export interface TextInputProps<T> {
   value: string;
-  row: ReturnType<typeof atom<Row<T>>>;
+  row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
 }
 
 function TextInputComponent<T>(props: TextInputProps<T>): React.ReactElement {
+  const row = props.row;
   const [column] = useAtom(props.column);
-  const [row] = useAtom(props.row);
   const [inputValue, setInputValue] = useState<string>(props.value);
 
   const onChange = column.editable?.onChange;

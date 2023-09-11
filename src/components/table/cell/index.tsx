@@ -2,19 +2,20 @@ import EditableCell from "components/table/cell/editable-cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { atom, useAtom } from "jotai";
-import { Cell as CellType, Column, Row, TableProps } from "types";
+import { Cell as CellType, Column, Row, Store, TableProps } from "types";
 import React, { memo } from "react";
 
 interface CellProps<T> {
+  store: Store;
   atom: TableProps<T>["atom"];
-  row: ReturnType<typeof atom<Row<T>>>;
+  row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   rowIndex: number;
   columnIndex: number;
 }
 
 const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElement => {
-  const [row] = useAtom(props.row);
+  const row = props.row;
   const [column] = useAtom(props.column);
   // const [selection] = useAtom(props.atom.cell.selection);
   const [cellRootClass] = useAtom(props.atom.classes.cell.classes.root);
@@ -40,7 +41,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
       onClick={handleCellClick}
     >
       {column.editable?.enabled ? (
-        <EditableCell atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} />
+        <EditableCell atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
       ) : (
         (resolvedChild as any)
       )}
@@ -48,6 +49,8 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
   );
 };
 
-const areEqual = <T = unknown>(p:CellProps<T>,c: CellProps<T>) => p.row.init[p.column.init.name] === c.row.init[c.column.init.name];
+const areEqual = <T = unknown>(p:CellProps<T>,c: CellProps<T>) => {
+  return p.row[p.store.get(p.column).name] === c.row[c.store.get(c.column).name];
+};
 const Cell: typeof CellComponent = memo(CellComponent, areEqual) as any;
 export default Cell;
