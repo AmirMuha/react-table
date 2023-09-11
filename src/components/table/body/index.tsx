@@ -16,7 +16,7 @@ const BodyComponent = <T extends object>(props: TableProps<T>): React.ReactEleme
   return (
     <tbody className={coalesce(bodyRootOverrideClass, sc(bodyRootClass, "am_table__body am_table__body--root"))}>
       {paginatedData.map((row, rowIndex) => (
-        <Row key={`body_row_${rowIndex}`} index={rowIndex} row={row as any} atom={props.atom} />
+        <Row key={`body_row_${rowIndex}`} index={rowIndex} row={{ ...row, index: rowIndex }} atom={props.atom} store={props.store} />
       ))}
     </tbody>
   );

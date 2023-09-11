@@ -4,7 +4,7 @@ import { Column, Row } from "types";
 
 interface SelectInputProps<T> {
   value: any;
-  row: ReturnType<typeof atom<Row<T>>>;
+  row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
 }

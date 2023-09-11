@@ -29,14 +29,14 @@ const CheckboxComponent = <T = unknown,>(props: CheckboxProps<T>): React.ReactEl
 
 export interface CheckboxInputProps<T> {
   value: boolean;
-  row: ReturnType<typeof atom<Row<T>>>;
+  row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
 }
 
 const CheckboxInputComponent = <T = unknown,>(props: CheckboxInputProps<T>): React.ReactElement => {
+  const row = props.row;
   const [column] = useAtom(props.column);
-  const [row] = useAtom(props.row);
   const [inputValue, setInputValue] = useState<boolean>(props.value);
 
   const onChange = column.editable?.onChange;
