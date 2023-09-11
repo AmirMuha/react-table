@@ -28,7 +28,7 @@ const table = createAtoms<typeof fakeData>({
   rtl: true,
   idProperty: "id",
   color: colors.sky[600],
-  row: { indexing: { enabled: true, label: "ردیف" }, selection: true },
+  row: { indexing: { enabled: true, label: "ردیف" }, selection: { enabled: true, checkbox: true } },
   columns: [
     { name: "first_name", header: "First Name", width: 200 },
     { name: "age", header: "Age", width: 200 },
@@ -42,6 +42,20 @@ const table = createAtoms<typeof fakeData>({
 function App() {
   const [columns, setColumns] = useAtom(table.atom.columns, { store: table.store });
   const [data, setData] = useAtom(table.atom.data, { store: table.store });
+  const [selection, setRowSelection] = useAtom(table.atom.row.selection, { store: table.store });
+  const [selected] = useAtom(table.atom.row.selected, { store: table.store });
+  console.log(selected);
+  React.useEffect(() => {
+    if (typeof selection !== "boolean")
+      if (selection) {
+        setRowSelection({
+          ...selection,
+          onSelect: (row) => {
+            return { name: row.first_name };
+          },
+        });
+      }
+  }, []);
   React.useEffect(() => {
     const FAKE_DATA = new Array(5).fill(fakeData).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
     columns.forEach((col) => {
