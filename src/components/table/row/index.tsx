@@ -13,6 +13,7 @@ export interface RowProps<T> {
 }
 
 const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement => {
+  const [data] = useAtom(props.atom.data);
   const [columns] = useAtom(props.atom.columns);
   const [currentPage] = useAtom(props.atom.pagination.currentPage);
   const [itemsPerPage] = useAtom(props.atom.pagination.itemsPerPage);
@@ -28,22 +29,33 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const [row] = useAtom(useMemo(() => atom(props.row), []));
 
   const id: string = (row as any)[idProperty];
+  const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
+  const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
+  const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
+  const isCheckboxOnlySelectionEnabled = typeof selection === "boolean" ? false : !!selection?.onlyCheckboxSelect && isSelectionCheckboxEnabled;
   const isRowSelected = selection && !!selected[id];
   const onRowClick = props.atom.row.onClick;
   const rowNumber = itemsPerPage && currentPage && [1, 0].includes(currentPage) ? props.index + 1 + currentPage * itemsPerPage : props.index + 1;
 
   const toggleRowSelection = () => {
-    if (selection) {
-      const selectedCopy: any = Object.assign({}, selected);
-      if (!isRowSelected) selectedCopy[id] = props.row;
-      else delete selectedCopy[id];
-      setSelected(selectedCopy);
+    if (isSelectionEnabled) {
+      if (isMultiSelectEnabled) {
+        const selectedCopy: any = Object.assign({}, selected);
+        if (!isRowSelected) selectedCopy[id] = props.row;
+        else delete selectedCopy[id];
+        setSelected(selectedCopy);
+      } else {
+        let selectedCopy: any = Object.assign({}, selected);
+        if (!isRowSelected) selectedCopy = { [id]: props.row };
+        else delete selectedCopy[id];
+        setSelected(selectedCopy);
+      }
     }
   };
 
   const handleRowClick = () => {
     if (onRowClick) onRowClick(row as any);
-    if (selection) toggleRowSelection();
+    if (isSelectionEnabled && !isCheckboxOnlySelectionEnabled) toggleRowSelection();
   };
   return (
     <tr
@@ -51,14 +63,14 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
         rowRootOverrideClass,
         sc(
           rowRootClass,
-          selection ? "am_table__body__row--selectable" : undefined,
+          isSelectionEnabled && !isCheckboxOnlySelectionEnabled ? "am_table__body__row--selectable" : undefined,
           isRowSelected ? "am_table__body__row--selected" : undefined,
           "am_table__body--row am_table__body__row--root"
         )
       )}
       onClick={handleRowClick}
     >
-      {selection ? (
+      {isSelectionEnabled && isSelectionCheckboxEnabled ? (
         <td className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root am_table__body__cell--checkbox"))}>
           <div className="am_table__body__cell__checkbox--root">
             <Checkbox checked={isRowSelected} onChange={toggleRowSelection} />

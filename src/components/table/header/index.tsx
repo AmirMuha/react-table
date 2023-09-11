@@ -18,14 +18,17 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
   const [headerRowRootOverrideClass] = useAtom(props.atom.classes.headerRow.overrideClasses.root);
   const [headerCellRootClass] = useAtom(props.atom.classes.headerCell.classes.root);
   const [headerCellRootOverrideClass] = useAtom(props.atom.classes.headerCell.overrideClasses.root);
-  const [rowSelection] = useAtom(props.atom.row.selection);
+  const [selection] = useAtom(props.atom.row.selection);
   const [selectedRows, setSelectedRows] = useAtom(props.atom.row.selected);
 
   const { columns } = useSetupHeader(props.atom);
 
+  const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
+  const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
+  const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
   const hasCheckedAll = Object.keys(selectedRows).length === data.length;
   const handleCheckAll = () => {
-    if (!hasCheckedAll) {
+    if (!hasCheckedAll && isMultiSelectEnabled) {
       const selectedRowsCopy = Object.assign({}, selectedRows);
       (data as any[]).forEach((item) => (selectedRowsCopy[item[idProperty]] = item));
       setSelectedRows(selectedRowsCopy);
@@ -35,7 +38,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
   return (
     <thead className={coalesce(headerRootOverrideClass, sc(headerRootClass, "am_table__header am_table__header--root"))}>
       <tr className={coalesce(headerRowRootOverrideClass, sc(headerRowRootClass, "am_table__header--row am_table__header__row--root"))}>
-        {rowSelection ? (
+        {isSelectionEnabled && isSelectionCheckboxEnabled ? (
           <th
             className={coalesce(
               headerCellRootOverrideClass,
@@ -43,7 +46,7 @@ const HeaderComponent = <T extends object>(props: TableProps<T>): React.ReactEle
             )}
           >
             <div className="am_table__header__cell__checkbox--root">
-              <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} />
+              {isMultiSelectEnabled ? <Checkbox checked={hasCheckedAll} onChange={handleCheckAll} /> : null}
             </div>
           </th>
         ) : null}
