@@ -42,7 +42,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const toggleRowSelection = async () => {
     if (isSelectionEnabled) {
       if (isMultiSelectEnabled) {
-        const selectedCopy: any = Object.assign({}, selected);
+        const selectedCopy: any = { ...(selected ?? {}) };
         if (!isRowSelected) {
           const allowed = onSelect ? await onSelect(row) : true;
           if (!allowed) return;
@@ -54,7 +54,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
         }
         setSelected(selectedCopy);
       } else {
-        let selectedCopy: any = Object.assign({}, selected);
+        let selectedCopy: any = { ...(selected ?? {}) };
         if (!isRowSelected) {
           const allowed = onSelect ? await onSelect(row) : true;
           if (!allowed) return;
