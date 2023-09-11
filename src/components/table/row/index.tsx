@@ -30,6 +30,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
 
   const id: string = (row as any)[idProperty];
   const onSelect = typeof selection === "boolean" ? undefined : selection?.onSelect;
+  const onUnselect = typeof selection === "boolean" ? undefined : selection?.onUnselect;
   const isSelectionEnabled = typeof selection === "boolean" ? selection : !!selection?.enabled;
   const isSelectionCheckboxEnabled = typeof selection === "boolean" ? true : !!selection?.checkbox;
   const isMultiSelectEnabled = typeof selection === "boolean" ? true : !!selection?.multiple;
@@ -42,17 +43,26 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
     if (isSelectionEnabled) {
       if (isMultiSelectEnabled) {
         const selectedCopy: any = Object.assign({}, selected);
-        const allowed = onSelect ? await onSelect(row) : undefined;
-        if (!allowed) return;
-        if (!isRowSelected) selectedCopy[id] = allowed || row;
-        else delete selectedCopy[id];
+        if (!isRowSelected) {
+          const allowed = onSelect ? await onSelect(row) : true;
+          if (!allowed) return;
+        } else {
+          const allowed = onUnselect ? await onUnselect(row) : true;
+          if (!allowed) return;
+          delete selectedCopy[id];
+        }
         setSelected(selectedCopy);
       } else {
         let selectedCopy: any = Object.assign({}, selected);
-        const allowed = onSelect ? await onSelect(row) : undefined;
-        if (!allowed) return;
-        if (!isRowSelected) selectedCopy = { [id]: allowed || row };
-        else delete selectedCopy[id];
+        if (!isRowSelected) {
+          const allowed = onSelect ? await onSelect(row) : true;
+          if (!allowed) return;
+          selectedCopy = { [id]: allowed || row };
+        } else {
+          const allowed = onUnselect ? await onUnselect(row) : true;
+          if (!allowed) return;
+          delete selectedCopy[id];
+        }
         setSelected(selectedCopy);
       }
     }
