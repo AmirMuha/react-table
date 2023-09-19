@@ -104,9 +104,15 @@ export interface EditableCellOptions<T> {
   column: Column<T>;
 }
 
+export type ContextMenuOptions<T> = {
+}
 export type UpdateCellCallback<T> = (row: Row<T>) => void;
 export type CellOptions<T> = {
   selection?: boolean;
+  contextMenu?: {
+    enabled: boolean;
+    render: (info: Cell<T>) => React.ReactElement;
+  };
   onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
 };
 
@@ -150,6 +156,10 @@ export interface Column<T> {
   minWidth?: number;
   maxWidth?: number;
   flex?: boolean;
+  contextMenu?: {
+    enabled: boolean;
+    render: (info: Cell<T>) => React.ReactElement;
+  };
   editable?:
     | EditableCellTextOptions<T>
     | EditableCellMoneyOptions<T>

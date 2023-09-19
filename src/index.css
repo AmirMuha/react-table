@@ -242,3 +242,7 @@ html {
   transform: translateY(-50%);
   width: 100%;
 }
+
+.am_table__body-context-menu.am_table__body__context-menu--root {
+  position: fixed;
+}
