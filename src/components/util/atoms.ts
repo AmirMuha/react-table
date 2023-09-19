@@ -1,5 +1,5 @@
 import { atom, createStore, PrimitiveAtom, SetStateAction, useAtom, WritableAtom } from "jotai";
-import { CellOptions, ClassesOptions, Column, HeaderCellOptions, HeaderOptions, PaginationOptions, RowOptions, SortOptions, TableOptions } from "types";
+import { Cell, CellOptions, ClassesOptions, Column, HeaderCellOptions, HeaderOptions, PaginationOptions, RowOptions, SortOptions, TableOptions } from "types";
 
 export type PaginationAtoms<T> = {
   enabled: PrimitiveAtom<boolean>;
@@ -16,13 +16,22 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>): Paginatio
   };
 }
 
+export type ContextMenuOptions<T> = {
+    enabled: boolean,
+    render: (info: Cell<T>) => React.ReactElement;
+  }
 export type CellAtoms<T> = {
   selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
   selected: WritableAtom<Record<string, any>, [SetStateAction<Record<string, any>>], any>;
   onClick: CellOptions<T>["onClick"];
+  contextMenu: WritableAtom<ContextMenuOptions<T> | undefined, [SetStateAction<ContextMenuOptions<T> | undefined>], any>;
 };
 function getCellAtoms<T>(initialOptions?: CellOptions<T>): CellAtoms<T> {
   return {
+    contextMenu: initialOptions?.contextMenu?atom({
+      enabled: initialOptions.contextMenu.enabled ?? false,
+      render: initialOptions.contextMenu.render,
+    }):atom(undefined) as any,
     selection: atom(initialOptions?.selection ?? false),
     selected: atom<Record<string, any>>({}),
     onClick: initialOptions?.onClick,
