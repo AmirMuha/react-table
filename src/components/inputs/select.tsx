@@ -7,6 +7,7 @@ interface SelectInputProps<T> {
   row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
+  cellRef: React.MutableRefObject<HTMLTableDataCellElement | null>;
 }
 
 function SelectInputComponent<T>(props: SelectInputProps<T>): React.ReactElement {

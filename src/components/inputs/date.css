@@ -1,0 +1,22 @@
+.am_table__body--cell:has(.am_input__date--input) {
+  padding: 0;
+  direction: ltr;
+}
+
+.am_input__date--input {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.am_input__date--picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow: auto;
+}

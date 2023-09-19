@@ -3,7 +3,7 @@ import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
 import { atom, useAtom } from "jotai";
 import { Cell as CellType, Column, Row, Store, TableProps } from "types";
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
 
 interface CellProps<T> {
   store: Store;
@@ -16,6 +16,7 @@ interface CellProps<T> {
 
 const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElement => {
   const row = props.row;
+  const cellRef = useRef<HTMLTableDataCellElement | null>(null);
   const [column] = useAtom(props.column);
   // const [selection] = useAtom(props.atom.cell.selection);
   const [cellRootClass] = useAtom(props.atom.classes.cell.classes.root);
@@ -32,6 +33,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
 
   return (
     <td
+      ref={cellRef}
       style={{
         width: column.flex ? "100% !important" : column.width ?? "fit-content",
         minWidth: column.width ? column.width : column.minWidth,
@@ -41,7 +43,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
       onClick={handleCellClick}
     >
       {column.editable?.enabled ? (
-        <EditableCell atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
+        <EditableCell cellRef={cellRef} atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
       ) : (
         (resolvedChild as any)
       )}

@@ -27,8 +27,8 @@ const fakeData = {
 const table = createAtoms<typeof fakeData>({
   rtl: true,
   idProperty: "id",
-  color: colors.sky[600],
-  row: { indexing: { enabled: true, label: "ردیف" }, selection: { enabled: true, checkbox: true, multiple: true } },
+  color: colors.gray[600],
+  row: { zebra: true, indexing: { enabled: true, label: "ردیف" } },
   columns: [
     { name: "first_name", header: "First Name", width: 200 },
     { name: "age", header: "Age", width: 200 },
@@ -42,22 +42,8 @@ const table = createAtoms<typeof fakeData>({
 function App() {
   const [columns, setColumns] = useAtom(table.atom.columns, { store: table.store });
   const [data, setData] = useAtom(table.atom.data, { store: table.store });
-  const [selection, setRowSelection] = useAtom(table.atom.row.selection, { store: table.store });
-  const [selected] = useAtom(table.atom.row.selected, { store: table.store });
-  console.log(selected);
   React.useEffect(() => {
-    if (typeof selection !== "boolean")
-      if (selection) {
-        setRowSelection({
-          ...selection,
-          onSelect: (row) => {
-            return { name: row.first_name };
-          },
-        });
-      }
-  }, []);
-  React.useEffect(() => {
-    const FAKE_DATA = new Array(5).fill(fakeData).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
+    const FAKE_DATA = new Array(50).fill(fakeData).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
     columns.forEach((col) => {
       if (col.init.name === "first_name") {
         const colCopy = Object.assign({}, col.init);
@@ -134,15 +120,6 @@ ReactDOM.render(
   <div>
     <TableProvider store={table.store}>
       <App />
-      <button
-        className="p-4 mx-auto text-center am__text-stone-800 am__border am__rounded-md"
-        onClick={() => {
-          const FAKE_DATA = new Array(5).fill(fakeData2).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
-          table.store.set(table.atom.row.selected, { "1": FAKE_DATA[1], "2": FAKE_DATA[2] } as any);
-        }}
-      >
-        Change Selected
-      </button>
     </TableProvider>
   </div>,
   document.getElementById("root")

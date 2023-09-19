@@ -16,5 +16,6 @@ function handleChangeColor(color: string) {
   document.body.style.setProperty(colorVariables.hover, alpha(color, 0.15));
   document.body.style.setProperty(colorVariables.selected, alpha(color, 0.4));
   document.body.style.setProperty(colorVariables.focus, alpha(color, 0.3));
+  document.body.style.setProperty(colorVariables.zebra, alpha(color, 0.02));
   document.body.style.setProperty(colorVariables.resizeHandle, "white");
 }
