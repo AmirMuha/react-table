@@ -152,7 +152,7 @@ export interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
   type: "number";
   enabled: boolean;
 }
-export interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
+export interface EditableCellSelectOptions<T, Option = unknown> extends EditableCellOption<T> {
   type: "select";
   enabled: boolean;
   idProperty: string,
@@ -162,9 +162,7 @@ export interface EditableCellSelectOptions<T> extends EditableCellOption<T> {
   onChange: (info: Cell<T>, selectedOption?: any) => void;
   options: {
     fetch: EditableCellAutoFetchOptionsFn<T>;
-    renderOption: <Option>(option: Option) => React.ReactNode;
-    getOptionLabel: <Option>(option: Option) => string;
-  };
+  } | Option[];
 }
 
 export interface Column<T> {

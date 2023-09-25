@@ -6,11 +6,12 @@ import { atom, useAtom } from "jotai";
 import { Cell, Column, Row } from "types";
 import { createPortal } from "react-dom";
 
-interface SelectInputProps<T> {
-  value: any;
+export interface SelectInputProps<T> {
+  value: string;
   row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
+  cellRef: RefObject<HTMLTableDataCellElement>;
 }
 
 function SelectInputComponent<T>(props: SelectInputProps<T>): React.ReactElement | null {
