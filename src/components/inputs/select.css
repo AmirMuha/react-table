@@ -1,0 +1,79 @@
+.am_table__body--cell:has(.am_input__select--input) {
+  padding: 0;
+}
+
+.am_input__select--input {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.am_input__select--options-wrapper {
+  z-index: 9999;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  max-height: 200px;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow: auto;
+  @apply am__shadow-md;
+}
+.am_input__select--options-wrapper::-webkit-scrollbar {
+  width: 0;
+}
+.am_input__select__options-wrapper--scrollbar::-webkit-scrollbar {
+  width: 5px;
+  background-color: #F1F5F9;
+  border-radius: 4px;
+}
+
+.am_input__select__options-wrapper--scrollbar::-webkit-scrollbar:hover {
+  width: 8px;
+}
+
+.am_input__select__options-wrapper--scrollbar::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 4px;
+}
+
+.am_input__select--options {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.am_input__select__options--item {
+  width: 100%;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.am_input__select__options-wrapper--search-wrapper {
+  padding: 4px;
+}
+.am_input__select__options-wrapper--search {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 50px;
+  background-color: #eee;
+}
+
+.am_input__select__options-wrapper__search--input {
+  box-shadow: none;
+  outline: none;
+  padding: 2px 4px;
+  padding-right: 8px;
+  background-color: transparent;
+}
+.am_input__select__options-wrapper__search--input:focus {
+  box-shadow: none !important;
+}

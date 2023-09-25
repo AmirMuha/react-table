@@ -1,10 +1,10 @@
 import EditableCell from "components/table/cell/editable-cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
+import React, { memo, useRef, useState } from "react";
+import ContextMenu from "./context-menu";
 import { atom, useAtom } from "jotai";
 import { Cell as CellType, Column, Row, Store, TableProps } from "types";
-import React, { memo, useState } from "react";
-import ContextMenu from "./context-menu";
 
 interface CellProps<T> {
   store: Store;
@@ -17,6 +17,7 @@ interface CellProps<T> {
 
 const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElement => {
   const row = props.row;
+  const cellRef = useRef<HTMLTableDataCellElement | null>(null);
   const [column] = useAtom(props.column);
   const [contextMenuOptions] = useAtom(props.atom.cell.contextMenu);
   // const [selection] = useAtom(props.atom.cell.selection);
@@ -42,18 +43,38 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
 
   return (
     <td
+      ref={cellRef}
       style={{
         width: column.flex ? "100% !important" : column.width ?? "fit-content",
         minWidth: column.width ? column.width : column.minWidth,
         maxWidth: column.width ? column.width : column.maxWidth,
       }}
       className={coalesce(cellRootOverrrideClass, sc(cellRootClass, "am_table__body--cell am_table__body__cell--root"))}
-      onClick={handleCellClick}
       onContextMenu={handleOpenContextMenu}
+      onClick={handleCellClick}
     >
-      {isContextMenuEnabled && renderContextMenu && contextMenu.event && renderContextMenu ? <ContextMenu onClose={handleCloseContextMenu} contextMenuEvent={contextMenu.event} atom={props.atom} column={props.column} row={props.row} store={props.store} >{renderContextMenu(info)}</ContextMenu> : null}
+      {isContextMenuEnabled && renderContextMenu && contextMenu.event && renderContextMenu ? (
+        <ContextMenu 
+          onClose={handleCloseContextMenu} 
+          contextMenuEvent={contextMenu.event} 
+          atom={props.atom} 
+          column={props.column} 
+          row={props.row} 
+          store={props.store} 
+        >
+          {renderContextMenu(info)}
+        </ContextMenu>
+      ) : null}
       {column.editable?.enabled ? (
-        <EditableCell atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
+        <EditableCell 
+          cellRef={cellRef} 
+          row={props.row} 
+          atom={props.atom} 
+          columnIndex={props.columnIndex} 
+          rowIndex={props.rowIndex} 
+          column={props.column} 
+          store={props.store} 
+        />
       ) : (
         (resolvedChild as any)
       )}

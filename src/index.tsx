@@ -14,6 +14,7 @@ const fakeData2 = {
   isTrue: false,
   age: 20,
   birthDate: new Date(),
+  select_field: "select-1",
 };
 const fakeData = {
   id: "97c969fd-7a4d-494d-b59d-40a2a25d266f",
@@ -22,6 +23,7 @@ const fakeData = {
   isTrue: false,
   age: 20,
   birthDate: new Date(),
+  select_field: "select - 1",
 };
 
 const table = createAtoms<typeof fakeData>({
@@ -34,7 +36,30 @@ const table = createAtoms<typeof fakeData>({
     { name: "age", header: "Age", width: 200 },
     { name: "isTrue", header: "isTrue", width: 200, render: (info) => (info.value ? "true" : "false") },
     { name: "birthDate", header: "Birth Date", width: 200, render: (info) => new Date(info.value).toLocaleString() },
-    { name: "last_name", header: "Last Name", flex: true, minWidth: 500 },
+    {
+      name: "select_field",
+      header: "Select",
+      width: 150,
+      editable: {
+        enabled: true,
+        type: "select",
+        idProperty: "id",
+        getLabel: (option: any) => option.name,
+        renderOption: (option: any) => <div key={option.id}>{option.name}</div>,
+        options: [
+          { name: "option 1", id: 1 },
+          { name: "option 2", id: 2 },
+          { name: "option 3", id: 3 },
+          { name: "option 4", id: 4 },
+          { name: "option 5", id: 5 },
+          { name: "option 6", id: 6 },
+          { name: "option 7", id: 7 },
+          { name: "option 8", id: 8 },
+        ],
+        onChange: () => {},
+      },
+    },
+    { name: "last_name", header: "Last Name", flex: true, minWidth: 400 },
   ],
   classes: { cell: { classes: { root: "!am__p-2" } } },
 });
@@ -44,7 +69,6 @@ function App() {
   const [data, setData] = useAtom(table.atom.data, { store: table.store });
   const [selection, setRowSelection] = useAtom(table.atom.row.selection, { store: table.store });
   const [selected] = useAtom(table.atom.row.selected, { store: table.store });
-  console.log(selected);
   React.useEffect(() => {
     if (typeof selection !== "boolean")
       if (selection) {
