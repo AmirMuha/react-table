@@ -60,6 +60,13 @@ html {
   width: 100%;
 }
 
+.am_table__header.am_table__header--root {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
 .am_table__header--cell.am_table__header__cell--root {
   cursor: pointer;
 }
