@@ -136,14 +136,17 @@ export interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
 export interface EditableCellTimeOptions<T> extends EditableCellOption<T> {
   type: "time";
   enabled: boolean;
+  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellDateTimeOptions<T> extends EditableCellOption<T> {
   type: "datetime";
   enabled: boolean;
+  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellDateOptions<T> extends EditableCellOption<T> {
   type: "date";
   enabled: boolean;
+  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
   type: "number";

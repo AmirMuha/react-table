@@ -110,12 +110,17 @@ function App() {
           type: "date",
           enabled: true,
           onChange(info) {
-            const fakeDataCopy = Array.from(FAKE_DATA);
-            const foundRow = fakeDataCopy.findIndex((s) => s.id === info.row.id);
-            if (foundRow !== -1) {
-              (fakeDataCopy as any)[foundRow][colCopy.name] = info.value;
-              table.store.set(table.atom.data, fakeDataCopy);
-            }
+            console.log(info);
+          },
+          render: (row, column, submitDateChange) => {
+            const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+              submitDateChange(e.target.valueAsDate ?? undefined);
+            };
+            return (
+              <div className="am__full">
+                <input type="date" className="am__w-full" onChange={handleChangeDate} />
+              </div>
+            );
           },
         };
         table.store.set(col, colCopy);
