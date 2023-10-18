@@ -66,15 +66,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
         </ContextMenu>
       ) : null}
       {column.editable?.enabled ? (
-        <EditableCell 
-          cellRef={cellRef} 
-          row={props.row} 
-          atom={props.atom} 
-          columnIndex={props.columnIndex} 
-          rowIndex={props.rowIndex} 
-          column={props.column} 
-          store={props.store} 
-        />
+        <EditableCell cellRef={cellRef} atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
       ) : (
         (resolvedChild as any)
       )}

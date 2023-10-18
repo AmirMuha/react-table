@@ -6,6 +6,7 @@
   --am__table-color: rgb(198, 61, 47);
   --am__table-hover-color: rgba(198, 61, 47, .15);
   --am__table-focus-color: rgba(198, 61, 47, .3);
+  --am__table-zebra-color: rgba(198, 61, 47, .02);
   --am__table-selected-color: rgba(198, 61, 47, .4);
   --am__table-resize-handle-color: white;
 }
@@ -44,6 +45,10 @@ html {
 
 .am_table__container .am_table__body--row {
   cursor: default;
+}
+
+.am_table__body__row--zebra:nth-child(even) {
+  background-color: var(--am__table-zebra-color);
 }
 
 .am_table__container .am_table__wrapper::-webkit-scrollbar {
