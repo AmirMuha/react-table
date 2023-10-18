@@ -53,7 +53,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
     >
       {isContextMenuEnabled && renderContextMenu && contextMenu.event && renderContextMenu ? <ContextMenu onClose={handleCloseContextMenu} contextMenuEvent={contextMenu.event} atom={props.atom} column={props.column} row={props.row} store={props.store} >{renderContextMenu(info)}</ContextMenu> : null}
       {column.editable?.enabled ? (
-        <EditableCell atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
+        <EditableCell cellRef={cellRef} atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
       ) : (
         (resolvedChild as any)
       )}

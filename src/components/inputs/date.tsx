@@ -1,19 +1,25 @@
-import { atom } from "jotai";
-import React, { memo } from "react";
-import { Column, Row } from "types";
+import "./date.css";
+import React, { memo, useState } from "react";
+import { atom, useAtom } from "jotai";
+import { Cell, Column, Row } from "types";
 
-interface DateInputProps<T> {
+export interface DateInputProps<T> {
   value: Date | string;
   row: Row<T>;
   column: ReturnType<typeof atom<Column<T>>>;
   onFinish: () => void;
+  cellRef: React.RefObject<HTMLTableDataCellElement>;
 }
 
 function DateInputComponent<T>(props: DateInputProps<T>): React.ReactElement {
+  const row = props.row;
+  const [column] = useAtom(props.column);
+
   return (
-    <div>
-      <div></div>
-    </div>
+    <React.Fragment>
+      <div className="am_input--date am_input__date--root">
+      </div>
+    </React.Fragment>
   );
 }
 

@@ -67,6 +67,7 @@ function getHeaderAtoms<T>(initialOptions?: HeaderOptions<T>): HeaderAtoms<T> {
 }
 
 export type RowAtoms<T> = {
+  zebra: WritableAtom<boolean, [SetStateAction<boolean>], any>;
   selection: WritableAtom<RowOptions<T>["selection"], [SetStateAction<RowOptions<T>["selection"]>], any>;
   selected: WritableAtom<Record<string, T>, [SetStateAction<Record<string, T>>], any>;
   onClick: RowOptions<T>["onClick"];
@@ -77,6 +78,7 @@ export type RowAtoms<T> = {
 };
 function getRowAtoms<T>(initialOptions?: RowOptions<T>): RowAtoms<T> {
   return {
+    zebra: atom<boolean>(initialOptions?.zebra ?? false),
     selected: atom<Record<string, T>>({}),
     selection: atom(initialOptions?.selection ?? false) as any,
     onClick: initialOptions?.onClick,

@@ -80,7 +80,6 @@ function ResizeHandle<T extends object>(props: HeaderCellProps<T>) {
   const [resizeHandleRootClass] = useAtom(props.atom.classes.headerCell.classes.resizeHandle.root);
   const [resizeHandleRootOverrideClass] = useAtom(props.atom.classes.headerCell.overrideClasses.resizeHandle.root);
   const handleDragStart = (e: React.DragEvent<HTMLSpanElement>) => {
-    console.log(e);
   };
   return (
     <span
