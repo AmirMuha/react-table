@@ -17,9 +17,10 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>): Paginatio
 }
 
 export type ContextMenuOptions<T> = {
-    enabled: boolean,
-    render: (info: Cell<T>) => React.ReactElement;
-  }
+   enabled: boolean,
+   render: (info: Cell<T>,event: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
+   onClose?: (info: Cell<T>) => void;
+}
 export type CellAtoms<T> = {
   selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
   selected: WritableAtom<Record<string, any>, [SetStateAction<Record<string, any>>], any>;
