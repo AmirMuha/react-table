@@ -63,7 +63,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
           row={props.row} 
           store={props.store} 
         >
-          {renderContextMenu(info, contextMenu.event)}
+          {renderContextMenu(info, contextMenu.event, handleCloseContextMenu)}
         </ContextMenu>
       ) : null}
       {column.editable?.enabled ? (
