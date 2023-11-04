@@ -29,7 +29,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
   const onCellClick = props.atom.cell.onClick;
 
   const isContextMenuEnabled = column.contextMenu?.enabled ?? contextMenuOptions?.enabled;
-  const contextMenuClose = column.contextMenu?.onClose ?? contextMenuOptions?.onClose;
+  const isContextMenuAutoCloseDisabled = column.contextMenu?.disableAutoClose ?? contextMenuOptions?.disableAutoClose;
   const renderContextMenu = isContextMenuEnabled ?  column.contextMenu?.render ?? contextMenuOptions?.render:undefined;
   const info: CellType<T> = { value, row: row, column: column };
   let resolvedChild = column.render ? column.render(info) : value;
@@ -56,7 +56,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
     >
       {isContextMenuEnabled && renderContextMenu && contextMenu.event && renderContextMenu ? (
         <ContextMenu 
-          onClose={!contextMenuClose ? handleCloseContextMenu : undefined} 
+          onClose={!isContextMenuAutoCloseDisabled ? handleCloseContextMenu : undefined} 
           contextMenuEvent={contextMenu.event} 
           atom={props.atom} 
           column={props.column} 

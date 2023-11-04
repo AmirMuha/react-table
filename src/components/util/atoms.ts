@@ -19,7 +19,7 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>): Paginatio
 export type ContextMenuOptions<T> = {
    enabled: boolean,
    render: (info: Cell<T>,event: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
-   onClose?: (info: Cell<T>) => void;
+   disableAutoClose?: boolean;
 }
 export type CellAtoms<T> = {
   selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
@@ -31,6 +31,7 @@ function getCellAtoms<T>(initialOptions?: CellOptions<T>): CellAtoms<T> {
   return {
     contextMenu: initialOptions?.contextMenu?atom({
       enabled: initialOptions.contextMenu.enabled ?? false,
+      disableAutoClose: initialOptions.contextMenu.disableAutoClose ?? false,
       render: initialOptions.contextMenu.render,
     }):atom(undefined) as any,
     selection: atom(initialOptions?.selection ?? false),
