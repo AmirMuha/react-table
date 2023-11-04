@@ -113,7 +113,7 @@ export type CellOptions<T> = {
   contextMenu?: {
     enabled: boolean;
     render: (info: Cell<T>, e: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
-    onClose?: (info: Cell<T>) => void;
+    disableAutoClose?: boolean;
   };
   onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
 };
@@ -176,7 +176,7 @@ export interface Column<T> {
   contextMenu?: {
     enabled: boolean;
     render: (info: Cell<T>, e: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
-    onClose?: (info: Cell<T>) => void;
+    disableAutoClose?: boolean;
   };
   editable?:
     | EditableCellTextOptions<T>
