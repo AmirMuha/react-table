@@ -17,7 +17,7 @@ export default function ContextMenu<T>(props: React.PropsWithChildren<ContextMen
   return createPortal(
     <ClickAwayListener onClickAway={props.onClose ?? (() => {})}>
       <div 
-        style={{top: props.contextMenuEvent.clientY,left: props.contextMenuEvent.clientX}} 
+        style={{ top: props.contextMenuEvent.clientY, left: props.contextMenuEvent.clientX }} 
         className="am_table__body-context-menu am_table__body__context-menu--root"
       >
         {props.children}
