@@ -1,4 +1,5 @@
-import React, { memo, useEffect } from "react";
+import './header-cell.css';
+import React, { memo, useEffect, useMemo } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
 import sort from "common/helper/sort";
@@ -20,6 +21,7 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React
   const [column, setColumn] = useAtom(props.column);
   const [sortedColumn, setSortedColumn] = useAtom(props.atom.sort.defaultSortedColumn);
   const [sortDirection, setSortDirection] = useAtom(props.atom.sort.defaultSortDirection);
+  const [selected] = useAtom(props.atom.row.selected);
 
   const onCellClick = props.atom.header.cell.onClick;
   const handleSort = () => {
@@ -31,11 +33,18 @@ const HeaderCellComponent = <T extends object>(props: HeaderCellProps<T>): React
     }
   };
 
+  const selectedCount = Object.keys(selected??{}).length;
   useEffect(() => {
     if (sortDirection && sortedColumn) {
-      setData(sort<any>(data, sortedColumn, sortDirection));
+      if (sortedColumn === '__selected__') {
+        if (selectedCount !== data.length && selectedCount > 0) {
+          setData(sort<any>(data,'id',sortDirection,(a:any,b: any) => b?!!selected[b.id]:false));
+        }
+      } else {
+        setData(sort<any>(data, sortedColumn, sortDirection));
+      }
     }
-  }, [sortDirection, sortedColumn]);
+  }, [sortDirection, sortedColumn, selectedCount]);
 
   const handleCellClick = () => {
     handleSort();

@@ -192,7 +192,7 @@ export interface Column<T> {
 }
 
 export type SortOptions<T> = {
-  defaultSortedColumn?: keyof T | null;
+  defaultSortedColumn?: keyof T | null | '__selected__';
   defaultSortDirection?: "asc" | "desc";
 };
 
