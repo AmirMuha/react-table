@@ -1,21 +1,30 @@
-import { colorVariables } from "common/constant/color-variables";
 import { useLayoutEffect } from "react";
-import { TableProps } from "types";
+import { ColorSettings, TableProps } from "types";
 import { alpha } from "common/helper/alpha";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 
-export default function useSetupTableEffect<T>({ atom }: TableProps<T>) {
-  const [color] = useAtom(atom.color);
+export const colorSettings = atom<ColorSettings>({
+  color: "rgb(198,61,47)",
+  hover: "rgba(198,61,47,0.15)",
+  selected: "rgba(198,61,47,0.4)",
+  focus: "rgba(198,61,47,0.3)",
+  zebra: "rgba(198,61,47,0.02)",
+  resizeHandle: "white",
+});
+
+export default function useSetupTableEffect<T>({ atom, store }: TableProps<T>) {
+  const [color] = useAtom(atom.color, { store });
+  const [, setColorSEttings] = useAtom(colorSettings, { store });
   useLayoutEffect(() => {
-    if (color) handleChangeColor(color);
+    if (color) {
+      setColorSEttings({
+        color,
+        hover: alpha(color, 0.15),
+        selected: alpha(color, 0.4),
+        focus: alpha(color, 0.3),
+        zebra: alpha(color, 0.02),
+        resizeHandle: "white",
+      });
+    }
   }, [color]);
-}
-
-function handleChangeColor(color: string) {
-  document.body.style.setProperty(colorVariables.color, color);
-  document.body.style.setProperty(colorVariables.hover, alpha(color, 0.15));
-  document.body.style.setProperty(colorVariables.selected, alpha(color, 0.4));
-  document.body.style.setProperty(colorVariables.focus, alpha(color, 0.3));
-  document.body.style.setProperty(colorVariables.zebra, alpha(color, 0.02));
-  document.body.style.setProperty(colorVariables.resizeHandle, "white");
 }
