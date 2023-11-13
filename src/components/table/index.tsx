@@ -19,11 +19,11 @@ const TableComponent = <T extends object>({ atom, store }: TableProps<T>): React
   const [wrapperOverrideClassesRoot] = useAtom(atom.classes.wrapper.overrideClasses.root);
   const [paginationEnabled] = useAtom(atom.pagination.enabled);
 
-  useSetupTableEffect({ atom, store });
+  const { containerRef } = useSetupTableEffect({ atom, store });
   const wrapperRef = useHeaderStickyPosition();
 
   return (
-    <div className={coalesce(containerOverrideClassesRoot, sc(containerClassesRoot, "am_table__container", rtl ? "am_rtl" : ""))}>
+    <div ref={containerRef} className={coalesce(containerOverrideClassesRoot, sc(containerClassesRoot, "am_table__container", rtl ? "am_rtl" : ""))}>
       <div ref={wrapperRef} className={coalesce(wrapperOverrideClassesRoot, sc(wrapperClassesRoot, "am_table__wrapper"))}>
         <table className={coalesce(tableOverrideClassesRoot, sc(tableClassesRoot, "am_table__table"))}>
           <Header atom={atom} store={store} />

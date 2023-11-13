@@ -36,6 +36,7 @@
 }
 .am_rtl .am_table__body--row .am_table__body--cell.am_table__body__cell--root:last-child {
   border-left: none;
+  border-right: 1px solid var(--am__table-color);
 }
 .am_table__body--row .am_table__body--cell.am_table__body__cell--root:first-child {
   border-left: none;
