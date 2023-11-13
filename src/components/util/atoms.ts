@@ -92,7 +92,7 @@ function getRowAtoms<T>(initialOptions?: RowOptions<T>): RowAtoms<T> {
 }
 
 export type SortAtoms<T> = {
-  defaultSortedColumn: WritableAtom<keyof T | null | undefined, [SetStateAction<keyof T | null | undefined>], any>;
+  defaultSortedColumn: WritableAtom<keyof T | null | '__selected__' | undefined, [SetStateAction<keyof T | null |'__selected__' | undefined>], any>;
   defaultSortDirection: WritableAtom<"asc" | "desc", [SetStateAction<"asc" | "desc">], any>;
 };
 function getSortAtoms<T>(initialOptions?: SortOptions<T>): SortAtoms<T> {
