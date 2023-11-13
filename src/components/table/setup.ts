@@ -1,7 +1,8 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { ColorSettings, TableProps } from "types";
 import { alpha } from "common/helper/alpha";
 import { atom, useAtom } from "jotai";
+import { colorVariables } from "common/constant/color-variables";
 
 export const colorSettings = atom<ColorSettings>({
   color: "rgb(198,61,47)",
@@ -13,10 +14,20 @@ export const colorSettings = atom<ColorSettings>({
 });
 
 export default function useSetupTableEffect<T>({ atom, store }: TableProps<T>) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [color] = useAtom(atom.color, { store });
   const [, setColorSEttings] = useAtom(colorSettings, { store });
+
   useLayoutEffect(() => {
     if (color) {
+      if (containerRef.current) {
+        containerRef.current.style.setProperty(colorVariables.color, color);
+        containerRef.current.style.setProperty(colorVariables.hover, alpha(color, 0.15));
+        containerRef.current.style.setProperty(colorVariables.focus, alpha(color, 0.3));
+        containerRef.current.style.setProperty(colorVariables.selected, alpha(color, 0.4));
+        containerRef.current.style.setProperty(colorVariables.zebra, alpha(color, 0.02));
+        containerRef.current.style.setProperty(colorVariables.resizeHandle, "white");
+      }
       setColorSEttings({
         color,
         hover: alpha(color, 0.15),
@@ -27,4 +38,6 @@ export default function useSetupTableEffect<T>({ atom, store }: TableProps<T>) {
       });
     }
   }, [color]);
+
+  return { containerRef };
 }
