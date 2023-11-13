@@ -79,9 +79,9 @@
 
 .am_table__header__cell--row-number {
   font-size: 14px;
-  width: fit-content !important;
-  min-width: fit-content !important;
-  max-width: fit-content !important;
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
 }
 
 .am_table__header__cell--sort-btn {
@@ -91,3 +91,9 @@
   @apply am__top-1/2 am__-translate-y-1/2;
 }
 .am_table__header__cell--sort-btn .am_table__header__cell__sort-btn--arrows {}
+
+.am_table__header__cell--checkbox {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+}

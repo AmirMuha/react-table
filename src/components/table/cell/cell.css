@@ -24,7 +24,11 @@
 
 
 .am_table__body--cell.am_table__body__cell--root {
-  width: 100%;
+  overflow: auto;
+}
+.am_table__body--cell.am_table__body__cell--root::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .am_rtl .am_table__body--row .am_table__body--cell.am_table__body__cell--root:first-child {
@@ -41,10 +45,7 @@
 }
 
 .am_table__body__cell--row-number {
-  font-size: 14px;
-  width: fit-content !important;
-  min-width: fit-content !important;
-  max-width: fit-content !important;
+  font-size: 13px;
 }
 
 .am_table__body__cell--root .am_table__body__cell--row-number {
