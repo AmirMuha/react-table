@@ -1,0 +1,4 @@
+
+.am_table__header--row:not(:first-child) {
+  border-top: 1px solid var(--am__table-color); /* Border for rows */
+}

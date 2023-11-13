@@ -1,0 +1,19 @@
+.am_table__footer--row:not(:first-child) {
+  border-top: 1px solid var(--am__table-color); /* Border for rows */
+}
+
+.am_rtl .am_table__footer--row .am_table__footer--cell.am_table__footer__cell--root:first-child {
+  border-left: 1px solid var(--am__table-color);
+  border-right: 1px solid white;
+}
+.am_rtl .am_table__footer--row .am_table__footer--cell.am_table__footer__cell--root:last-child {
+  border-right: 1px solid var(--am__table-color);
+}
+
+.am_table__footer--row .am_table__footer--cell.am_table__footer__cell--root:first-child {
+  border-right: 1px solid var(--am__table-color);
+  border-left: 1px solid white;
+}
+.am_table__footer--row .am_table__footer--cell.am_table__footer__cell--root:last-child {
+  border-left: 1px solid var(--am__table-color);
+}

@@ -1,3 +1,4 @@
+import "./row.css";
 import React, { memo } from "react";
 import Cell from "components/table/cell";
 import coalesce from "common/helper/coalesce";

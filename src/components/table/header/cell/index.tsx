@@ -1,3 +1,4 @@
+import './header-cell.css';
 import React, { memo, useEffect } from "react";
 import sc from "common/helper/sc";
 import coalesce from "common/helper/coalesce";
