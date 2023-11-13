@@ -7,6 +7,7 @@ import Body from "components/table/body";
 import Header from "components/table/header";
 import Pagination from "./pagination";
 import useSetupTableEffect from "./setup";
+import { useHeaderStickyPosition } from "./hooks";
 
 const TableComponent = <T extends object>({ atom, store }: TableProps<T>): React.ReactElement => {
   const [rtl] = useAtom(atom.rtl);
@@ -19,10 +20,11 @@ const TableComponent = <T extends object>({ atom, store }: TableProps<T>): React
   const [paginationEnabled] = useAtom(atom.pagination.enabled);
 
   useSetupTableEffect({ atom, store });
+  const wrapperRef = useHeaderStickyPosition();
 
   return (
     <div className={coalesce(containerOverrideClassesRoot, sc(containerClassesRoot, "am_table__container", rtl ? "am_rtl" : ""))}>
-      <div className={coalesce(wrapperOverrideClassesRoot, sc(wrapperClassesRoot, "am_table__wrapper"))}>
+      <div ref={wrapperRef} className={coalesce(wrapperOverrideClassesRoot, sc(wrapperClassesRoot, "am_table__wrapper"))}>
         <table className={coalesce(tableOverrideClassesRoot, sc(tableClassesRoot, "am_table__table"))}>
           <Header atom={atom} store={store} />
           <Body atom={atom} store={store} />

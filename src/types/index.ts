@@ -227,3 +227,12 @@ export type TableProps<T> = {
   atom: ReturnType<typeof createAtoms<T>>["atom"];
   store: Store;
 };
+
+export type ColorSettings = {
+  color: string;
+  hover: string;
+  selected: string;
+  focus: string;
+  zebra: string;
+  resizeHandle: string;
+};

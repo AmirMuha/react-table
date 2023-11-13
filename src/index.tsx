@@ -63,7 +63,7 @@ const table = createAtoms<typeof fakeData>({
     },
     { name: "last_name", header: "Last Name", flex: true, minWidth: 400 },
   ],
-  classes: { cell: { classes: { root: "!am__p-2" } } },
+  classes: { wrapper: { classes: { root: "!am__max-h-[500px]" } }, cell: { classes: { root: "!am__p-2" } } },
 });
 
 function App() {
