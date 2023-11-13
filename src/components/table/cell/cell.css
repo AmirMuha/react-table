@@ -1,0 +1,57 @@
+.am_table__body__cell--editable {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+.am_table__body__cell--editable .am_table__body__cell__editable--content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.am_table__body--cell.am_table__body__cell--root {
+  position: relative;
+  text-align: center;
+  border: 1px solid var(--am__table-color); /* Border for cells */
+  border-bottom: none;
+}
+
+
+.am_table__body--cell.am_table__body__cell--root {
+  overflow: auto;
+}
+.am_table__body--cell.am_table__body__cell--root::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.am_rtl .am_table__body--row .am_table__body--cell.am_table__body__cell--root:first-child {
+  border-right: none;
+}
+.am_rtl .am_table__body--row .am_table__body--cell.am_table__body__cell--root:last-child {
+  border-left: none;
+}
+.am_table__body--row .am_table__body--cell.am_table__body__cell--root:first-child {
+  border-left: none;
+}
+.am_table__body--row .am_table__body--cell.am_table__body__cell--root:last-child {
+  border-right: none;
+}
+
+.am_table__body__cell--row-number {
+  font-size: 13px;
+}
+
+.am_table__body__cell--root .am_table__body__cell--row-number {
+  font-size: 14px;
+}
+
+.am_table__body__cell--root .am_table__body__cell--row-number {
+  font-size: 14px;
+}
