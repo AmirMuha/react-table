@@ -1,3 +1,4 @@
+import "./header.css";
 import React, { memo } from "react";
 import { useAtom } from "jotai";
 import { TableProps } from "types";

@@ -1,3 +1,4 @@
+import './cell.css';
 import EditableCell from "components/table/cell/editable-cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
