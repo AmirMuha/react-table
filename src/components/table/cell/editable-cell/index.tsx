@@ -4,9 +4,11 @@ import MoneyInput from "components/inputs/money";
 import NumberInput from "components/inputs/number";
 import SelectInput from "components/inputs/select";
 import TextInput from "components/inputs/text";
-import React, { memo, RefObject, useState } from "react";
+import React, { memo, useState } from "react";
 import { atom, useAtom } from "jotai";
 import { Cell, Column, Row, Store, TableProps } from "types";
+import DateTimeInput from "components/inputs/datetime";
+import TimeInput from "components/inputs/time";
 
 export interface EditableCellProps<T> {
   store: Store;
@@ -15,7 +17,7 @@ export interface EditableCellProps<T> {
   column: ReturnType<typeof atom<Column<T>>>;
   rowIndex: number;
   columnIndex: number;
-  cellRef: RefObject<HTMLTableDataCellElement>;
+  cellRef: React.RefObject<HTMLTableDataCellElement>;
 }
 
 const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): React.ReactElement => {
@@ -35,7 +37,9 @@ const EditableCellComponent = <T extends object>(props: EditableCellProps<T>): R
       {column.editable?.type === "number" ? <NumberInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "money" ? <MoneyInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "checkbox" ? <CheckboxInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
-      {column.editable?.type === "date" ? <DateInput value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "date" ? <DateInput cellRef={props.cellRef} value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "time" ? <TimeInput cellRef={props.cellRef} value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
+      {column.editable?.type === "datetime" ? <DateTimeInput cellRef={props.cellRef} value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
       {column.editable?.type === "select" ? <SelectInput cellRef={props.cellRef} value={value} column={props.column} row={props.row} onFinish={handleCloseEditing} /> : null}
     </div>
   ) : (

@@ -1,0 +1,99 @@
+.am_table__header--cell.am_table__header__cell--root {
+  cursor: pointer;
+}
+.am_table__header--cell.am_table__header__cell--root {
+  text-align: center;
+  padding: 6px;
+  border: 1px solid var(--am__table-color); /* Border for cells */
+  border-bottom: none;
+}
+.am_rtl .am_table__header--cell.am_table__header__cell--root:first-child {
+  border-right: none !important;
+}
+.am_table__header--cell.am_table__header__cell--root:first-child {
+  border-left: none !important;
+}
+.am_table__header .am_table__header--row .am_table__header--cell.am_table__header__cell--root {
+  border-top: none;
+  background-color: var(--am__table-color);
+  border-color: white;
+  color: white;
+}
+
+.am_table__header--cell.am_table__header__cell--root:last-child {
+  border-right: none;
+}
+.am_rtl .am_table__header--cell.am_table__header__cell--root:first-child {
+  border-left: none;
+}
+.am_rtl .am_table__header--row .am_table__header--cell.am_table__header__cell--root:first-child {
+  border-right: 1px solid var(--am__table-color);
+  border-left: 1px solid white;
+}
+.am_rtl .am_table__header--row .am_table__header--cell.am_table__header__cell--root:last-child {
+  border-left: 1px solid var(--am__table-color);
+}
+
+.am_table__header--row .am_table__header--cell.am_table__header__cell--root:first-child {
+  border-left: 1px solid var(--am__table-color);
+  border-right: 1px solid white;
+}
+.am_table__header--row .am_table__header--cell.am_table__header__cell--root:last-child {
+  border-right: 1px solid var(--am__table-color);
+}
+
+.am_table__header--cell {
+  position: relative;
+}
+
+.am_table__header--cell.am_table__header__cell--root {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.am_table__header__cell--resize-handle.am_table__header__cell__resize-handle--root {
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 5px;
+  background-color: transparent;
+}
+
+.am_table__header__cell--resize-handle.am_table__header__cell__resize-handle--root:hover {
+  background-color: var(--am__table-resize-handle-color);
+}
+
+.am_table__header--cell .am_table__header__cell--content {
+  font-weight: bold;
+  color: white;
+  padding: 0 10px;
+}
+.am_table__header--cell .am_table__header__cell--sort-btn {
+  color: white;
+  padding: 2px;
+  border-radius: 100%;
+}
+
+.am_table__header__cell--row-number {
+  font-size: 14px;
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+}
+
+.am_table__header__cell--sort-btn {
+  position: absolute;
+  left: 0;
+  margin-top: -2px;
+  @apply am__top-1/2 am__-translate-y-1/2;
+}
+.am_table__header__cell--sort-btn .am_table__header__cell__sort-btn--arrows {}
+
+.am_table__header__cell--checkbox {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+}

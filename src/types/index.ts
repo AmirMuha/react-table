@@ -64,6 +64,7 @@ export type Cell<T> = {
 
 export type UpdateRowCallback<T> = (row: Row<T>) => void;
 export interface RowOptions<T> {
+  zebra?: boolean,
   indexing?: {
     enabled: boolean;
     label: string;
@@ -111,14 +112,16 @@ export type CellOptions<T> = {
   selection?: boolean;
   contextMenu?: {
     enabled: boolean;
-    render: (info: Cell<T>) => React.ReactElement;
+    render: (info: Cell<T>, e: React.MouseEvent<HTMLDivElement>, onClose: () => void) => React.ReactElement;
+    disableAutoClose?: boolean;
   };
   onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
 };
 
-export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date" | "money";
+export type DateCellInfo<T> = Omit<Cell<T>, 'value'> & { value: Date };
+export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date" | "money" | 'time' | 'datetime';
 export type EditableCellOption<T> = { enabled: boolean; type: EditableCellType; onChange: (info: Cell<T>) => void };
-export type EditableCellAutoFetchOptionsFn<T> = <Option>(info: Cell<T>) => Option[];
+export type EditableCellAutoFetchOptionsFn<T> = (info: Cell<T>) => Promise<any[]>;
 export interface EditableCellMoneyOptions<T> extends EditableCellOption<T> {
   type: "money";
   enabled: boolean;
@@ -131,9 +134,20 @@ export interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
   type: "checkbox";
   enabled: boolean;
 }
+export interface EditableCellTimeOptions<T> extends EditableCellOption<T> {
+  type: "time";
+  enabled: boolean;
+  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
+}
+export interface EditableCellDateTimeOptions<T> extends EditableCellOption<T> {
+  type: "datetime";
+  enabled: boolean;
+  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
+}
 export interface EditableCellDateOptions<T> extends EditableCellOption<T> {
   type: "date";
   enabled: boolean;
+  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
   type: "number";
@@ -146,6 +160,7 @@ export interface EditableCellSelectOptions<T, Option = unknown> extends Editable
   renderOption: <Option>(option: Option) => React.ReactNode;
   getLabel: <Option>(option: Option) => string;
   scrollbar?: boolean;
+  onChange: (info: Cell<T>, selectedOption?: any) => void;
   options: {
     fetch: EditableCellAutoFetchOptionsFn<T>;
   } | Option[];
@@ -160,7 +175,8 @@ export interface Column<T> {
   flex?: boolean;
   contextMenu?: {
     enabled: boolean;
-    render: (info: Cell<T>) => React.ReactElement;
+    render: (info: Cell<T>, e: React.MouseEvent<HTMLDivElement>, onClose: () => void) => React.ReactElement;
+    disableAutoClose?: boolean;
   };
   editable?:
     | EditableCellTextOptions<T>
@@ -168,13 +184,15 @@ export interface Column<T> {
     | EditableCellNumberOptions<T>
     | EditableCellCheckboxOptions<T>
     | EditableCellDateOptions<T>
+    | EditableCellDateTimeOptions<T>
+    | EditableCellTimeOptions<T>
     | EditableCellSelectOptions<T>;
   filterable?: boolean;
   render?: (info: Cell<T>) => React.ReactNode;
 }
 
 export type SortOptions<T> = {
-  defaultSortedColumn?: keyof T | null;
+  defaultSortedColumn?: keyof T | null | '__selected__';
   defaultSortDirection?: "asc" | "desc";
 };
 
@@ -208,4 +226,13 @@ export type TableOptions<T> = {
 export type TableProps<T> = {
   atom: ReturnType<typeof createAtoms<T>>["atom"];
   store: Store;
+};
+
+export type ColorSettings = {
+  color: string;
+  hover: string;
+  selected: string;
+  focus: string;
+  zebra: string;
+  resizeHandle: string;
 };

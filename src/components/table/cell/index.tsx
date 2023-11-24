@@ -1,3 +1,4 @@
+import './cell.css';
 import EditableCell from "components/table/cell/editable-cell";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";
@@ -29,6 +30,7 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
   const onCellClick = props.atom.cell.onClick;
 
   const isContextMenuEnabled = column.contextMenu?.enabled ?? contextMenuOptions?.enabled;
+  const isContextMenuAutoCloseDisabled = column.contextMenu?.disableAutoClose ?? contextMenuOptions?.disableAutoClose;
   const renderContextMenu = isContextMenuEnabled ?  column.contextMenu?.render ?? contextMenuOptions?.render:undefined;
   const info: CellType<T> = { value, row: row, column: column };
   let resolvedChild = column.render ? column.render(info) : value;
@@ -55,26 +57,18 @@ const CellComponent = <T extends object>(props: CellProps<T>): React.ReactElemen
     >
       {isContextMenuEnabled && renderContextMenu && contextMenu.event && renderContextMenu ? (
         <ContextMenu 
-          onClose={handleCloseContextMenu} 
+          onClose={!isContextMenuAutoCloseDisabled ? handleCloseContextMenu : undefined} 
           contextMenuEvent={contextMenu.event} 
           atom={props.atom} 
           column={props.column} 
           row={props.row} 
           store={props.store} 
         >
-          {renderContextMenu(info)}
+          {renderContextMenu(info, contextMenu.event, handleCloseContextMenu)}
         </ContextMenu>
       ) : null}
       {column.editable?.enabled ? (
-        <EditableCell 
-          cellRef={cellRef} 
-          row={props.row} 
-          atom={props.atom} 
-          columnIndex={props.columnIndex} 
-          rowIndex={props.rowIndex} 
-          column={props.column} 
-          store={props.store} 
-        />
+        <EditableCell cellRef={cellRef} atom={props.atom} columnIndex={props.columnIndex} rowIndex={props.rowIndex} column={props.column} row={props.row} store={props.store} />
       ) : (
         (resolvedChild as any)
       )}

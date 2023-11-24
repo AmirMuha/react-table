@@ -1,0 +1,10 @@
+.am_table__header--row:not(:first-child) {
+  border-top: 1px solid var(--am__table-color);
+}
+.am_table__header--row,.am_table__header--cell {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+ 

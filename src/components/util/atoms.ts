@@ -17,9 +17,10 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>): Paginatio
 }
 
 export type ContextMenuOptions<T> = {
-    enabled: boolean,
-    render: (info: Cell<T>) => React.ReactElement;
-  }
+   enabled: boolean,
+   render: (info: Cell<T>,event: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
+   disableAutoClose?: boolean;
+}
 export type CellAtoms<T> = {
   selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
   selected: WritableAtom<Record<string, any>, [SetStateAction<Record<string, any>>], any>;
@@ -30,6 +31,7 @@ function getCellAtoms<T>(initialOptions?: CellOptions<T>): CellAtoms<T> {
   return {
     contextMenu: initialOptions?.contextMenu?atom({
       enabled: initialOptions.contextMenu.enabled ?? false,
+      disableAutoClose: initialOptions.contextMenu.disableAutoClose ?? false,
       render: initialOptions.contextMenu.render,
     }):atom(undefined) as any,
     selection: atom(initialOptions?.selection ?? false),
@@ -67,6 +69,7 @@ function getHeaderAtoms<T>(initialOptions?: HeaderOptions<T>): HeaderAtoms<T> {
 }
 
 export type RowAtoms<T> = {
+  zebra: WritableAtom<boolean, [SetStateAction<boolean>], any>;
   selection: WritableAtom<RowOptions<T>["selection"], [SetStateAction<RowOptions<T>["selection"]>], any>;
   selected: WritableAtom<Record<string, T>, [SetStateAction<Record<string, T>>], any>;
   onClick: RowOptions<T>["onClick"];
@@ -77,6 +80,7 @@ export type RowAtoms<T> = {
 };
 function getRowAtoms<T>(initialOptions?: RowOptions<T>): RowAtoms<T> {
   return {
+    zebra: atom<boolean>(initialOptions?.zebra ?? false),
     selected: atom<Record<string, T>>({}),
     selection: atom(initialOptions?.selection ?? false) as any,
     onClick: initialOptions?.onClick,
@@ -88,7 +92,7 @@ function getRowAtoms<T>(initialOptions?: RowOptions<T>): RowAtoms<T> {
 }
 
 export type SortAtoms<T> = {
-  defaultSortedColumn: WritableAtom<keyof T | null | undefined, [SetStateAction<keyof T | null | undefined>], any>;
+  defaultSortedColumn: WritableAtom<keyof T | null | '__selected__' | undefined, [SetStateAction<keyof T | null |'__selected__' | undefined>], any>;
   defaultSortDirection: WritableAtom<"asc" | "desc", [SetStateAction<"asc" | "desc">], any>;
 };
 function getSortAtoms<T>(initialOptions?: SortOptions<T>): SortAtoms<T> {

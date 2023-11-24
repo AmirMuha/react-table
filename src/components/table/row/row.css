@@ -1,0 +1,20 @@
+
+
+.am_table__body--row:not(:first-child) {
+  border-top: 1px solid var(--am__table-color); /* Border for rows */
+}
+.am_table__body--row:hover {
+  background-color: var(--am__table-hover-color);
+}
+
+.am_table__body--row.am_table__body__row--clickable:hover {
+  cursor: pointer;
+}
+
+.am_table__body .am_table__body--row.am_table__body__row--selectable:hover {
+  cursor: pointer;
+}
+
+.am_table__body .am_table__body--row.am_table__body__row--selected {
+  background-color: var(--am__table-selected-color);
+}

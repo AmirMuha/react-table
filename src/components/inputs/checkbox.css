@@ -70,11 +70,7 @@
   background-color: var(--am__table-hover-color);
 }
 
-.am_table__header__cell--checkbox,
 .am_table__body__cell--checkbox {
-  width: fit-content !important;
-  min-width: fit-content !important;
-  max-width: fit-content !important;
 }
 .am_table__body__cell--checkbox .am_table__body__cell__checkbox--root {
   text-align: center;

@@ -1,0 +1,17 @@
+
+.am_table__body-context-menu.am_table__body__context-menu--root {
+  position: fixed;
+}
+
+.am_table__container .am_table__body--row *::selection {
+  background-color: var(--am__table-hover-color);
+  color: var(--am__table-color);
+}
+
+.am_table__container .am_table__body--row {
+  cursor: default;
+}
+
+.am_table__body__row--zebra:nth-child(even) {
+  background-color: var(--am__table-zebra-color);
+}

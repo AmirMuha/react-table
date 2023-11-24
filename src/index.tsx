@@ -29,39 +29,18 @@ const fakeData = {
 const table = createAtoms<typeof fakeData>({
   rtl: true,
   idProperty: "id",
-  color: colors.sky[600],
-  row: { indexing: { enabled: true, label: "ردیف" }, selection: { enabled: true, checkbox: true, multiple: true } },
+  color: colors.gray[600],
+  row: { zebra: true, selection: { enabled: true, checkbox: true, onlyCheckboxSelect: true, multiple: true } }, // indexing: { enabled: true, label: "ردیف" },
+  sort: { defaultSortedColumn: "__selected__", defaultSortDirection: "asc" },
   columns: [
-    { name: "first_name", header: "First Name", width: 200 },
-    { name: "age", header: "Age", width: 200 },
+    { name: "first_name", header: "First Name" },
+    { name: "age", header: "Age", minWidth: 200 },
     { name: "isTrue", header: "isTrue", width: 200, render: (info) => (info.value ? "true" : "false") },
     { name: "birthDate", header: "Birth Date", width: 200, render: (info) => new Date(info.value).toLocaleString() },
-    {
-      name: "select_field",
-      header: "Select",
-      width: 150,
-      editable: {
-        enabled: true,
-        type: "select",
-        idProperty: "id",
-        getLabel: (option: any) => option.name,
-        renderOption: (option: any) => <div key={option.id}>{option.name}</div>,
-        options: [
-          { name: "option 1", id: 1 },
-          { name: "option 2", id: 2 },
-          { name: "option 3", id: 3 },
-          { name: "option 4", id: 4 },
-          { name: "option 5", id: 5 },
-          { name: "option 6", id: 6 },
-          { name: "option 7", id: 7 },
-          { name: "option 8", id: 8 },
-        ],
-        onChange: () => {},
-      },
-    },
+    { name: "select_field", header: "Select", width: 150 },
     { name: "last_name", header: "Last Name", flex: true, minWidth: 400 },
   ],
-  classes: { cell: { classes: { root: "!am__p-2" } } },
+  classes: { wrapper: { classes: { root: "!am__max-h-[500px]" } }, cell: { classes: { root: "!am__p-2" } } },
 });
 
 function App() {
@@ -70,18 +49,7 @@ function App() {
   const [selection, setRowSelection] = useAtom(table.atom.row.selection, { store: table.store });
   const [selected] = useAtom(table.atom.row.selected, { store: table.store });
   React.useEffect(() => {
-    if (typeof selection !== "boolean")
-      if (selection) {
-        setRowSelection({
-          ...selection,
-          onSelect: (row) => {
-            return { name: row.first_name };
-          },
-        });
-      }
-  }, []);
-  React.useEffect(() => {
-    const FAKE_DATA = new Array(5).fill(fakeData).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
+    const FAKE_DATA = new Array(50).fill(fakeData).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
     columns.forEach((col) => {
       if (col.init.name === "first_name") {
         const colCopy = Object.assign({}, col.init);
@@ -119,12 +87,17 @@ function App() {
           type: "date",
           enabled: true,
           onChange(info) {
-            const fakeDataCopy = Array.from(FAKE_DATA);
-            const foundRow = fakeDataCopy.findIndex((s) => s.id === info.row.id);
-            if (foundRow !== -1) {
-              (fakeDataCopy as any)[foundRow][colCopy.name] = info.value;
-              table.store.set(table.atom.data, fakeDataCopy);
-            }
+            console.log(info);
+          },
+          render: (row, column, submitDateChange) => {
+            const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+              submitDateChange(e.target.valueAsDate ?? undefined);
+            };
+            return (
+              <div className="am__full">
+                <input type="date" className="am__w-full" onChange={handleChangeDate} />
+              </div>
+            );
           },
         };
         table.store.set(col, colCopy);
@@ -158,15 +131,6 @@ ReactDOM.render(
   <div>
     <TableProvider store={table.store}>
       <App />
-      <button
-        className="p-4 mx-auto text-center am__text-stone-800 am__border am__rounded-md"
-        onClick={() => {
-          const FAKE_DATA = new Array(5).fill(fakeData2).map((s, indx): typeof fakeData => ({ ...s, id: String(indx) }));
-          table.store.set(table.atom.row.selected, { "1": FAKE_DATA[1], "2": FAKE_DATA[2] } as any);
-        }}
-      >
-        Change Selected
-      </button>
     </TableProvider>
   </div>,
   document.getElementById("root")

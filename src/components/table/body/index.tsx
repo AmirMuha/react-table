@@ -1,3 +1,4 @@
+import "./body.css";
 import Row from "components/table/row";
 import coalesce from "common/helper/coalesce";
 import sc from "common/helper/sc";

@@ -1,3 +1,4 @@
+import "./row.css";
 import React, { memo } from "react";
 import Cell from "components/table/cell";
 import coalesce from "common/helper/coalesce";
@@ -20,6 +21,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
   const [indexingLabel] = useAtom(props.atom.row.indexing.label);
   const [indexingEnabled] = useAtom(props.atom.row.indexing.enabled);
   const [selection] = useAtom(props.atom.row.selection);
+  const [isZebraEnabled] = useAtom(props.atom.row.zebra);
   const [rowRootClass] = useAtom(props.atom.classes.row.classes.root);
   const [rowRootOverrideClass] = useAtom(props.atom.classes.row.overrideClasses.root);
   const [cellRootClass] = useAtom(props.atom.classes.cell.classes.root);
@@ -81,6 +83,7 @@ const RowComponent = <T extends object>(props: RowProps<T>): React.ReactElement 
           rowRootClass,
           isSelectionEnabled && !isCheckboxOnlySelectionEnabled ? "am_table__body__row--selectable" : undefined,
           isRowSelected ? "am_table__body__row--selected" : undefined,
+          isZebraEnabled ? "am_table__body__row--zebra" : undefined,
           "am_table__body--row am_table__body__row--root"
         )
       )}
