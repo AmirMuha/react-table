@@ -1,5 +1,5 @@
 import React from "react";
-import createAtoms, {Store} from "components/util/atoms";
+import createAtoms, { Store } from "components/util/atoms";
 import { createStore } from "jotai";
 
 export * from "../components/inputs/checkbox";
@@ -64,22 +64,24 @@ export type Cell<T> = {
 
 export type UpdateRowCallback<T> = (row: Row<T>) => void;
 export interface RowOptions<T> {
-  zebra?: boolean,
+  zebra?: boolean;
   indexing?: {
     enabled: boolean;
     label: string;
   };
-  selection?: {
-    enabled: boolean;
-    /** @default true */
-    checkbox?: boolean;
-    /** @default true */
-    multiple?: boolean;
-    /** @default false */
-    onlyCheckboxSelect?: boolean;
-    onSelect?: (row: Row<T>) => any;
-    onUnselect?: (row: Row<T>) => Promise<boolean> | boolean;
-  } | boolean;
+  selection?:
+    | {
+        enabled: boolean;
+        /** @default true */
+        checkbox?: boolean;
+        /** @default true */
+        multiple?: boolean;
+        /** @default false */
+        onlyCheckboxSelect?: boolean;
+        onSelect?: (row: Row<T>) => any;
+        onUnselect?: (row: Row<T>) => Promise<boolean> | boolean;
+      }
+    | boolean;
   onClick?: (info: Row<T>, updateRow?: UpdateRowCallback<T>) => void;
   classes?: Classes.Row;
   overrideClasses?: Classes.Row;
@@ -105,8 +107,7 @@ export interface EditableCellOptions<T> {
   column: Column<T>;
 }
 
-export type ContextMenuOptions<T> = {
-}
+export type ContextMenuOptions<T> = {};
 export type UpdateCellCallback<T> = (row: Row<T>) => void;
 export type CellOptions<T> = {
   selection?: boolean;
@@ -118,8 +119,8 @@ export type CellOptions<T> = {
   onClick?: (info: Cell<T>, updateCell?: UpdateCellCallback<T>) => void;
 };
 
-export type DateCellInfo<T> = Omit<Cell<T>, 'value'> & { value: Date };
-export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date" | "money" | 'time' | 'datetime';
+export type DateCellInfo<T> = Omit<Cell<T>, "value"> & { value: Date };
+export type EditableCellType = "select" | "text" | "number" | "checkbox" | "date" | "money" | "time" | "datetime";
 export type EditableCellOption<T> = { enabled: boolean; type: EditableCellType; onChange: (info: Cell<T>) => void };
 export type EditableCellAutoFetchOptionsFn<T> = (info: Cell<T>) => Promise<any[]>;
 export interface EditableCellMoneyOptions<T> extends EditableCellOption<T> {
@@ -137,17 +138,17 @@ export interface EditableCellCheckboxOptions<T> extends EditableCellOption<T> {
 export interface EditableCellTimeOptions<T> extends EditableCellOption<T> {
   type: "time";
   enabled: boolean;
-  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
+  render: (row: Row<T>, column: Column<T>, submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellDateTimeOptions<T> extends EditableCellOption<T> {
   type: "datetime";
   enabled: boolean;
-  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
+  render: (row: Row<T>, column: Column<T>, submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellDateOptions<T> extends EditableCellOption<T> {
   type: "date";
   enabled: boolean;
-  render: (row: Row<T>,column:Column<T>,submitDateChange: (value?: Date) => any) => React.ReactElement;
+  render: (row: Row<T>, column: Column<T>, submitDateChange: (value?: Date) => any) => React.ReactElement;
 }
 export interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
   type: "number";
@@ -156,14 +157,16 @@ export interface EditableCellNumberOptions<T> extends EditableCellOption<T> {
 export interface EditableCellSelectOptions<T, Option = unknown> extends EditableCellOption<T> {
   type: "select";
   enabled: boolean;
-  idProperty: string,
+  idProperty: string;
   renderOption: <Option>(option: Option) => React.ReactNode;
   getLabel: <Option>(option: Option) => string;
   scrollbar?: boolean;
   onChange: (info: Cell<T>, selectedOption?: any) => void;
-  options: {
-    fetch: EditableCellAutoFetchOptionsFn<T>;
-  } | Option[];
+  options:
+    | {
+        fetch: EditableCellAutoFetchOptionsFn<T>;
+      }
+    | Option[];
 }
 
 export interface Column<T> {
@@ -192,7 +195,7 @@ export interface Column<T> {
 }
 
 export type SortOptions<T> = {
-  defaultSortedColumn?: keyof T | null | '__selected__';
+  defaultSortedColumn?: keyof T | null | "__selected__";
   defaultSortDirection?: "asc" | "desc";
 };
 
@@ -220,6 +223,7 @@ export type TableOptions<T> = {
   header?: HeaderOptions<T>;
   pagination?: PaginationOptions<T>;
   color?: string;
+  fontSize?: string;
   rtl?: boolean;
 };
 
@@ -229,6 +233,7 @@ export type TableProps<T> = {
 };
 
 export type ColorSettings = {
+  fontSize: string;
   color: string;
   hover: string;
   selected: string;

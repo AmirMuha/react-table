@@ -3,6 +3,7 @@
 @tailwind components;
 
 :root {
+  --am__font-size: 14px;
   --am__table-color: rgb(198, 61, 47);
   --am__table-hover-color: rgba(198, 61, 47, .15);
   --am__table-focus-color: rgba(198, 61, 47, .3);
