@@ -86,7 +86,7 @@
   outline: none;
   padding: 2px 4px;
   padding-right: 8px;
-  font-size: 14px;
+  font-size: var(--am__font-size);
   background-color: transparent;
   width: 100%;
   text-align: center;

@@ -1,4 +1,4 @@
-import { atom, createStore, PrimitiveAtom, SetStateAction, useAtom, WritableAtom } from "jotai";
+import { atom, createStore, PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 import { Cell, CellOptions, ClassesOptions, Column, HeaderCellOptions, HeaderOptions, PaginationOptions, RowOptions, SortOptions, TableOptions } from "types";
 
 export type PaginationAtoms<T> = {
@@ -17,10 +17,10 @@ function getPaginationAtoms<T>(initialOptions?: PaginationOptions<T>): Paginatio
 }
 
 export type ContextMenuOptions<T> = {
-   enabled: boolean,
-   render: (info: Cell<T>,event: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
-   disableAutoClose?: boolean;
-}
+  enabled: boolean;
+  render: (info: Cell<T>, event: React.MouseEvent<HTMLDivElement>) => React.ReactElement;
+  disableAutoClose?: boolean;
+};
 export type CellAtoms<T> = {
   selection: WritableAtom<boolean, [SetStateAction<boolean>], any>;
   selected: WritableAtom<Record<string, any>, [SetStateAction<Record<string, any>>], any>;
@@ -29,11 +29,13 @@ export type CellAtoms<T> = {
 };
 function getCellAtoms<T>(initialOptions?: CellOptions<T>): CellAtoms<T> {
   return {
-    contextMenu: initialOptions?.contextMenu?atom({
-      enabled: initialOptions.contextMenu.enabled ?? false,
-      disableAutoClose: initialOptions.contextMenu.disableAutoClose ?? false,
-      render: initialOptions.contextMenu.render,
-    }):atom(undefined) as any,
+    contextMenu: initialOptions?.contextMenu
+      ? atom({
+          enabled: initialOptions.contextMenu.enabled ?? false,
+          disableAutoClose: initialOptions.contextMenu.disableAutoClose ?? false,
+          render: initialOptions.contextMenu.render,
+        })
+      : (atom(undefined) as any),
     selection: atom(initialOptions?.selection ?? false),
     selected: atom<Record<string, any>>({}),
     onClick: initialOptions?.onClick,
@@ -92,7 +94,7 @@ function getRowAtoms<T>(initialOptions?: RowOptions<T>): RowAtoms<T> {
 }
 
 export type SortAtoms<T> = {
-  defaultSortedColumn: WritableAtom<keyof T | null | '__selected__' | undefined, [SetStateAction<keyof T | null |'__selected__' | undefined>], any>;
+  defaultSortedColumn: WritableAtom<keyof T | null | "__selected__" | undefined, [SetStateAction<keyof T | null | "__selected__" | undefined>], any>;
   defaultSortDirection: WritableAtom<"asc" | "desc", [SetStateAction<"asc" | "desc">], any>;
 };
 function getSortAtoms<T>(initialOptions?: SortOptions<T>): SortAtoms<T> {
@@ -162,6 +164,7 @@ export type Store = ReturnType<typeof createStore>;
 export type Atoms<T> = {
   idProperty: WritableAtom<string, [SetStateAction<string>], any>;
   color: WritableAtom<string | undefined, [SetStateAction<string | undefined>], any>;
+  fontSize: WritableAtom<string | undefined, [SetStateAction<string | undefined>], any>;
   columnsMap: WritableAtom<Record<string, Column<T>>, [SetStateAction<Record<string, Column<T>>>], any>;
   columns: WritableAtom<ColumnAtom<T>[], [SetStateAction<ColumnAtom<T>[]>], any>;
   data: WritableAtom<T[], [SetStateAction<T[]>], any>;
@@ -184,6 +187,7 @@ export default function createAtoms<T>(initialOptions: TableOptions<T>): TableCo
     columns: atom(initialOptions.columns.map((col) => atom(col))) as any,
     data: atom(initialOptions.data ?? []),
     color: atom(initialOptions.color),
+    fontSize: atom(initialOptions.fontSize),
     header: getHeaderAtoms<T>(initialOptions.header),
     sort: getSortAtoms<T>(initialOptions.sort),
     row: getRowAtoms<T>(initialOptions.row),
